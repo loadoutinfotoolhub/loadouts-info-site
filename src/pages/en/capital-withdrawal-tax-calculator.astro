@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Kapitalbezugssteuer from '../../components/calculators/Kapitalbezugssteuer.svelte';
+import SourceBox from '../../components/blocks/SourceBox.svelte';
+import TermTooltip from '../../components/ui/TermTooltip.svelte';
+import GlossarySection from '../../components/blocks/GlossarySection.svelte';
+
+const title = 'Capital Withdrawal Tax Calculator 2026: Pillar 3a & Pension Fund | loadouts.info';
+const description = 'Calculate the tax on lump-sum withdrawal from your pillar 3a or pension fund. All Swiss cantons, with staggered withdrawal planning. Free.';
+
+const federalSources = [
+  { displayName: 'Federal Tax Administration FTA', url: 'https://www.estv.admin.ch/estv/en/home/direct-federal-tax/capital-payments.html', legalBasis: 'Art. 38 DBG' },
+  { displayName: 'Fedlex - DBG (Federal Direct Tax Act)', url: 'https://www.fedlex.admin.ch/eli/cc/1991/1184_1184_1184/en' },
+  { displayName: 'Federal Social Insurance Office BSV', url: 'https://www.bsv.admin.ch/en/pillar-3a-contributions' },
+];
+
+const faqs = [
+  { q: 'How is the capital withdrawal tax calculated?', a: 'Lump-sum pension payments (pillar 3a, pension fund, vested benefits) are taxed separately from other income. The federal government applies a reduced rate (1/5 of the ordinary tariff). Cantons have their own rates, which vary significantly.' },
+  { q: 'Which cantons have the lowest capital withdrawal tax?', a: 'Schwyz, Appenzell Innerrhoden, and Zug are among the most favourable cantons. Bern, Vaud, and Basel-Stadt are comparatively expensive. The tax also depends on your municipality.' },
+  { q: 'Is a staggered withdrawal from pillar 3a worthwhile?', a: 'Yes, in most cantons. Since capital withdrawal tax is progressive, spreading withdrawals across multiple tax years saves significant taxes. Ideally, withdraw each 3a account in a separate year.' },
+  { q: 'Are pillar 3a and pension fund taxed together?', a: 'Yes, all pension capital payments in the same tax year are aggregated. This includes pillar 3a, pension fund, vested benefits, and early withdrawals.' },
+  { q: 'How many pillar 3a accounts should I have?', a: 'The common recommendation is 3 to 5 accounts, which you withdraw in stages over several years. Beyond a certain number, additional accounts provide no extra tax benefit. Use our <a href="/en/pillar-3a-calculator" class="text-[#1E3A8A] underline">Pillar 3a Calculator</a> for contribution planning.' },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const appSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Capital Withdrawal Tax Calculator 2026',
+  url: 'https://loadouts.info/en/capital-withdrawal-tax-calculator',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'All',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'CHF' },
+  inLanguage: 'en',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://loadouts.info/en/' },
+    { '@type': 'ListItem', position: 2, name: 'Capital Withdrawal Tax Calculator', item: 'https://loadouts.info/en/capital-withdrawal-tax-calculator' },
+  ],
+};
+
+const glossaryEN = [
+  { term: 'Capital withdrawal tax', definition: 'Tax on lump-sum pension payments (pillar 3a, pension fund, vested benefits). Taxed separately from other income at a reduced rate.' },
+  { term: 'Staggered withdrawal', definition: 'Distributing pension capital withdrawals across multiple tax years. Saves taxes because capital withdrawal tax is progressive.' },
+  { term: 'Vested benefits account', definition: 'An account to which your pension fund balance is transferred when you change employers and do not immediately join a new pension fund.' },
+  { term: 'Progression', definition: 'Rising tax rates on higher capital withdrawals. The more you withdraw at once, the higher the percentage tax rate.' },
+  { term: 'WEF early withdrawal', definition: 'Early withdrawal for owner-occupied property (home ownership promotion). The withdrawn capital is taxed at withdrawal but can be reclaimed upon repayment.' },
+];
+---
+<BaseLayout title={title} description={description} lang="en" canonicalSlug="capital-withdrawal-tax-calculator" altSlug="kapitalbezugssteuer-rechner">
+  <nav class="text-sm text-[#4B5563] mb-6" aria-label="Breadcrumb">
+    <a href="/en/" class="hover:text-[#1E3A8A]">Home</a>
+    <span class="mx-1">/</span>
+    <span class="text-[#1E3A8A] font-medium">Capital Withdrawal Tax Calculator</span>
+  </nav>
+
+  <h1 class="text-3xl md:text-4xl font-bold text-[#1E3A8A] mb-4">Capital Withdrawal Tax Calculator 2026</h1>
+
+  <p class="text-lg text-[#4B5563] mb-8 max-w-prose leading-relaxed">
+    <TermTooltip client:load term="Capital withdrawal tax" definition="Tax on lump-sum pension payments. Taxed separately from other income at a reduced rate." />
+    applies when you withdraw your pillar 3a, pension fund, or vested benefits as a lump sum. Rates vary
+    significantly by canton. A <TermTooltip client:load term="staggered withdrawal" definition="Distributing withdrawals across multiple tax years to reduce the progressive tax burden." />
+    over several years can substantially reduce your tax bill.
+  </p>
+
+  <Kapitalbezugssteuer client:load lang="en" />
+
+  <div class="mt-12 bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-[#4B5563]">
+    Calculations on loadouts.info are non-binding estimates and do not constitute financial, tax, or legal advice.
+  </div>
+
+  <SourceBox client:load federalSources={federalSources} lang="en" />
+
+  <section class="mt-12">
+    <h2 class="text-2xl font-semibold text-[#1E3A8A] mb-6">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      {faqs.map(faq => (
+        <details class="bg-white rounded-lg border border-gray-200 p-4 group">
+          <summary class="font-medium text-[#1E3A8A] cursor-pointer list-none flex items-center justify-between">
+            <span>{faq.q}</span>
+            <svg class="h-5 w-5 text-[#4B5563] transition-transform group-open:rotate-180 shrink-0 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <p class="mt-3 text-[#4B5563] leading-relaxed" set:html={faq.a} />
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <GlossarySection client:load entries={glossaryEN} lang="en" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+</BaseLayout>
