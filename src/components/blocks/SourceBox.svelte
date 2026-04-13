@@ -33,7 +33,7 @@
   }: Props = $props();
 
   const labels = $derived(lang === 'de' ? {
-    title: 'Offizielle Quellen fuer diese Berechnung',
+    title: 'Offizielle Quellen für diese Berechnung',
     federal: 'Bundesquellen',
     cantonal: 'Kantonale Quellen',
     legalBasis: 'Rechtsgrundlage',

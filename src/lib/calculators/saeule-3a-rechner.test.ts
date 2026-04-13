@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { calcSaeule3a } from './saeule-3a-rechner';
 
-describe('Saeule 3a Rechner', () => {
+describe('Säule 3a Rechner', () => {
   // 1. Happy Path: mit PK, typische Einzahlung
   it('berechnet korrekt mit PK und Maximaleinzahlung', () => {
     const r = calcSaeule3a({ hasPensionskasse: true, einzahlung: 7258, grenzSteuersatz: 0.25 });

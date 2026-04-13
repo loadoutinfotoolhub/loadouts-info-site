@@ -23,10 +23,10 @@
     steuersatz: 'Grenzsteuersatz (%)',
     maxErlaubt: 'Maximal erlaubt',
     effektiv: 'Effektive Einzahlung',
-    ueber: 'Ueberzahlung',
+    ueber: 'Überzahlung',
     steuerersparnis: 'Steuerersparnis',
     perYear: 'pro Jahr',
-    warningUeber: 'Dieser Betrag ist nicht steuerlich abzugsfaehig.',
+    warningUeber: 'Dieser Betrag ist nicht steuerlich abzugsfähig.',
   } : {
     hasPK: 'Do you have a pension fund?',
     yes: 'Yes',

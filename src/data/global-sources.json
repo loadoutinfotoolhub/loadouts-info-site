@@ -1,7 +1,7 @@
 {
   "bundesquellen": {
     "bsv": {
-      "name": "Bundesamt fuer Sozialversicherungen (BSV)",
+      "name": "Bundesamt für Sozialversicherungen (BSV)",
       "url": "https://www.bsv.admin.ch",
       "topics": ["ahv", "iv", "bvg", "saeule3a", "eo"],
       "pages": {
@@ -12,7 +12,7 @@
       }
     },
     "estv": {
-      "name": "Eidgenoessische Steuerverwaltung (ESTV)",
+      "name": "Eidgenössische Steuerverwaltung (ESTV)",
       "url": "https://www.estv.admin.ch",
       "topics": ["quellensteuer", "mwst", "direkte_bundessteuer"],
       "pages": {
@@ -21,7 +21,7 @@
       }
     },
     "finma": {
-      "name": "Eidgenoessische Finanzmarktaufsicht (FINMA)",
+      "name": "Eidgenössische Finanzmarktaufsicht (FINMA)",
       "url": "https://www.finma.ch",
       "topics": ["hypothek", "banken", "versicherungen"],
       "pages": {
@@ -49,9 +49,9 @@
       }
     },
     "bfs": {
-      "name": "Bundesamt fuer Statistik (BFS)",
+      "name": "Bundesamt für Statistik (BFS)",
       "url": "https://www.bfs.admin.ch",
-      "topics": ["loehne", "lebenshaltung", "demografie"],
+      "topics": ["löhne", "lebenshaltung", "demografie"],
       "pages": {
         "loehne": "https://www.bfs.admin.ch/bfs/de/home/statistiken/arbeit-erwerb/loehne-erwerbseinkommen-arbeitskosten.html"
       }

@@ -99,7 +99,7 @@ describe('CH2026Sourced (per-value source metadata)', () => {
   it('all sourced values have legal basis or display name', () => {
     const s = CH2026Sourced.saeule3a.maxMitPK.source;
     expect(s.legalBasis).toBe('Art. 7 BVV 3');
-    expect(s.displayName).toBe('Bundesamt fuer Sozialversicherungen');
+    expect(s.displayName).toBe('Bundesamt für Sozialversicherungen');
   });
 
   it('BVG beitragssaetze are sourced', () => {

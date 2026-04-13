@@ -18,9 +18,9 @@ export interface Saeule3aOutput {
 }
 
 /**
- * Berechnet Saeule 3a Einzahlungs-Check und Steuerersparnis.
+ * Berechnet Säule 3a Einzahlungs-Check und Steuerersparnis.
  *
- * Mit PK: max CHF 7'258 (2026), unabhaengig vom Einkommen.
+ * Mit PK: max CHF 7'258 (2026), unabhängig vom Einkommen.
  * Ohne PK: max 20% des Nettoerwerbseinkommens, max CHF 36'288.
  *
  * @see BSV Art. 7 BVV 3

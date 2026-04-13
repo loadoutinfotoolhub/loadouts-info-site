@@ -1,11 +1,11 @@
 {
   "common": {
-    "disclaimer": "Die Berechnungen auf loadouts.info sind unverbindliche Schaetzungen und stellen keine Anlage-, Steuer- oder Rechtsberatung dar.",
+    "disclaimer": "Die Berechnungen auf loadouts.info sind unverbindliche Schätzungen und stellen keine Anlage-, Steuer- oder Rechtsberatung dar.",
     "calculate": "Berechnen",
     "sources": "Quellen",
     "result": "Ergebnis",
     "input": "Eingabe",
-    "reset": "Zuruecksetzen",
+    "reset": "Zurücksetzen",
     "share": "Teilen",
     "loading": "Laden...",
     "error": "Fehler",
@@ -18,7 +18,7 @@
   "nav": {
     "home": "Start",
     "tools": "Rechner",
-    "about": "Ueber uns",
+    "about": "Über uns",
     "vorsorge": "Vorsorge",
     "lohn": "Lohn & Steuern",
     "hypothek": "Hypothek",
@@ -33,11 +33,11 @@
   },
   "home": {
     "title": "Schweizer Finanz-Rechner",
-    "subtitle": "Kostenlose Rechner fuer Vorsorge, Lohn, Steuern und Hypothek. Alle Kantone, aktuelle Zahlen 2026.",
+    "subtitle": "Kostenlose Rechner für Vorsorge, Lohn, Steuern und Hypothek. Alle Kantone, aktuelle Zahlen 2026.",
     "cta": "Jetzt berechnen"
   },
   "tools": {
-    "saeule3a": "Saeule 3a Rechner",
+    "saeule3a": "Säule 3a Rechner",
     "lohnrechner": "Lohnrechner Netto/Brutto",
     "tragbarkeit": "Hypothek-Tragbarkeit",
     "saron": "SARON-Hypothekenrechner",

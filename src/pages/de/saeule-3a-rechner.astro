@@ -4,8 +4,8 @@ import Saeule3a from '../../components/calculators/Saeule3a.svelte';
 import SourceBox from '../../components/blocks/SourceBox.svelte';
 import { CH2026, CH2026Sourced } from '../../lib/ch-constants';
 
-const title = 'Saeule 3a Rechner 2026: Maximalbetrag & Steuerersparnis | loadouts.info';
-const description = 'Berechne sofort deinen Saeule 3a Maximalbetrag und die Steuerersparnis fuer 2026. Gratis, ohne Anmeldung. Alle Kantone.';
+const title = 'Säule 3a Rechner 2026: Maximalbetrag & Steuerersparnis | loadouts.info';
+const description = 'Berechne sofort deinen Säule 3a Maximalbetrag und die Steuerersparnis für 2026. Gratis, ohne Anmeldung. Alle Kantone.';
 
 const federalSources = [
   { displayName: CH2026Sourced.saeule3a.maxMitPK.source.displayName, url: CH2026Sourced.saeule3a.maxMitPK.source.url, legalBasis: CH2026Sourced.saeule3a.maxMitPK.source.legalBasis },
@@ -14,14 +14,14 @@ const federalSources = [
 ];
 
 const faqs = [
-  { q: 'Wie viel darf ich 2026 maximal in die Saeule 3a einzahlen?', a: `Mit Pensionskasse maximal CHF ${new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)}. Ohne Pensionskasse maximal 20% des Nettoeinkommens oder CHF ${new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxOhnePK)} (kleinerer Wert zaehlt). Quelle: BSV, Verordnung BVV 3.` },
-  { q: 'Bis wann muss die Einzahlung 2026 erfolgen?', a: 'Fuer das Steuerjahr 2026 muss die Einzahlung spaetestens am 31. Dezember 2026 auf dem Vorsorgekonto eingehen. Viele Anbieter empfehlen Einzahlung bis Mitte Dezember, um Verbuchungsfristen einzuhalten.' },
-  { q: 'Wie viel Steuern spare ich mit einer maximalen 3a-Einzahlung?', a: `Die Steuerersparnis haengt von deinem Grenzsteuersatz ab. Typisch sind CHF 1'500 bis 2'500 pro Jahr bei einer Maximaleinzahlung von CHF ${new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)}. In Kantonen mit hohen Steuern (z.B. GE, VD) kann die Ersparnis hoeher ausfallen, in ZG oder SZ tiefer.` },
-  { q: 'Kann ich Beitragsluecken nachtraeglich schliessen?', a: 'Ja, ab 2026 sind nachtraegliche Einzahlungen erstmals moeglich, aber nur fuer Luecken ab 2025. Du kannst bis zu 10 Jahre rueckwirkend nachzahlen, maximal CHF 7\'258 pro Lueckenjahr.' },
-  { q: 'Soll ich monatlich oder einmal jaehrlich einzahlen?', a: 'Januar-Einzahlung bringt maximale Rendite, da das Geld das ganze Jahr investiert bleibt. Monatlicher Dauerauftrag von CHF 604.85 (= 7\'258 / 12) ist die Alternative fuer bessere Liquiditaetsplanung.' },
-  { q: 'Was passiert bei Uebereinzahlung?', a: 'Betraege ueber dem Maximum sind nicht steuerlich abzugsfaehig. Viele Anbieter weisen Ueberzahlungen automatisch zurueck. Bei mehreren 3a-Konten zaehlen alle Einzahlungen zusammen.' },
-  { q: 'Wann kann ich das 3a-Guthaben beziehen?', a: 'Fruehestens 5 Jahre vor dem Referenzalter (also ab Alter 60). Vorzeitige Bezuege nur bei Eigenheimerwerb, selbstaendiger Erwerbstaetigkeit oder Ausreise. Bei Bezug wird das Kapital reduziert besteuert.' },
-  { q: 'Lohnt sich die Saeule 3a fuer mich?', a: 'Fast immer ja, wenn du AHV-pflichtiges Einkommen hast und Steuern zahlst. Je hoeher dein Einkommen und Grenzsteuersatz, desto groesser der Vorteil.' },
+  { q: 'Wie viel darf ich 2026 maximal in die Säule 3a einzahlen?', a: `Mit Pensionskasse maximal CHF ${new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)}. Ohne Pensionskasse maximal 20% des Nettoeinkommens oder CHF ${new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxOhnePK)} (kleinerer Wert zählt). Quelle: BSV, Verordnung BVV 3.` },
+  { q: 'Bis wann muss die Einzahlung 2026 erfolgen?', a: 'Für das Steuerjahr 2026 muss die Einzahlung spätestens am 31. Dezember 2026 auf dem Vorsorgekonto eingehen. Viele Anbieter empfehlen Einzahlung bis Mitte Dezember, um Verbuchungsfristen einzuhalten.' },
+  { q: 'Wie viel Steuern spare ich mit einer maximalen 3a-Einzahlung?', a: `Die Steuerersparnis hängt von deinem Grenzsteuersatz ab. Typisch sind CHF 1'500 bis 2'500 pro Jahr bei einer Maximaleinzahlung von CHF ${new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)}. In Kantonen mit hohen Steuern (z.B. GE, VD) kann die Ersparnis höher ausfallen, in ZG oder SZ tiefer.` },
+  { q: 'Kann ich Beitragslücken nachträglich schliessen?', a: 'Ja, ab 2026 sind nachträgliche Einzahlungen erstmals möglich, aber nur für Lücken ab 2025. Du kannst bis zu 10 Jahre rückwirkend nachzahlen, maximal CHF 7\'258 pro Lückenjahr.' },
+  { q: 'Soll ich monatlich oder einmal jährlich einzahlen?', a: 'Januar-Einzahlung bringt maximale Rendite, da das Geld das ganze Jahr investiert bleibt. Monatlicher Dauerauftrag von CHF 604.85 (= 7\'258 / 12) ist die Alternative für bessere Liquiditätsplanung.' },
+  { q: 'Was passiert bei Übereinzahlung?', a: 'Beträge über dem Maximum sind nicht steuerlich abzugsfähig. Viele Anbieter weisen Überzahlungen automatisch zurück. Bei mehreren 3a-Konten zählen alle Einzahlungen zusammen.' },
+  { q: 'Wann kann ich das 3a-Guthaben beziehen?', a: 'Frühestens 5 Jahre vor dem Referenzalter (also ab Alter 60). Vorzeitige Bezüge nur bei Eigenheimerwerb, selbständiger Erwerbstätigkeit oder Ausreise. Bei Bezug wird das Kapital reduziert besteuert.' },
+  { q: 'Lohnt sich die Säule 3a für mich?', a: 'Fast immer ja, wenn du AHV-pflichtiges Einkommen hast und Steuern zahlst. Je höher dein Einkommen und Grenzsteuersatz, desto grösser der Vorteil.' },
 ];
 
 const faqSchema = {
@@ -37,7 +37,7 @@ const faqSchema = {
 const appSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Saeule 3a Rechner 2026',
+  name: 'Säule 3a Rechner 2026',
   url: 'https://loadouts.info/de/saeule-3a-rechner',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'All',
@@ -50,7 +50,7 @@ const breadcrumbSchema = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Start', item: 'https://loadouts.info/de/' },
-    { '@type': 'ListItem', position: 2, name: 'Saeule 3a Rechner', item: 'https://loadouts.info/de/saeule-3a-rechner' },
+    { '@type': 'ListItem', position: 2, name: 'Säule 3a Rechner', item: 'https://loadouts.info/de/saeule-3a-rechner' },
   ],
 };
 ---
@@ -58,22 +58,22 @@ const breadcrumbSchema = {
   <nav class="text-sm text-[#4B5563] mb-6" aria-label="Breadcrumb">
     <a href="/de/" class="hover:text-[#1E3A8A]">Start</a>
     <span class="mx-1">/</span>
-    <span class="text-[#1E3A8A] font-medium">Saeule 3a Rechner</span>
+    <span class="text-[#1E3A8A] font-medium">Säule 3a Rechner</span>
   </nav>
 
-  <h1 class="text-3xl md:text-4xl font-bold text-[#1E3A8A] mb-4">Saeule 3a Rechner 2026</h1>
+  <h1 class="text-3xl md:text-4xl font-bold text-[#1E3A8A] mb-4">Säule 3a Rechner 2026</h1>
 
   <p class="text-lg text-[#4B5563] mb-8 max-w-prose leading-relaxed">
-    Die Saeule 3a ist die private, steuerbeguenstigte Vorsorge in der Schweiz. 2026 darfst du maximal
+    Die Säule 3a ist die private, steuerbegünstigte Vorsorge in der Schweiz. 2026 darfst du maximal
     <strong>CHF {new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)}</strong> einzahlen,
-    wenn du einer Pensionskasse angehoerst. Ohne Pensionskasse sind bis zu <strong>20% deines Netto-Erwerbseinkommens</strong>
+    wenn du einer Pensionskasse angehörst. Ohne Pensionskasse sind bis zu <strong>20% deines Netto-Erwerbseinkommens</strong>
     abziehbar, maximal <strong>CHF {new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxOhnePK)}</strong>.
   </p>
 
   <Saeule3a client:load lang="de" maxMitPK={CH2026.saeule3a.maxMitPK} maxOhnePK={CH2026.saeule3a.maxOhnePK} />
 
   <section class="mt-12">
-    <h2 class="text-2xl font-semibold text-[#1E3A8A] mb-6">Haeufige Fragen zur Saeule 3a</h2>
+    <h2 class="text-2xl font-semibold text-[#1E3A8A] mb-6">Häufige Fragen zur Säule 3a</h2>
     <div class="space-y-6">
       {faqs.map(faq => (
         <details class="bg-white rounded-lg border border-gray-200 p-4 group">
