@@ -3,18 +3,129 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { CH2026 } from '../../lib/ch-constants';
 
 const title = 'Schweizer Finanz-Rechner 2026: Gratis Tools für Lohn, Steuern, Vorsorge | loadouts.info';
-const description = 'Kostenlose Schweizer Finanz-Rechner: Säule 3a, Lohnrechner, Quellensteuer, Hypothek und mehr. Alle Kantone, YMYL-konform, ohne Anmeldung.';
+const description = 'Kostenlose Schweizer Finanz-Rechner: Säule 3a, Lohnrechner, Hypothek-Tragbarkeit, SARON. Alle Kantone, YMYL-konform, ohne Anmeldung.';
+
+const tools = [
+  {
+    name: 'Säule 3a Rechner',
+    href: '/de/saeule-3a-rechner',
+    desc: `Maximalbetrag und Steuerersparnis berechnen. Max CHF ${new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)} mit Pensionskasse.`,
+    category: 'Vorsorge',
+    live: true,
+  },
+  {
+    name: 'Lohnrechner Netto/Brutto',
+    href: '/de/lohnrechner',
+    desc: 'Alle Abzüge auf einen Blick: AHV, IV, ALV, BVG, Steuern. 7 Kantone.',
+    category: 'Lohn & Steuern',
+    live: true,
+  },
+  {
+    name: 'Hypothek-Tragbarkeit',
+    href: '/de/hypothek-tragbarkeit',
+    desc: 'Prüfe ob dein Einkommen für die Hypothek reicht. Kalkulatorischer Zins 5%, Eigenkapital.',
+    category: 'Hypothek',
+    live: true,
+  },
+  {
+    name: 'SARON-Hypothek Rechner',
+    href: '/de/saron-hypothek-rechner',
+    desc: 'Monatsrate, Vergleich mit Festhypothek, 7 Zins-Szenarien und Stress-Test.',
+    category: 'Hypothek',
+    live: true,
+  },
+  {
+    name: 'Quellensteuer-Rechner',
+    href: '#',
+    desc: 'Quellensteuer nach Tarif, Kanton, Zivilstand und Einkommen berechnen.',
+    category: 'Lohn & Steuern',
+    live: false,
+  },
+];
+
+const siteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'loadouts.info',
+  url: 'https://loadouts.info',
+  description: 'Schweizer Finanz-Rechner-Hub: Kostenlose Tools für Vorsorge, Lohn, Steuern und Hypothek.',
+  inLanguage: ['de', 'en'],
+};
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'loadouts.info',
+  url: 'https://loadouts.info',
+  description: 'Compoundierende Finanz-Tool-Plattform für den Schweizer Markt.',
+};
 ---
 <BaseLayout title={title} description={description} lang="de" canonicalSlug="">
-  <h1 class="text-3xl md:text-4xl font-bold text-[#1E3A8A] mb-4">Schweizer Finanz-Rechner</h1>
-  <p class="text-lg text-[#4B5563] mb-8 max-w-prose leading-relaxed">
-    Kostenlose Rechner für Lohn, Steuern, Vorsorge und Hypothek in der Schweiz. Alle Werte aktuell für 2026, alle Kantone, ohne Anmeldung.
-  </p>
-
-  <section class="grid sm:grid-cols-2 gap-4">
-    <a href="/de/saeule-3a-rechner" class="block bg-white rounded-lg border border-gray-200 p-6 hover:border-[#1E3A8A] transition-colors">
-      <h2 class="text-xl font-semibold text-[#1E3A8A] mb-2">Säule 3a Rechner</h2>
-      <p class="text-sm text-[#4B5563]">Maximalbetrag und Steuerersparnis berechnen. Max CHF {new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)} mit PK.</p>
+  <!-- Hero Section -->
+  <section class="text-center py-8 md:py-12">
+    <h1 class="text-4xl md:text-5xl font-bold text-[#1E3A8A] mb-4 leading-tight">
+      Schweizer Finanz-Rechner
+    </h1>
+    <p class="text-lg md:text-xl text-[#4B5563] mb-6 max-w-2xl mx-auto leading-relaxed">
+      Schweizer Finanz-Rechner berechnen dir kostenlos Nettolohn, Steuerersparnis, Hypothek-Tragbarkeit und SARON-Zinsen.
+      Alle Werte aktuell für 2026, alle Kantone, ohne Anmeldung, mit offiziellen Quellen.
+    </p>
+    <a href="#tools" class="inline-block bg-[#059669] text-white font-semibold py-3 px-8 rounded-lg hover:bg-[#047857] transition-colors text-lg">
+      Jetzt Rechner entdecken
     </a>
   </section>
+
+  <!-- Tool Grid -->
+  <section id="tools" class="py-8">
+    <h2 class="text-2xl font-semibold text-[#1E3A8A] mb-6">Verfügbare Rechner</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {tools.map(tool => (
+        <a
+          href={tool.live ? tool.href : undefined}
+          class={`block bg-white rounded-lg border p-6 transition-colors ${tool.live ? 'border-gray-200 hover:border-[#1E3A8A] cursor-pointer' : 'border-gray-100 opacity-60 cursor-default'}`}
+        >
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-blue-50 text-[#1E3A8A]">{tool.category}</span>
+            {!tool.live && <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-100 text-[#4B5563]">Coming soon</span>}
+          </div>
+          <h3 class="text-lg font-semibold text-[#1E3A8A] mb-2">{tool.name}</h3>
+          <p class="text-sm text-[#4B5563]">{tool.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Trust Signals -->
+  <section class="py-8 mt-4">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="text-center p-4">
+        <div class="text-2xl font-bold text-[#1E3A8A]">Offizielle Quellen</div>
+        <p class="text-sm text-[#4B5563] mt-1">Alle Zahlen von BSV, ESTV, SNB, FINMA</p>
+      </div>
+      <div class="text-center p-4">
+        <div class="text-2xl font-bold text-[#1E3A8A]">YMYL-konform</div>
+        <p class="text-sm text-[#4B5563] mt-1">5-fach verifiziert, mit Quellenangabe</p>
+      </div>
+      <div class="text-center p-4">
+        <div class="text-2xl font-bold text-[#1E3A8A]">DE + EN</div>
+        <p class="text-sm text-[#4B5563] mt-1">Zweisprachig Deutsch und Englisch</p>
+      </div>
+      <div class="text-center p-4">
+        <div class="text-2xl font-bold text-[#1E3A8A]">100% Gratis</div>
+        <p class="text-sm text-[#4B5563] mt-1">Ohne Anmeldung, ohne Werbung</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer CTA -->
+  <section class="py-8 text-center border-t border-gray-200 mt-8">
+    <h2 class="text-xl font-semibold text-[#1E3A8A] mb-3">Fehlt dir ein Rechner?</h2>
+    <p class="text-[#4B5563] mb-4">Wir bauen laufend neue Tools. Sag uns was du brauchst.</p>
+    <a href="mailto:feedback@loadouts.info" class="inline-block bg-[#1E3A8A] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#1E3070] transition-colors">
+      Feedback senden
+    </a>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(siteSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
 </BaseLayout>

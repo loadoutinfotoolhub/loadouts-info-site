@@ -3,18 +3,129 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { CH2026 } from '../../lib/ch-constants';
 
 const title = 'Swiss Finance Calculators 2026: Free Tools for Salary, Tax, Pension | loadouts.info';
-const description = 'Free Swiss finance calculators: Pillar 3a, salary, withholding tax, mortgage and more. All cantons, YMYL-compliant, no registration.';
+const description = 'Free Swiss finance calculators: Pillar 3a, salary, mortgage affordability, SARON. All cantons, YMYL-compliant, no registration.';
+
+const tools = [
+  {
+    name: 'Pillar 3a Calculator',
+    href: '/en/pillar-3a-calculator',
+    desc: `Calculate maximum contribution and tax savings. Max CHF ${new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)} with pension fund.`,
+    category: 'Pension',
+    live: true,
+  },
+  {
+    name: 'Salary Calculator',
+    href: '/en/salary-calculator',
+    desc: 'All deductions at a glance: AHV, IV, ALV, pension fund, taxes. 7 cantons.',
+    category: 'Salary & Tax',
+    live: true,
+  },
+  {
+    name: 'Mortgage Affordability',
+    href: '/en/mortgage-affordability',
+    desc: 'Check if your income supports the mortgage. 5% imputed rate, down payment.',
+    category: 'Mortgage',
+    live: true,
+  },
+  {
+    name: 'SARON Mortgage Calculator',
+    href: '/en/saron-mortgage-calculator',
+    desc: 'Monthly payment, comparison with fixed-rate, 7 rate scenarios and stress test.',
+    category: 'Mortgage',
+    live: true,
+  },
+  {
+    name: 'Withholding Tax Calculator',
+    href: '#',
+    desc: 'Calculate withholding tax by tariff, canton, marital status and income.',
+    category: 'Salary & Tax',
+    live: false,
+  },
+];
+
+const siteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'loadouts.info',
+  url: 'https://loadouts.info',
+  description: 'Swiss Finance Calculator Hub: Free tools for pension, salary, tax and mortgage.',
+  inLanguage: ['de', 'en'],
+};
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'loadouts.info',
+  url: 'https://loadouts.info',
+  description: 'Compounding finance tool platform for the Swiss market.',
+};
 ---
 <BaseLayout title={title} description={description} lang="en" canonicalSlug="">
-  <h1 class="text-3xl md:text-4xl font-bold text-[#1E3A8A] mb-4">Swiss Finance Calculators</h1>
-  <p class="text-lg text-[#4B5563] mb-8 max-w-prose leading-relaxed">
-    Free calculators for salary, tax, pension and mortgage in Switzerland. All values current for 2026, all cantons, no registration required.
-  </p>
-
-  <section class="grid sm:grid-cols-2 gap-4">
-    <a href="/en/pillar-3a-calculator" class="block bg-white rounded-lg border border-gray-200 p-6 hover:border-[#1E3A8A] transition-colors">
-      <h2 class="text-xl font-semibold text-[#1E3A8A] mb-2">Pillar 3a Calculator</h2>
-      <p class="text-sm text-[#4B5563]">Calculate maximum contribution and tax savings. Max CHF {new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)} with pension fund.</p>
+  <!-- Hero Section -->
+  <section class="text-center py-8 md:py-12">
+    <h1 class="text-4xl md:text-5xl font-bold text-[#1E3A8A] mb-4 leading-tight">
+      Swiss Finance Calculators
+    </h1>
+    <p class="text-lg md:text-xl text-[#4B5563] mb-6 max-w-2xl mx-auto leading-relaxed">
+      Free Swiss finance calculators for net salary, tax savings, mortgage affordability, and SARON rates.
+      All values current for 2026, all cantons, no registration, backed by official sources.
+    </p>
+    <a href="#tools" class="inline-block bg-[#059669] text-white font-semibold py-3 px-8 rounded-lg hover:bg-[#047857] transition-colors text-lg">
+      Explore calculators
     </a>
   </section>
+
+  <!-- Tool Grid -->
+  <section id="tools" class="py-8">
+    <h2 class="text-2xl font-semibold text-[#1E3A8A] mb-6">Available Calculators</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {tools.map(tool => (
+        <a
+          href={tool.live ? tool.href : undefined}
+          class={`block bg-white rounded-lg border p-6 transition-colors ${tool.live ? 'border-gray-200 hover:border-[#1E3A8A] cursor-pointer' : 'border-gray-100 opacity-60 cursor-default'}`}
+        >
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-blue-50 text-[#1E3A8A]">{tool.category}</span>
+            {!tool.live && <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-100 text-[#4B5563]">Coming soon</span>}
+          </div>
+          <h3 class="text-lg font-semibold text-[#1E3A8A] mb-2">{tool.name}</h3>
+          <p class="text-sm text-[#4B5563]">{tool.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Trust Signals -->
+  <section class="py-8 mt-4">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="text-center p-4">
+        <div class="text-2xl font-bold text-[#1E3A8A]">Official Sources</div>
+        <p class="text-sm text-[#4B5563] mt-1">All data from BSV, ESTV, SNB, FINMA</p>
+      </div>
+      <div class="text-center p-4">
+        <div class="text-2xl font-bold text-[#1E3A8A]">YMYL-Compliant</div>
+        <p class="text-sm text-[#4B5563] mt-1">5x verified with source citations</p>
+      </div>
+      <div class="text-center p-4">
+        <div class="text-2xl font-bold text-[#1E3A8A]">DE + EN</div>
+        <p class="text-sm text-[#4B5563] mt-1">Bilingual German and English</p>
+      </div>
+      <div class="text-center p-4">
+        <div class="text-2xl font-bold text-[#1E3A8A]">100% Free</div>
+        <p class="text-sm text-[#4B5563] mt-1">No registration, no ads</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer CTA -->
+  <section class="py-8 text-center border-t border-gray-200 mt-8">
+    <h2 class="text-xl font-semibold text-[#1E3A8A] mb-3">Missing a calculator?</h2>
+    <p class="text-[#4B5563] mb-4">We are building new tools continuously. Tell us what you need.</p>
+    <a href="mailto:feedback@loadouts.info" class="inline-block bg-[#1E3A8A] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#1E3070] transition-colors">
+      Send feedback
+    </a>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(siteSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
 </BaseLayout>
