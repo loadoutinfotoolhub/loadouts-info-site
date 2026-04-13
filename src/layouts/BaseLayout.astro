@@ -6,11 +6,16 @@ interface Props {
   description: string;
   lang: 'de' | 'en';
   canonicalSlug?: string;
+  altSlug?: string;
 }
 
-const { title, description, lang, canonicalSlug } = Astro.props;
+const { title, description, lang, canonicalSlug, altSlug: altSlugProp } = Astro.props;
 const altLang = lang === 'de' ? 'en' : 'de';
-const altSlug = canonicalSlug ?? Astro.url.pathname;
+const slug = canonicalSlug !== undefined ? canonicalSlug : Astro.url.pathname.replace(`/${lang}/`, '');
+const altSlug = altSlugProp !== undefined ? altSlugProp : slug;
+const selfHref = `https://loadouts.info/${lang}/${slug}`;
+const altHref = `https://loadouts.info/${altLang}/${altSlug}`;
+const deHref = lang === 'de' ? selfHref : altHref;
 ---
 <html lang={lang}>
 <head>
@@ -18,9 +23,10 @@ const altSlug = canonicalSlug ?? Astro.url.pathname;
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{title}</title>
   <meta name="description" content={description} />
-  <link rel="canonical" href={`https://loadouts.info${Astro.url.pathname}`} />
-  <link rel="alternate" hreflang={lang} href={`https://loadouts.info${Astro.url.pathname}`} />
-  <link rel="alternate" hreflang={altLang} href={`https://loadouts.info/${altLang}/${altSlug}`} />
+  <link rel="canonical" href={selfHref} />
+  <link rel="alternate" hreflang={lang} href={selfHref} />
+  <link rel="alternate" hreflang={altLang} href={altHref} />
+  <link rel="alternate" hreflang="x-default" href={deHref} />
   <link rel="sitemap" href="/sitemap-index.xml" />
 </head>
 <body class="bg-[#FAFAF9] text-[#4B5563] font-sans min-h-screen">

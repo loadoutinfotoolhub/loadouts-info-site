@@ -1,16 +1,20 @@
 ---
-import '../../styles/global.css';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CH2026 } from '../../lib/ch-constants';
+
+const title = 'Schweizer Finanz-Rechner 2026: Gratis Tools fuer Lohn, Steuern, Vorsorge | loadouts.info';
+const description = 'Kostenlose Schweizer Finanz-Rechner: Saeule 3a, Lohnrechner, Quellensteuer, Hypothek und mehr. Alle Kantone, YMYL-konform, ohne Anmeldung.';
 ---
-<html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>loadouts.info - Schweizer Finanz-Rechner</title>
-</head>
-<body class="bg-bg text-text font-sans">
-  <main class="max-w-4xl mx-auto px-4 py-12">
-    <h1 class="text-4xl font-bold text-primary mb-4">loadouts.info</h1>
-    <p class="text-lg">Schweizer Finanz-Rechner-Hub. Coming soon.</p>
-  </main>
-</body>
-</html>
+<BaseLayout title={title} description={description} lang="de" canonicalSlug="">
+  <h1 class="text-3xl md:text-4xl font-bold text-[#1E3A8A] mb-4">Schweizer Finanz-Rechner</h1>
+  <p class="text-lg text-[#4B5563] mb-8 max-w-prose leading-relaxed">
+    Kostenlose Rechner fuer Lohn, Steuern, Vorsorge und Hypothek in der Schweiz. Alle Werte aktuell fuer 2026, alle Kantone, ohne Anmeldung.
+  </p>
+
+  <section class="grid sm:grid-cols-2 gap-4">
+    <a href="/de/saeule-3a-rechner" class="block bg-white rounded-lg border border-gray-200 p-6 hover:border-[#1E3A8A] transition-colors">
+      <h2 class="text-xl font-semibold text-[#1E3A8A] mb-2">Saeule 3a Rechner</h2>
+      <p class="text-sm text-[#4B5563]">Maximalbetrag und Steuerersparnis berechnen. Max CHF {new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)} mit PK.</p>
+    </a>
+  </section>
+</BaseLayout>

@@ -1,16 +1,20 @@
 ---
-import '../../styles/global.css';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CH2026 } from '../../lib/ch-constants';
+
+const title = 'Swiss Finance Calculators 2026: Free Tools for Salary, Tax, Pension | loadouts.info';
+const description = 'Free Swiss finance calculators: Pillar 3a, salary, withholding tax, mortgage and more. All cantons, YMYL-compliant, no registration.';
 ---
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>loadouts.info - Swiss Finance Calculators</title>
-</head>
-<body class="bg-bg text-text font-sans">
-  <main class="max-w-4xl mx-auto px-4 py-12">
-    <h1 class="text-4xl font-bold text-primary mb-4">loadouts.info</h1>
-    <p class="text-lg">Swiss finance calculator hub. Coming soon.</p>
-  </main>
-</body>
-</html>
+<BaseLayout title={title} description={description} lang="en" canonicalSlug="">
+  <h1 class="text-3xl md:text-4xl font-bold text-[#1E3A8A] mb-4">Swiss Finance Calculators</h1>
+  <p class="text-lg text-[#4B5563] mb-8 max-w-prose leading-relaxed">
+    Free calculators for salary, tax, pension and mortgage in Switzerland. All values current for 2026, all cantons, no registration required.
+  </p>
+
+  <section class="grid sm:grid-cols-2 gap-4">
+    <a href="/en/pillar-3a-calculator" class="block bg-white rounded-lg border border-gray-200 p-6 hover:border-[#1E3A8A] transition-colors">
+      <h2 class="text-xl font-semibold text-[#1E3A8A] mb-2">Pillar 3a Calculator</h2>
+      <p class="text-sm text-[#4B5563]">Calculate maximum contribution and tax savings. Max CHF {new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)} with pension fund.</p>
+    </a>
+  </section>
+</BaseLayout>
