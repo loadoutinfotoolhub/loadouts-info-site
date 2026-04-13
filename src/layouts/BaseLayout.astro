@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: 'de' | 'en';
+  canonicalSlug?: string;
+}
+
+const { title, description, lang, canonicalSlug } = Astro.props;
+const altLang = lang === 'de' ? 'en' : 'de';
+const altSlug = canonicalSlug ?? Astro.url.pathname;
+---
+<html lang={lang}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={`https://loadouts.info${Astro.url.pathname}`} />
+  <link rel="alternate" hreflang={lang} href={`https://loadouts.info${Astro.url.pathname}`} />
+  <link rel="alternate" hreflang={altLang} href={`https://loadouts.info/${altLang}/${altSlug}`} />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+</head>
+<body class="bg-[#FAFAF9] text-[#4B5563] font-sans min-h-screen">
+  <header class="border-b border-gray-200 bg-white">
+    <nav class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href={`/${lang}/`} class="text-xl font-bold text-[#1E3A8A]">loadouts.info</a>
+      <div class="flex gap-4 text-sm">
+        <a href={`/${lang}/`} class="hover:text-[#1E3A8A]">{lang === 'de' ? 'Start' : 'Home'}</a>
+        <a href={`/${altLang}${Astro.url.pathname.replace(`/${lang}`, '')}`} class="text-[#059669] font-medium">{altLang.toUpperCase()}</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-8">
+    <slot />
+  </main>
+
+  <footer class="border-t border-gray-200 mt-16 py-8">
+    <div class="max-w-5xl mx-auto px-4 text-sm text-[#4B5563]">
+      <p>{lang === 'de'
+        ? 'Die Berechnungen auf loadouts.info sind unverbindliche Schaetzungen und stellen keine Anlage-, Steuer- oder Rechtsberatung dar.'
+        : 'Calculations on loadouts.info are non-binding estimates and do not constitute financial, tax, or legal advice.'
+      }</p>
+      <p class="mt-2">&copy; {new Date().getFullYear()} loadouts.info</p>
+    </div>
+  </footer>
+</body>
+</html>
