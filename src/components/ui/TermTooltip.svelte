@@ -32,16 +32,15 @@
 >
   <button
     type="button"
-    class="inline-flex items-center gap-0.5 border-b border-dotted border-[#1E3A8A] text-[#1E3A8A] cursor-help focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] focus:ring-offset-1 rounded-sm"
+    class="term-tooltip-btn inline-flex items-center gap-0.5 border-b border-dotted border-[#1E3A8A]/40 text-[#1E3A8A] cursor-help focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] focus:ring-offset-1 rounded-sm"
     onclick={toggle}
     onkeydown={handleKeydown}
     aria-describedby={tooltipId}
     aria-expanded={open}
   >
     <span>{term}</span>
-    <svg class="inline h-3.5 w-3.5 text-[#4B5563] opacity-60 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <circle cx="12" cy="12" r="10" />
-      <path d="M12 16v-4M12 8h.01" />
+    <svg class="term-tooltip-icon shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
     </svg>
   </button>
 
@@ -61,3 +60,33 @@
     </div>
   {/if}
 </span>
+
+<style>
+  .term-tooltip-icon {
+    width: 0.875em;
+    height: 0.875em;
+    margin-left: 1px;
+    vertical-align: -0.1em;
+    color: #6B7280;
+    transition: color 0.15s ease;
+  }
+
+  .term-tooltip-btn:hover .term-tooltip-icon,
+  .term-tooltip-btn:focus .term-tooltip-icon {
+    color: #1E3A8A;
+  }
+
+  /* 44px minimum touch target on mobile via invisible padding */
+  @media (pointer: coarse) {
+    .term-tooltip-btn {
+      position: relative;
+    }
+    .term-tooltip-btn::after {
+      content: '';
+      position: absolute;
+      inset: -10px -6px;
+      min-width: 44px;
+      min-height: 44px;
+    }
+  }
+</style>
