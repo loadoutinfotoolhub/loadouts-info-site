@@ -2,6 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Saeule3a from '../../components/calculators/Saeule3a.svelte';
 import SourceBox from '../../components/blocks/SourceBox.svelte';
+import TermTooltip from '../../components/ui/TermTooltip.svelte';
+import GlossarySection from '../../components/blocks/GlossarySection.svelte';
 import { CH2026, CH2026Sourced } from '../../lib/ch-constants';
 
 const title = 'Säule 3a Rechner 2026: Maximalbetrag & Steuerersparnis | loadouts.info';
@@ -53,6 +55,18 @@ const breadcrumbSchema = {
     { '@type': 'ListItem', position: 2, name: 'Säule 3a Rechner', item: 'https://loadouts.info/de/saeule-3a-rechner' },
   ],
 };
+
+const glossaryDE = [
+  { term: 'Säule 3a', definition: 'Die freiwillige, private Vorsorge in der Schweiz. Einzahlungen sind vom steuerbaren Einkommen abziehbar. Gehört zum 3-Säulen-System neben der AHV (1. Säule) und der Pensionskasse (2. Säule).' },
+  { term: 'Pensionskasse (PK)', definition: 'Die berufliche Vorsorge (2. Säule). Dein Arbeitgeber zahlt zusammen mit dir Beiträge ein. Ob du einer PK angehörst, bestimmt deinen maximalen 3a-Beitrag.' },
+  { term: 'Grenzsteuersatz', definition: 'Der Steuersatz, der auf den letzten Franken deines Einkommens anfällt. Er bestimmt, wie viel Steuern du pro zusätzlich einbezahltem Franken in die Säule 3a sparst.' },
+  { term: 'BVG', definition: 'Bundesgesetz über die berufliche Alters-, Hinterlassenen- und Invalidenvorsorge. Regelt die Mindestanforderungen an die Pensionskasse.' },
+  { term: 'Selbständigerwerbende', definition: 'Personen, die auf eigene Rechnung arbeiten und keinem Arbeitgeber angeschlossen sind. Sie haben oft keine Pensionskasse und dürfen darum mehr in die Säule 3a einzahlen.' },
+  { term: 'Kapitalauszahlung', definition: 'Wenn du dein 3a-Guthaben auf einmal auszahlen lässt statt als Rente. Wird separat und reduziert besteuert.' },
+  { term: 'Sperrfrist', definition: 'Zeitraum, in dem du dein 3a-Guthaben nicht beziehen kannst. Das Geld ist bis 5 Jahre vor dem Referenzalter gesperrt, mit Ausnahmen.' },
+  { term: 'Vorbezug', definition: 'Bezug des 3a-Guthabens vor dem Referenzalter. Möglich bei Eigenheimerwerb, Selbständigkeit oder definitiver Ausreise aus der Schweiz.' },
+  { term: 'WEF-Vorbezug', definition: 'Vorbezug für Wohneigentum zur Eigennutzung (Wohneigentumsförderung). Du kannst 3a-Geld für den Kauf oder die Renovation deines Eigenheims verwenden.' },
+];
 ---
 <BaseLayout title={title} description={description} lang="de" canonicalSlug="saeule-3a-rechner" altSlug="pillar-3a-calculator">
   <nav class="text-sm text-[#4B5563] mb-6" aria-label="Breadcrumb">
@@ -64,9 +78,9 @@ const breadcrumbSchema = {
   <h1 class="text-3xl md:text-4xl font-bold text-[#1E3A8A] mb-4">Säule 3a Rechner 2026</h1>
 
   <p class="text-lg text-[#4B5563] mb-8 max-w-prose leading-relaxed">
-    Die Säule 3a ist die private, steuerbegünstigte Vorsorge in der Schweiz. 2026 darfst du maximal
+    Die <TermTooltip client:load term="Säule 3a" definition="Die freiwillige, private Vorsorge in der Schweiz. Einzahlungen sind vom steuerbaren Einkommen abziehbar." /> ist die private, steuerbegünstigte Vorsorge in der Schweiz. 2026 darfst du maximal
     <strong>CHF {new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)}</strong> einzahlen,
-    wenn du einer Pensionskasse angehörst. Ohne Pensionskasse sind bis zu <strong>20% deines Netto-Erwerbseinkommens</strong>
+    wenn du einer <TermTooltip client:load term="Pensionskasse" definition="Die berufliche Vorsorge (2. Säule). Dein Arbeitgeber zahlt zusammen mit dir Beiträge ein." /> angehörst. Ohne Pensionskasse sind bis zu <strong>20% deines Netto-Erwerbseinkommens</strong>
     abziehbar, maximal <strong>CHF {new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxOhnePK)}</strong>.
   </p>
 
@@ -88,6 +102,8 @@ const breadcrumbSchema = {
   </section>
 
   <SourceBox client:load federalSources={federalSources} lang="de" />
+
+  <GlossarySection client:load entries={glossaryDE} lang="de" />
 
   <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />

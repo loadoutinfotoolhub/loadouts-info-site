@@ -2,6 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Saeule3a from '../../components/calculators/Saeule3a.svelte';
 import SourceBox from '../../components/blocks/SourceBox.svelte';
+import TermTooltip from '../../components/ui/TermTooltip.svelte';
+import GlossarySection from '../../components/blocks/GlossarySection.svelte';
 import { CH2026, CH2026Sourced } from '../../lib/ch-constants';
 
 const title = 'Pillar 3a Calculator 2026: Maximum Amount & Tax Savings | loadouts.info';
@@ -53,6 +55,18 @@ const breadcrumbSchema = {
     { '@type': 'ListItem', position: 2, name: 'Pillar 3a Calculator', item: 'https://loadouts.info/en/pillar-3a-calculator' },
   ],
 };
+
+const glossaryEN = [
+  { term: 'Pillar 3a', definition: 'Switzerland\'s voluntary, private retirement savings plan. Contributions are tax-deductible. Part of the 3-pillar system alongside AHV (1st pillar) and pension fund (2nd pillar).' },
+  { term: 'Pension fund (PK)', definition: 'Occupational pension (2nd pillar). Your employer contributes alongside you. Whether you belong to a pension fund determines your maximum 3a contribution.' },
+  { term: 'Marginal tax rate', definition: 'The tax rate applied to the last franc of your income. It determines how much tax you save per additional franc contributed to pillar 3a.' },
+  { term: 'BVG', definition: 'Federal law on occupational retirement, survivors\' and disability pension plans. Sets minimum requirements for pension funds.' },
+  { term: 'Self-employed', definition: 'Persons working on their own account without an employer. They often have no pension fund and may contribute more to pillar 3a.' },
+  { term: 'Lump-sum withdrawal', definition: 'Withdrawing your 3a balance as a one-time payment instead of a pension. Taxed separately at a reduced rate.' },
+  { term: 'Lock-in period', definition: 'Period during which you cannot access your 3a funds. Money is locked until 5 years before reference age, with exceptions.' },
+  { term: 'Early withdrawal', definition: 'Accessing your 3a funds before reference age. Allowed for home purchase, self-employment, or permanent emigration from Switzerland.' },
+  { term: 'WEF withdrawal', definition: 'Early withdrawal for owner-occupied property (home ownership promotion). You can use 3a funds to buy or renovate your own home.' },
+];
 ---
 <BaseLayout title={title} description={description} lang="en" canonicalSlug="pillar-3a-calculator" altSlug="saeule-3a-rechner">
   <nav class="text-sm text-[#4B5563] mb-6" aria-label="Breadcrumb">
@@ -64,8 +78,8 @@ const breadcrumbSchema = {
   <h1 class="text-3xl md:text-4xl font-bold text-[#1E3A8A] mb-4">Pillar 3a Calculator 2026</h1>
 
   <p class="text-lg text-[#4B5563] mb-8 max-w-prose leading-relaxed">
-    Pillar 3a is Switzerland's private, tax-advantaged retirement savings plan. In 2026, you can contribute up to
-    <strong>CHF {new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)}</strong> if you belong to a pension fund.
+    <TermTooltip client:load term="Pillar 3a" definition="Switzerland's voluntary, private retirement savings plan. Contributions are tax-deductible." /> is Switzerland's private, tax-advantaged retirement savings plan. In 2026, you can contribute up to
+    <strong>CHF {new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxMitPK)}</strong> if you belong to a <TermTooltip client:load term="pension fund" definition="Occupational pension (2nd pillar). Your employer contributes alongside you." />.
     Without a pension fund, you can deduct up to <strong>20% of your net earned income</strong>,
     max <strong>CHF {new Intl.NumberFormat('de-CH').format(CH2026.saeule3a.maxOhnePK)}</strong>.
   </p>
@@ -88,6 +102,8 @@ const breadcrumbSchema = {
   </section>
 
   <SourceBox client:load federalSources={federalSources} lang="en" />
+
+  <GlossarySection client:load entries={glossaryEN} lang="en" />
 
   <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />

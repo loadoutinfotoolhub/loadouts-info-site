@@ -45,3 +45,22 @@ module.exports = {
 ## CTAs
 - **Wert-Framing:** "Jetzt Steuern sparen" statt "Jetzt berechnen"
 - Keine "Submit"-Buttons bei Rechnern (Live-Update)
+
+## Fachbegriff-Erklärungen (Rule 0b)
+
+Jeder Fachbegriff auf User-Facing Pages muss für Laien erklärt sein.
+
+### Komponenten
+- **TermTooltip** (`src/components/ui/TermTooltip.svelte`): Inline-Element, das einen Fachbegriff mit Info-Icon und Tooltip/Popover erklärt. Props: `term` (string), `definition` (string), optional `id`.
+- **GlossarySection** (`src/components/blocks/GlossarySection.svelte`): Block am Seitenende, der alle Fachbegriffe auflistet. Props: `entries` (Array von `{term, definition}`), `lang`.
+
+### Verwendung
+1. Im Intro-Text: `<TermTooltip client:load term="Säule 3a" definition="..." />` für die 2-3 wichtigsten Begriffe.
+2. Am Seitenende: `<GlossarySection client:load entries={glossaryEntries} lang="de" />` mit allen Fachbegriffen.
+3. Glossar-Einträge pro Seite als Array im Frontmatter definieren.
+
+### Regeln
+- Desktop: Hover öffnet Tooltip. Mobile: Tap öffnet Popover.
+- A11y: `aria-describedby` für Screen-Reader.
+- Bei > 3 Fachbegriffen auf einer Seite: Glossar-Sektion am Ende Pflicht.
+- Massstab: Versteht ein 18-jähriger Lehrabgänger jedes Wort?
