@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Zinseszins from '../../components/calculators/Zinseszins.svelte';
+import TermTooltip from '../../components/ui/TermTooltip.svelte';
+import GlossarySection from '../../components/blocks/GlossarySection.svelte';
+
+const title = 'Zinseszins-Rechner 2026: Kapitalwachstum berechnen | loadouts.info';
+const description = 'Berechne den Zinseszins auf dein Kapital mit monatlicher oder jaehrlicher Einzahlung. Gratis, sofort, ohne Anmeldung.';
+
+const faqs = [
+  { q: 'Was ist der Zinseszins?', a: 'Beim Zinseszins werden die Zinsertraege nicht ausbezahlt, sondern dem Kapital zugeschlagen. So verdienst du im naechsten Jahr Zinsen auf einem hoeheren Betrag. Ueber lange Zeitraeume fuehrt das zu exponentiellem Wachstum.' },
+  { q: 'Wie berechne ich den Zinseszins?', a: 'Die Formel lautet: Endkapital = Startkapital x (1 + Zinssatz)^Anzahl Jahre. Bei monatlichen Einzahlungen wird die Formel um eine Sparraten-Komponente ergaenzt. Unser Rechner erledigt das automatisch.' },
+  { q: 'Was bringt der Zinseszins-Effekt konkret?', a: 'Beispiel: CHF 10\'000 bei 5% Zins verdoppeln sich nach rund 14 Jahren auf CHF 20\'000. Nach 28 Jahren sind es bereits CHF 40\'000. Je laenger der Anlagehorizont, desto staerker der Effekt.' },
+  { q: 'Wie unterscheiden sich einfacher Zins und Zinseszins?', a: 'Beim einfachen Zins werden Zinsen nur auf das Startkapital berechnet. Beim Zinseszins auch auf bereits gutgeschriebene Zinsen. Ueber 20 Jahre kann der Unterschied 30% und mehr betragen.' },
+  { q: 'Welcher Zinssatz ist realistisch?', a: 'Sparkonto Schweiz: ca. 0.5 bis 1.5%. Saeulen 3a-Wertschriftenloesung: historisch ca. 4 bis 6% p.a. Globaler Aktienmarkt: langfristig ca. 7% nominal. Immer die Inflation abziehen fuer den Realzins.' },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const appSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Zinseszins-Rechner',
+  url: 'https://loadouts.info/de/zinseszins-rechner',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'All',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'CHF' },
+  inLanguage: 'de',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Start', item: 'https://loadouts.info/de/' },
+    { '@type': 'ListItem', position: 2, name: 'Zinseszins-Rechner', item: 'https://loadouts.info/de/zinseszins-rechner' },
+  ],
+};
+
+const glossaryDE = [
+  { term: 'Zinseszins', definition: 'Zinsen, die auf bereits gutgeschriebene Zinsen anfallen. Das Kapital waechst dadurch exponentiell statt linear.' },
+  { term: 'Nominalzins', definition: 'Der angegebene Zinssatz ohne Beruecksichtigung der Inflation. Um den realen Ertrag zu berechnen, muss die Teuerungsrate abgezogen werden.' },
+  { term: 'Sparrate', definition: 'Der Betrag, den du regelmaessig (z.B. monatlich oder jaehrlich) zusaetzlich zum Startkapital einzahlst.' },
+  { term: 'Anlagehorizont', definition: 'Die geplante Dauer deiner Geldanlage in Jahren. Je laenger der Horizont, desto staerker wirkt der Zinseszins-Effekt.' },
+  { term: 'Realzins', definition: 'Der Zinssatz nach Abzug der Inflation. Zeigt, wie viel Kaufkraft dein Kapital tatsaechlich gewinnt.' },
+];
+---
+<BaseLayout title={title} description={description} lang="de" canonicalSlug="zinseszins-rechner" altSlug="compound-interest-calculator">
+  <nav class="text-sm text-[#4B5563] mb-6" aria-label="Breadcrumb">
+    <a href="/de/" class="hover:text-[#1E3A8A]">Start</a>
+    <span class="mx-1">/</span>
+    <span class="text-[#1E3A8A] font-medium">Zinseszins-Rechner</span>
+  </nav>
+
+  <h1 class="text-3xl md:text-4xl font-bold text-[#1E3A8A] mb-4">Zinseszins-Rechner</h1>
+
+  <p class="text-lg text-[#4B5563] mb-8 max-w-prose leading-relaxed">
+    Der <TermTooltip client:load term="Zinseszins" definition="Zinsen, die auf bereits gutgeschriebene Zinsen anfallen. Das Kapital waechst exponentiell statt linear." />
+    ist der staerkste Hebel beim langfristigen Vermoegensaufbau. Gib dein Startkapital, die jaehrliche
+    <TermTooltip client:load term="Sparrate" definition="Der Betrag, den du regelmaessig zusaetzlich einzahlst, z.B. monatlich oder jaehrlich." />
+    und den erwarteten Zinssatz ein, um zu sehen, wie dein Kapital ueber die Jahre waechst.
+  </p>
+
+  <Zinseszins client:load lang="de" />
+
+  <div class="mt-12 bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-[#4B5563]">
+    Die Berechnungen auf loadouts.info sind unverbindliche Schaetzungen und stellen keine Anlage-, Steuer- oder Rechtsberatung dar.
+  </div>
+
+  <section class="mt-12">
+    <h2 class="text-2xl font-semibold text-[#1E3A8A] mb-6">Haeufige Fragen zum Zinseszins</h2>
+    <div class="space-y-6">
+      {faqs.map(faq => (
+        <details class="bg-white rounded-lg border border-gray-200 p-4 group">
+          <summary class="font-medium text-[#1E3A8A] cursor-pointer list-none flex items-center justify-between">
+            <span>{faq.q}</span>
+            <svg class="h-5 w-5 text-[#4B5563] transition-transform group-open:rotate-180 shrink-0 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <p class="mt-3 text-[#4B5563] leading-relaxed">{faq.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <GlossarySection client:load entries={glossaryDE} lang="de" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+</BaseLayout>
