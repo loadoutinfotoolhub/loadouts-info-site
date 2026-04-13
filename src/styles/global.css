@@ -1,0 +1,14 @@
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+
+@import 'tailwindcss';
+
+@theme {
+  --color-bg: #FAFAF9;
+  --color-primary: #1E3A8A;
+  --color-success: #059669;
+  --color-warn: #DC2626;
+  --color-text: #4B5563;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}

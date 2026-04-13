@@ -1,0 +1,46 @@
+{
+  "common": {
+    "disclaimer": "Die Berechnungen auf loadouts.info sind unverbindliche Schaetzungen und stellen keine Anlage-, Steuer- oder Rechtsberatung dar.",
+    "calculate": "Berechnen",
+    "sources": "Quellen",
+    "result": "Ergebnis",
+    "input": "Eingabe",
+    "reset": "Zuruecksetzen",
+    "share": "Teilen",
+    "loading": "Laden...",
+    "error": "Fehler",
+    "yes": "Ja",
+    "no": "Nein",
+    "currency": "CHF",
+    "perMonth": "pro Monat",
+    "perYear": "pro Jahr"
+  },
+  "nav": {
+    "home": "Start",
+    "tools": "Rechner",
+    "about": "Ueber uns",
+    "vorsorge": "Vorsorge",
+    "lohn": "Lohn & Steuern",
+    "hypothek": "Hypothek",
+    "universal": "Universal"
+  },
+  "footer": {
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "disclaimer": "Haftungsausschluss",
+    "copyright": "loadouts.info",
+    "allRightsReserved": "Alle Rechte vorbehalten"
+  },
+  "home": {
+    "title": "Schweizer Finanz-Rechner",
+    "subtitle": "Kostenlose Rechner fuer Vorsorge, Lohn, Steuern und Hypothek. Alle Kantone, aktuelle Zahlen 2026.",
+    "cta": "Jetzt berechnen"
+  },
+  "tools": {
+    "saeule3a": "Saeule 3a Rechner",
+    "lohnrechner": "Lohnrechner Netto/Brutto",
+    "tragbarkeit": "Hypothek-Tragbarkeit",
+    "saron": "SARON-Hypothekenrechner",
+    "quellensteuer": "Quellensteuer-Rechner"
+  }
+}

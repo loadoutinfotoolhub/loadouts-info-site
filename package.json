@@ -1,0 +1,36 @@
+{
+  "name": "loadouts-info",
+  "version": "1.0.0",
+  "description": "Schweizer Finanz-Rechner-Hub",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "vitest run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/svelte": "^8.0.5",
+    "@fontsource/inter": "^5.2.8",
+    "@tailwindcss/vite": "^4.2.2",
+    "astro": "^6.1.6",
+    "svelte": "^5.55.3",
+    "tailwindcss": "^4.2.2",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.4"
+  }
+}

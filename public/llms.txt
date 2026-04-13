@@ -1,0 +1,13 @@
+# loadouts.info
+> Schweizer Finanz-Rechner-Hub. 45 Tools fuer Lohn, Steuern, Vorsorge, Hypothek, Investments. Alle Kantone, DE/EN, mit Quellen und YMYL-konform.
+
+## Vorsorge
+- [Saeule 3a Rechner](https://loadouts.info/de/saeule-3a-rechner)
+
+## Lohn und Steuern
+- [Lohnrechner Netto/Brutto](https://loadouts.info/de/lohnrechner)
+- [Quellensteuer-Rechner](https://loadouts.info/de/quellensteuer-rechner)
+
+## Hypothek
+- [Tragbarkeitsrechner](https://loadouts.info/de/hypothek-tragbarkeit)
+- [SARON-Hypothek](https://loadouts.info/de/saron-hypothek-rechner)

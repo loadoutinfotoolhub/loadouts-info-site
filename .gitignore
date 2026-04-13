@@ -140,3 +140,9 @@ vite.config.ts.timestamp-*
 
 # Claude Code agent logs (session-specific, not committed)
 .claude/logs/*.md
+
+# Astro generated types
+.astro/
+
+# Claude Code local settings
+.claude/settings.local.json

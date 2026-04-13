@@ -1,0 +1,67 @@
+{
+  "version": "2026.1",
+  "effectiveFrom": "2026-01-01",
+  "sources": {
+    "bsv": {
+      "url": "https://www.bsv.admin.ch/bsv/de/home/sozialversicherungen/ahv/grundlagen-gesetze/ahv-beitragssaetze.html",
+      "retrieved": "2026-04-13"
+    },
+    "estv": {
+      "url": "https://www.estv.admin.ch/estv/de/home/direkte-bundessteuer/quellensteuer.html",
+      "retrieved": "2026-04-13"
+    },
+    "snb": {
+      "url": "https://data.snb.ch/de/topics/ziredev/chart/zimoma",
+      "retrieved": "2026-04-13"
+    },
+    "finma": {
+      "url": "https://www.finma.ch/de/ueberwachung/banken-und-wertpapierhauser/hypothekarmarkt/",
+      "retrieved": "2026-04-13"
+    },
+    "bfs": {
+      "url": "https://www.bfs.admin.ch/bfs/de/home/statistiken/arbeit-erwerb/loehne-erwerbseinkommen-arbeitskosten.html",
+      "retrieved": "2026-04-13"
+    }
+  },
+  "saeule3a": {
+    "maxMitPK": 7258,
+    "maxOhnePK": 36288,
+    "maxProzentOhnePK": 0.20
+  },
+  "sozialversicherung": {
+    "ahv": 0.053,
+    "iv": 0.007,
+    "eo": 0.0025,
+    "alv": 0.011,
+    "alvMaxEinkommen": 148200
+  },
+  "bvg": {
+    "eintrittsschwelle": 22680,
+    "koordinationsabzug": 26460,
+    "maxVersLohn": 90720,
+    "umwandlungssatz": 0.068,
+    "beitragssaetze": {
+      "25_34": 0.07,
+      "35_44": 0.10,
+      "45_54": 0.15,
+      "55_65": 0.18
+    }
+  },
+  "ahvRenten": {
+    "maxEinzelMonat": 2450,
+    "minEinzelMonat": 1225,
+    "maxEhepaarMonat": 3675
+  },
+  "hypothek": {
+    "kalkZins": 0.05,
+    "tragbarkeitMax": 0.33,
+    "eigenkapitalMin": 0.20,
+    "eigenkapitalHartMin": 0.10,
+    "amortisationJahre": 15
+  },
+  "mwst": {
+    "normal": 0.081,
+    "reduziert": 0.026,
+    "beherbergung": 0.038
+  }
+}
