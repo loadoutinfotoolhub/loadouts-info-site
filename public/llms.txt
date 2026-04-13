@@ -1,13 +1,21 @@
 # loadouts.info
-> Schweizer Finanz-Rechner-Hub. 45 Tools fuer Lohn, Steuern, Vorsorge, Hypothek, Investments. Alle Kantone, DE/EN, mit Quellen und YMYL-konform.
+> Schweizer Finanz-Rechner-Hub. Kostenlose Tools für Lohn, Steuern, Vorsorge, Hypothek. Alle Kantone, DE/EN, mit Quellen und YMYL-konform.
 
 ## Vorsorge
-- [Saeule 3a Rechner](https://loadouts.info/de/saeule-3a-rechner)
+- [Säule 3a Rechner](https://loadouts.info/de/saeule-3a-rechner): Maximalbetrag und Steuerersparnis berechnen (CHF 7'258 max mit PK, 2026).
 
 ## Lohn und Steuern
-- [Lohnrechner Netto/Brutto](https://loadouts.info/de/lohnrechner)
-- [Quellensteuer-Rechner](https://loadouts.info/de/quellensteuer-rechner)
+- [Lohnrechner Netto/Brutto](https://loadouts.info/de/lohnrechner): Alle Abzüge berechnen (AHV, IV, EO, ALV, BVG, Steuern). 7 Kantone.
 
 ## Hypothek
-- [Tragbarkeitsrechner](https://loadouts.info/de/hypothek-tragbarkeit)
-- [SARON-Hypothek](https://loadouts.info/de/saron-hypothek-rechner)
+- [Hypothek-Tragbarkeit](https://loadouts.info/de/hypothek-tragbarkeit): Prüfe ob dein Einkommen für die Hypothek reicht. Kalkulatorischer Zins 5%.
+- [SARON-Hypothek Rechner](https://loadouts.info/de/saron-hypothek-rechner): Monatsrate, Vergleich mit Festhypothek, Stress-Test.
+
+## Pillar Pages
+- [Vorsorge Schweiz](https://loadouts.info/de/vorsorge-schweiz): Umfassender Leitfaden zum 3-Säulen-System.
+
+## English Versions
+- [Pillar 3a Calculator](https://loadouts.info/en/pillar-3a-calculator)
+- [Salary Calculator](https://loadouts.info/en/salary-calculator)
+- [Mortgage Affordability](https://loadouts.info/en/mortgage-affordability)
+- [SARON Mortgage Calculator](https://loadouts.info/en/saron-mortgage-calculator)
