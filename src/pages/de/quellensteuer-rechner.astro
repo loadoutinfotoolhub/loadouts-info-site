@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Quellensteuer from '../../components/calculators/Quellensteuer.svelte';
+import SourceBox from '../../components/blocks/SourceBox.svelte';
+import TermTooltip from '../../components/ui/TermTooltip.svelte';
+import GlossarySection from '../../components/blocks/GlossarySection.svelte';
+
+const title = 'Quellensteuer-Rechner Schweiz 2026: Tarif, Kanton, Abzug | loadouts.info';
+const description = 'Berechne deine Quellensteuer 2026 nach Tarif, Kanton und Einkommen. Alle 7 Kantone, mit NOV-Empfehlung. Gratis, ohne Anmeldung.';
+
+const federalSources = [
+  { displayName: 'Eidgenoessische Steuerverwaltung ESTV', url: 'https://www.estv.admin.ch/estv/de/home/direkte-bundessteuer/quellensteuer.html', legalBasis: 'Art. 83ff. DBG' },
+  { displayName: 'Fedlex - Quellensteuerverordnung', url: 'https://www.fedlex.admin.ch/eli/cc/1993/1370_1370_1370/de' },
+  { displayName: 'Bundesamt fuer Sozialversicherungen BSV', url: 'https://www.bsv.admin.ch/de/beitraege-im-ueberblick' },
+];
+
+const cantonSources: Record<string, {name: string, url: string}[]> = {
+  ZH: [{ name: 'Steueramt Kanton Zuerich', url: 'https://www.zh.ch/de/steuern-finanzen/steuern/quellensteuer.html' }],
+  BE: [{ name: 'Steuerverwaltung Kanton Bern', url: 'https://www.sv.fin.be.ch/de/start/dienstleistungen/quellensteuer.html' }],
+  VD: [{ name: 'Administration cantonale des impots VD', url: 'https://www.vd.ch/themes/etat-droit-finances/impots/impot-a-la-source' }],
+  GE: [{ name: 'Administration fiscale cantonale GE', url: 'https://www.ge.ch/impot-source' }],
+  AG: [{ name: 'Kantonales Steueramt Aargau', url: 'https://www.ag.ch/de/verwaltung/dfr/steuern/quellensteuer' }],
+  ZG: [{ name: 'Steuerverwaltung Kanton Zug', url: 'https://www.zg.ch/behoerden/finanzdirektion/steuerverwaltung/quellensteuer' }],
+  BS: [{ name: 'Steuerverwaltung Basel-Stadt', url: 'https://www.steuerverwaltung.bs.ch/quellensteuer.html' }],
+};
+
+const faqs = [
+  { q: 'Wer muss in der Schweiz Quellensteuer zahlen?', a: 'Auslaendische Arbeitnehmer ohne Niederlassungsbewilligung C zahlen Quellensteuer. Der Arbeitgeber zieht sie direkt vom Lohn ab. Betroffen sind Personen mit Bewilligung B, L, F, N sowie Grenzgaenger (G).' },
+  { q: 'Was bedeuten die Quellensteuer-Tarife A, B, C, H?', a: 'Tarif A: Alleinstehend. Tarif B: Verheiratet, Alleinverdiener. Tarif C: Verheiratet, beide erwerbstaetig. Tarif H: Alleinerziehend. Die Ziffer (0-3) gibt die Anzahl Kinder an.' },
+  { q: 'Was ist die nachtraegliche ordentliche Veranlagung (NOV)?', a: 'Ab CHF 120\'000 Jahresbrutto muessen Quellensteuerpflichtige eine regulaere Steuererklaerung einreichen. Unter dieser Grenze kann man freiwillig einen Antrag stellen, was sich bei hohen Abzuegen (Saeule 3a, Berufsauslagen) lohnen kann. Frist: 31. Maerz des Folgejahres.' },
+  { q: 'Kann ich die Quellensteuer zurueckfordern?', a: 'Ja, ueber die nachtraegliche ordentliche Veranlagung (NOV). Wenn deine effektiven Abzuege hoeher sind als im Quellensteuer-Tarif beruecksichtigt, erhaeltst du die Differenz zurueck.' },
+  { q: 'Wie unterscheidet sich die Quellensteuer je nach Kanton?', a: 'Die Saetze variieren erheblich. Zug hat die tiefsten, Genf die hoechsten Saetze. Der Kanton des Arbeitsorts ist massgebend, nicht der Wohnkanton.' },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const webAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Quellensteuer-Rechner Schweiz 2026',
+  url: 'https://loadouts.info/de/quellensteuer-rechner',
+  applicationCategory: 'FinanceApplication',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'CHF' },
+  inLanguage: 'de',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Start', item: 'https://loadouts.info/de/' },
+    { '@type': 'ListItem', position: 2, name: 'Quellensteuer-Rechner', item: 'https://loadouts.info/de/quellensteuer-rechner' },
+  ],
+};
+
+const glossaryDE = [
+  { term: 'Quellensteuer', definition: 'Steuer, die der Arbeitgeber direkt vom Lohn auslaendischer Arbeitnehmer abzieht. Ersetzt die ordentliche Einkommenssteuer fuer Personen ohne Niederlassungsbewilligung C.' },
+  { term: 'Tarif A/B/C/H', definition: 'Tarifkategorien der Quellensteuer. A = alleinstehend, B = verheiratet (Alleinverdiener), C = verheiratet (Doppelverdiener), H = alleinerziehend. Die Ziffer zeigt die Kinderanzahl.' },
+  { term: 'Nachtraegliche ordentliche Veranlagung (NOV)', definition: 'Regulaere Steuererklaerung fuer Quellensteuerpflichtige. Pflicht ab CHF 120\'000 Jahreseinkommen, freiwillig darunter. Kann zu Rueckerstattungen fuehren.' },
+  { term: 'Grenzgaenger', definition: 'Personen mit Bewilligung G, die taeglich oder woechentlich zwischen Wohn- und Arbeitsland pendeln. Spezielle Steuerregeln je nach Herkunftsland.' },
+  { term: 'Effektiver Steuersatz', definition: 'Der tatsaechliche Anteil deines Einkommens, der als Quellensteuer abgezogen wird. Enthaelt Bundes-, Kantons- und Gemeindesteuer.' },
+];
+---
+<BaseLayout title={title} description={description} lang="de" canonicalSlug="quellensteuer-rechner" altSlug="withholding-tax-calculator">
+  <nav class="text-sm text-[#4B5563] mb-6" aria-label="Breadcrumb">
+    <a href="/de/" class="hover:text-[#1E3A8A]">Start</a>
+    <span class="mx-1">/</span>
+    <span class="text-[#1E3A8A] font-medium">Quellensteuer-Rechner</span>
+  </nav>
+
+  <h1 class="text-3xl md:text-4xl font-bold text-[#1E3A8A] mb-4">Quellensteuer-Rechner Schweiz 2026</h1>
+
+  <p class="text-lg text-[#4B5563] mb-8 max-w-prose leading-relaxed">
+    Die <TermTooltip client:load term="Quellensteuer" definition="Steuer, die der Arbeitgeber direkt vom Lohn abzieht. Betrifft auslaendische Arbeitnehmer ohne Niederlassungsbewilligung C." />
+    wird in der Schweiz direkt vom Lohn abgezogen und umfasst Bundes-, Kantons- und Gemeindesteuer in einem Satz.
+    Berechne hier deinen monatlichen Abzug nach Kanton, Tarif und Einkommen.
+  </p>
+
+  <Quellensteuer client:load lang="de" />
+
+  <div class="mt-12 bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-[#4B5563]">
+    Die Berechnungen auf loadouts.info sind unverbindliche Schaetzungen und stellen keine Anlage-, Steuer- oder Rechtsberatung dar.
+  </div>
+
+  <SourceBox client:load federalSources={federalSources} cantonSources={cantonSources} lang="de" />
+
+  <section class="mt-12">
+    <h2 class="text-2xl font-semibold text-[#1E3A8A] mb-6">Haeufige Fragen zur Quellensteuer</h2>
+    <div class="space-y-6">
+      {faqs.map(f => (
+        <div class="border-b border-gray-100 pb-4">
+          <h3 class="font-medium text-[#1E3A8A] mb-2">{f.q}</h3>
+          <p class="text-sm text-[#4B5563] leading-relaxed">{f.a}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <GlossarySection client:load entries={glossaryDE} lang="de" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(webAppSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+</BaseLayout>
