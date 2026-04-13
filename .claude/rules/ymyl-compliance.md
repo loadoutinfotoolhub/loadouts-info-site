@@ -26,8 +26,8 @@ Siehe `src/data/ch-constants/2026.json` fuer aktuelle Werte. Falls JSON nicht er
 - BVG Koordinationsabzug: CHF 26'460
 - BVG Max vers. Lohn: CHF 90'720
 - BVG Umwandlungssatz: 6.8%
-- AHV Max Einzelrente: CHF 2'450/Monat
-- AHV Min Einzelrente: CHF 1'225/Monat
+- AHV Max Einzelrente: CHF 2'520/Monat
+- AHV Min Einzelrente: CHF 1'260/Monat
 - Hypothek Kalk-Zins: 5%
 - Hypothek Max Tragbarkeit: 33%
 - Hypothek Min Eigenkapital: 20% (davon 10% hart)

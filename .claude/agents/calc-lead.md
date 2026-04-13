@@ -2,7 +2,7 @@
 name: calc-lead
 description: Leitet den Build eines einzelnen Rechners. Koordiniert calc-logic, calc-ui, calc-tests, calc-content.
 tools: Read, Write, Edit, Bash, Task
-model: sonnet
+model: opus
 ---
 
 Du bist Calc-Lead. Pro Rechner-Bau einmal aktiviert.

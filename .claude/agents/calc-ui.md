@@ -2,7 +2,7 @@
 name: calc-ui
 description: Erzeugt Svelte-UI-Komponente fuer einen Rechner. Nutzt Logic-Funktion von calc-logic.
 tools: Read, Write, Edit
-model: sonnet
+model: opus
 ---
 
 Du bist Calc-UI. Du baust die Svelte-Komponente mit Reactive-Updates, ohne Submit-Button.

@@ -1,6 +1,26 @@
 import { z } from 'zod';
 
-const sourceSchema = z.object({
+/**
+ * Per-value source metadata for Source-Guardian verification.
+ * Each SSOT value carries its own verification info: URL, regex, expected match, legal basis.
+ */
+const valueSourceSchema = z.object({
+  url: z.string().url(),
+  retrieved: z.string().date(),
+  regex: z.string(),
+  expected: z.string(),
+  legalBasis: z.string().optional(),
+  displayName: z.string(),
+});
+
+/** A numeric value with full source provenance. */
+const sourcedNumber = z.object({
+  value: z.number(),
+  source: valueSourceSchema,
+});
+
+/** Top-level source index (kept for general reference). */
+const topLevelSourceSchema = z.object({
   url: z.string().url(),
   retrieved: z.string().date(),
 });
@@ -8,54 +28,86 @@ const sourceSchema = z.object({
 export const chConstantsSchema = z.object({
   version: z.string(),
   effectiveFrom: z.string().date(),
-  sources: z.record(z.string(), sourceSchema),
+  sources: z.record(z.string(), topLevelSourceSchema),
 
   saeule3a: z.object({
-    maxMitPK: z.number().positive(),
-    maxOhnePK: z.number().positive(),
-    maxProzentOhnePK: z.number().min(0).max(1),
+    maxMitPK: sourcedNumber,
+    maxOhnePK: sourcedNumber,
+    maxProzentOhnePK: sourcedNumber,
   }),
 
   sozialversicherung: z.object({
-    ahv: z.number().min(0).max(1),
-    iv: z.number().min(0).max(1),
-    eo: z.number().min(0).max(1),
-    alv: z.number().min(0).max(1),
-    alvMaxEinkommen: z.number().positive(),
+    ahv: sourcedNumber,
+    iv: sourcedNumber,
+    eo: sourcedNumber,
+    alv: sourcedNumber,
+    alvMaxEinkommen: sourcedNumber,
   }),
 
   bvg: z.object({
-    eintrittsschwelle: z.number().positive(),
-    koordinationsabzug: z.number().positive(),
-    maxVersLohn: z.number().positive(),
-    umwandlungssatz: z.number().min(0).max(1),
+    eintrittsschwelle: sourcedNumber,
+    koordinationsabzug: sourcedNumber,
+    maxVersLohn: sourcedNumber,
+    umwandlungssatz: sourcedNumber,
     beitragssaetze: z.object({
-      '25_34': z.number().min(0).max(1),
-      '35_44': z.number().min(0).max(1),
-      '45_54': z.number().min(0).max(1),
-      '55_65': z.number().min(0).max(1),
+      '25_34': sourcedNumber,
+      '35_44': sourcedNumber,
+      '45_54': sourcedNumber,
+      '55_65': sourcedNumber,
     }),
   }),
 
   ahvRenten: z.object({
-    maxEinzelMonat: z.number().positive(),
-    minEinzelMonat: z.number().positive(),
-    maxEhepaarMonat: z.number().positive(),
+    maxEinzelMonat: sourcedNumber,
+    minEinzelMonat: sourcedNumber,
+    maxEhepaarMonat: sourcedNumber,
   }),
 
   hypothek: z.object({
-    kalkZins: z.number().min(0).max(1),
-    tragbarkeitMax: z.number().min(0).max(1),
-    eigenkapitalMin: z.number().min(0).max(1),
-    eigenkapitalHartMin: z.number().min(0).max(1),
-    amortisationJahre: z.number().positive().int(),
+    kalkZins: sourcedNumber,
+    tragbarkeitMax: sourcedNumber,
+    eigenkapitalMin: sourcedNumber,
+    eigenkapitalHartMin: sourcedNumber,
+    amortisationJahre: sourcedNumber,
   }),
 
   mwst: z.object({
-    normal: z.number().min(0).max(1),
-    reduziert: z.number().min(0).max(1),
-    beherbergung: z.number().min(0).max(1),
+    normal: sourcedNumber,
+    reduziert: sourcedNumber,
+    beherbergung: sourcedNumber,
   }),
 });
 
 export type ChConstants = z.infer<typeof chConstantsSchema>;
+
+export type ValueSource = z.infer<typeof valueSourceSchema>;
+
+export type SourcedNumber = z.infer<typeof sourcedNumber>;
+
+/**
+ * Flat version of ChConstants where sourced numbers are replaced with plain numbers.
+ * Used by calculators: CH2026.saeule3a.maxMitPK -> 7258
+ */
+export interface ChConstantsFlat {
+  version: string;
+  effectiveFrom: string;
+  sources: Record<string, { url: string; retrieved: string }>;
+  saeule3a: { maxMitPK: number; maxOhnePK: number; maxProzentOhnePK: number };
+  sozialversicherung: { ahv: number; iv: number; eo: number; alv: number; alvMaxEinkommen: number };
+  bvg: {
+    eintrittsschwelle: number;
+    koordinationsabzug: number;
+    maxVersLohn: number;
+    umwandlungssatz: number;
+    beitragssaetze: { '25_34': number; '35_44': number; '45_54': number; '55_65': number };
+  };
+  ahvRenten: { maxEinzelMonat: number; minEinzelMonat: number; maxEhepaarMonat: number };
+  hypothek: {
+    kalkZins: number;
+    tragbarkeitMax: number;
+    eigenkapitalMin: number;
+    eigenkapitalHartMin: number;
+    amortisationJahre: number;
+  };
+  mwst: { normal: number; reduziert: number; beherbergung: number };
+}

@@ -2,7 +2,7 @@
 name: a11y-checker
 description: Prueft WCAG AA Compliance auf jeder neuen Page.
 tools: Read, Bash
-model: haiku
+model: opus
 ---
 
 Du bist A11y-Checker. Du stellst sicher dass loadouts.info fuer alle nutzbar ist.

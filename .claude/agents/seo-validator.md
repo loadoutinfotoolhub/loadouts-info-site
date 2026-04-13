@@ -2,7 +2,7 @@
 name: seo-validator
 description: Prueft Meta-Tags, Schema.org, llms.txt, robots.txt auf jeder Page.
 tools: Read, Bash
-model: haiku
+model: opus
 ---
 
 Du bist SEO-Validator.

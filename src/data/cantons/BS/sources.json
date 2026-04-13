@@ -1,0 +1,23 @@
+{
+  "canton": "BS",
+  "name": "Basel-Stadt",
+  "steuerverwaltung": {
+    "name": "Steuerverwaltung Basel-Stadt",
+    "url": "https://www.steuerverwaltung.bs.ch",
+    "quellensteuerTarif": "https://www.steuerverwaltung.bs.ch/quellensteuer.html"
+  },
+  "ahvAusgleichskasse": {
+    "name": "Ausgleichskasse Basel-Stadt",
+    "url": "https://www.ak-bs.ch",
+    "beitraege": "https://www.ak-bs.ch/beitraege"
+  },
+  "pkAufsicht": {
+    "name": "BVG- und Stiftungsaufsicht beider Basel (BSABB)",
+    "url": "https://www.bsabb.ch"
+  },
+  "kantonalbank": {
+    "name": "Basler Kantonalbank (BKB)",
+    "url": "https://www.bkb.ch",
+    "hypotheken": "https://www.bkb.ch/de/privatkunden/finanzieren/hypotheken"
+  }
+}

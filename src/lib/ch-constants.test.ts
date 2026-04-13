@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { CH2026 } from './ch-constants';
+import { CH2026, CH2026Sourced } from './ch-constants';
 
-describe('CH2026 SSOT Constants', () => {
+describe('CH2026 SSOT Constants (flat values)', () => {
   it('parses without error', () => {
     expect(CH2026).toBeDefined();
     expect(CH2026.version).toBe('2026.1');
@@ -36,9 +36,9 @@ describe('CH2026 SSOT Constants', () => {
   });
 
   it('has correct AHV pension values', () => {
-    expect(CH2026.ahvRenten.maxEinzelMonat).toBe(2450);
-    expect(CH2026.ahvRenten.minEinzelMonat).toBe(1225);
-    expect(CH2026.ahvRenten.maxEhepaarMonat).toBe(3675);
+    expect(CH2026.ahvRenten.maxEinzelMonat).toBe(2520);
+    expect(CH2026.ahvRenten.minEinzelMonat).toBe(1260);
+    expect(CH2026.ahvRenten.maxEhepaarMonat).toBe(3780);
   });
 
   it('has correct mortgage values', () => {
@@ -56,7 +56,7 @@ describe('CH2026 SSOT Constants', () => {
   });
 
   it('has valid source URLs', () => {
-    for (const [key, source] of Object.entries(CH2026.sources)) {
+    for (const [, source] of Object.entries(CH2026.sources)) {
       expect(source.url).toMatch(/^https?:\/\//);
       expect(source.retrieved).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     }
@@ -64,5 +64,53 @@ describe('CH2026 SSOT Constants', () => {
 
   it('effective date is 2026', () => {
     expect(CH2026.effectiveFrom).toBe('2026-01-01');
+  });
+});
+
+describe('CH2026Sourced (per-value source metadata)', () => {
+  it('sourced values have value + source structure', () => {
+    const s3a = CH2026Sourced.saeule3a.maxMitPK;
+    expect(s3a.value).toBe(7258);
+    expect(s3a.source.url).toMatch(/^https:\/\//);
+    expect(s3a.source.regex).toBeTruthy();
+    expect(s3a.source.expected).toBe("7'258");
+    expect(s3a.source.displayName).toBeTruthy();
+  });
+
+  it('all sourced values have retrieved date', () => {
+    const checkSourced = (obj: unknown, path: string) => {
+      if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
+        const record = obj as Record<string, unknown>;
+        if ('value' in record && 'source' in record) {
+          const source = record.source as Record<string, unknown>;
+          expect(source.retrieved, `${path}.source.retrieved`).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+          return;
+        }
+        for (const [key, val] of Object.entries(record)) {
+          if (key !== 'version' && key !== 'effectiveFrom' && key !== 'sources') {
+            checkSourced(val, `${path}.${key}`);
+          }
+        }
+      }
+    };
+    checkSourced(CH2026Sourced, 'CH2026Sourced');
+  });
+
+  it('all sourced values have legal basis or display name', () => {
+    const s = CH2026Sourced.saeule3a.maxMitPK.source;
+    expect(s.legalBasis).toBe('Art. 7 BVV 3');
+    expect(s.displayName).toBe('Bundesamt fuer Sozialversicherungen');
+  });
+
+  it('BVG beitragssaetze are sourced', () => {
+    const b = CH2026Sourced.bvg.beitragssaetze['25_34'];
+    expect(b.value).toBe(0.07);
+    expect(b.source.legalBasis).toBe('Art. 16 BVG');
+  });
+
+  it('flat values match sourced values', () => {
+    expect(CH2026.saeule3a.maxMitPK).toBe(CH2026Sourced.saeule3a.maxMitPK.value);
+    expect(CH2026.bvg.umwandlungssatz).toBe(CH2026Sourced.bvg.umwandlungssatz.value);
+    expect(CH2026.mwst.normal).toBe(CH2026Sourced.mwst.normal.value);
   });
 });

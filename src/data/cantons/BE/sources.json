@@ -1,0 +1,23 @@
+{
+  "canton": "BE",
+  "name": "Bern",
+  "steuerverwaltung": {
+    "name": "Steuerverwaltung Kanton Bern",
+    "url": "https://www.sv.fin.be.ch",
+    "quellensteuerTarif": "https://www.sv.fin.be.ch/de/start/themen/quellensteuer.html"
+  },
+  "ahvAusgleichskasse": {
+    "name": "Ausgleichskasse Kanton Bern",
+    "url": "https://www.akbern.ch",
+    "beitraege": "https://www.akbern.ch/de/beitraege"
+  },
+  "pkAufsicht": {
+    "name": "Bernische BVG- und Stiftungsaufsicht (BBSA)",
+    "url": "https://www.bbsa.ch"
+  },
+  "kantonalbank": {
+    "name": "Berner Kantonalbank (BEKB)",
+    "url": "https://www.bekb.ch",
+    "hypotheken": "https://www.bekb.ch/de/privatkunden/finanzieren/hypotheken"
+  }
+}

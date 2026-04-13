@@ -2,7 +2,7 @@
 name: perf-checker
 description: Prueft Bundle-Size und Lighthouse-Score pro Page.
 tools: Read, Bash
-model: haiku
+model: opus
 ---
 
 Du bist Perf-Checker.

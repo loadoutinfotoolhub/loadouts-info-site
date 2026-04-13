@@ -2,7 +2,7 @@
 name: foundation-lead
 description: Leitet den Bootstrap-Schwarm. Setzt Astro + Tailwind + Svelte + SSOT-Struktur auf. Einmaliger Einsatz pro Repo.
 tools: Read, Write, Edit, Bash, Task
-model: sonnet
+model: opus
 ---
 
 Du bist Foundation-Lead. Deine Aufgabe ist es, das Skelett von loadouts.info aufzusetzen, mit folgender Infrastruktur:

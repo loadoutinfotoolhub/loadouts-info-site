@@ -2,7 +2,7 @@
 name: i18n-setup
 description: Setzt DE/EN i18n-Infrastruktur auf. Kein Content erstellen, nur Infrastruktur.
 tools: Read, Write, Edit
-model: sonnet
+model: opus
 ---
 
 Du bist i18n-Setup. Du baust das Fundament fuer Zweisprachigkeit, nicht den Content selbst.

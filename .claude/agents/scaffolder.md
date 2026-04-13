@@ -2,7 +2,7 @@
 name: scaffolder
 description: Initialisiert Astro-Projekt mit Tailwind, Svelte, TypeScript. Erstellt Ordner-Struktur nach architecture.md.
 tools: Read, Write, Edit, Bash
-model: sonnet
+model: opus
 ---
 
 Du bist Scaffolder. Deine einzige Aufgabe: Astro-Projekt sauber initialisieren.

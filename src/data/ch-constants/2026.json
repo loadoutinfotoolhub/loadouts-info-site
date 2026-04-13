@@ -3,11 +3,11 @@
   "effectiveFrom": "2026-01-01",
   "sources": {
     "bsv": {
-      "url": "https://www.bsv.admin.ch/bsv/de/home/sozialversicherungen/ahv/grundlagen-gesetze/ahv-beitragssaetze.html",
+      "url": "https://www.bsv.admin.ch/de/beitraege-im-ueberblick",
       "retrieved": "2026-04-13"
     },
     "estv": {
-      "url": "https://www.estv.admin.ch/estv/de/home/direkte-bundessteuer/quellensteuer.html",
+      "url": "https://www.estv.admin.ch/de/mwst-steuersaetze-schweiz",
       "retrieved": "2026-04-13"
     },
     "snb": {
@@ -15,7 +15,7 @@
       "retrieved": "2026-04-13"
     },
     "finma": {
-      "url": "https://www.finma.ch/de/ueberwachung/banken-und-wertpapierhauser/hypothekarmarkt/",
+      "url": "https://www.finma.ch/en/documentation/dossier/dossier-hypothekarmarkt/",
       "retrieved": "2026-04-13"
     },
     "bfs": {
@@ -24,44 +24,314 @@
     }
   },
   "saeule3a": {
-    "maxMitPK": 7258,
-    "maxOhnePK": 36288,
-    "maxProzentOhnePK": 0.20
+    "maxMitPK": {
+      "value": 7258,
+      "source": {
+        "url": "https://www.bsv.admin.ch/de/beitrag-3-sauele",
+        "retrieved": "2026-04-13",
+        "regex": "maximal\\s+(\\d[\\d']*)\\s*(?:Franken|Fr\\.)",
+        "expected": "7'258",
+        "legalBasis": "Art. 7 BVV 3",
+        "displayName": "Bundesamt fuer Sozialversicherungen"
+      }
+    },
+    "maxOhnePK": {
+      "value": 36288,
+      "source": {
+        "url": "https://www.bsv.admin.ch/de/beitrag-3-sauele",
+        "retrieved": "2026-04-13",
+        "regex": "maximal\\s+(\\d[\\d']*)\\s*(?:Franken|Fr\\.)",
+        "expected": "36'288",
+        "legalBasis": "Art. 7 BVV 3",
+        "displayName": "Bundesamt fuer Sozialversicherungen"
+      }
+    },
+    "maxProzentOhnePK": {
+      "value": 0.20,
+      "source": {
+        "url": "https://www.bsv.admin.ch/de/beitrag-3-sauele",
+        "retrieved": "2026-04-13",
+        "regex": "(20)\\s*(?:%|Prozent)",
+        "expected": "20",
+        "legalBasis": "Art. 7 BVV 3",
+        "displayName": "Bundesamt fuer Sozialversicherungen"
+      }
+    }
   },
   "sozialversicherung": {
-    "ahv": 0.053,
-    "iv": 0.007,
-    "eo": 0.0025,
-    "alv": 0.011,
-    "alvMaxEinkommen": 148200
+    "ahv": {
+      "value": 0.053,
+      "source": {
+        "url": "https://www.bsv.admin.ch/de/beitraege-im-ueberblick",
+        "retrieved": "2026-04-13",
+        "regex": "AHV/IV/EO[\\s\\S]*?(\\d[,.]\\d+)\\s*%",
+        "expected": "5.3",
+        "legalBasis": "Art. 5 AHVG",
+        "displayName": "Bundesamt fuer Sozialversicherungen"
+      }
+    },
+    "iv": {
+      "value": 0.007,
+      "source": {
+        "url": "https://www.bsv.admin.ch/de/beitraege-im-ueberblick",
+        "retrieved": "2026-04-13",
+        "regex": "IV[\\s\\S]*?(\\d[,.]\\d+)\\s*%",
+        "expected": "0.7",
+        "legalBasis": "Art. 3 IVG",
+        "displayName": "Bundesamt fuer Sozialversicherungen"
+      }
+    },
+    "eo": {
+      "value": 0.0025,
+      "source": {
+        "url": "https://www.bsv.admin.ch/de/beitraege-im-ueberblick",
+        "retrieved": "2026-04-13",
+        "regex": "EO[\\s\\S]*?(\\d[,.]\\d+)\\s*%",
+        "expected": "0.25",
+        "legalBasis": "Art. 27 EOG",
+        "displayName": "Bundesamt fuer Sozialversicherungen"
+      }
+    },
+    "alv": {
+      "value": 0.011,
+      "source": {
+        "url": "https://www.seco.admin.ch/seco/de/home/Arbeit/Personenfreizugigkeit_Arbeitsbeziehungen/schwarzarbeit/Arbeit_korrekt_melden/Private_Arbeitgebende/Lohnbudget_Lohnabrechnung/Hoehe_Beitraege.html",
+        "retrieved": "2026-04-13",
+        "regex": "ALV[\\s\\S]*?(\\d[,.]\\d+)\\s*%",
+        "expected": "1.1",
+        "legalBasis": "Art. 3 AVIG",
+        "displayName": "Staatssekretariat fuer Wirtschaft SECO"
+      }
+    },
+    "alvMaxEinkommen": {
+      "value": 148200,
+      "source": {
+        "url": "https://www.seco.admin.ch/seco/de/home/Arbeit/Personenfreizugigkeit_Arbeitsbeziehungen/schwarzarbeit/Arbeit_korrekt_melden/Private_Arbeitgebende/Lohnbudget_Lohnabrechnung/Hoehe_Beitraege.html",
+        "retrieved": "2026-04-13",
+        "regex": "(\\d[\\d']*)\\s*(?:Franken|Fr\\.)",
+        "expected": "148'200",
+        "legalBasis": "Art. 3 AVIG",
+        "displayName": "Staatssekretariat fuer Wirtschaft SECO"
+      }
+    }
   },
   "bvg": {
-    "eintrittsschwelle": 22680,
-    "koordinationsabzug": 26460,
-    "maxVersLohn": 90720,
-    "umwandlungssatz": 0.068,
+    "eintrittsschwelle": {
+      "value": 22680,
+      "source": {
+        "url": "https://www.bsv.admin.ch/de/finanzierung-der-beruflichen-vorsorge",
+        "retrieved": "2026-04-13",
+        "regex": "Eintrittsschwelle[\\s\\S]*?(\\d[\\d']*)\\s*(?:Franken|Fr\\.)",
+        "expected": "22'680",
+        "legalBasis": "Art. 7 BVG",
+        "displayName": "Bundesamt fuer Sozialversicherungen"
+      }
+    },
+    "koordinationsabzug": {
+      "value": 26460,
+      "source": {
+        "url": "https://www.bsv.admin.ch/de/finanzierung-der-beruflichen-vorsorge",
+        "retrieved": "2026-04-13",
+        "regex": "Koordinationsabzug[\\s\\S]*?(\\d[\\d']*)\\s*(?:Franken|Fr\\.)",
+        "expected": "26'460",
+        "legalBasis": "Art. 8 BVG",
+        "displayName": "Bundesamt fuer Sozialversicherungen"
+      }
+    },
+    "maxVersLohn": {
+      "value": 90720,
+      "source": {
+        "url": "https://www.bsv.admin.ch/de/finanzierung-der-beruflichen-vorsorge",
+        "retrieved": "2026-04-13",
+        "regex": "(?:oberer Grenzbetrag|maximaler versicherter)[\\s\\S]*?(\\d[\\d']*)\\s*(?:Franken|Fr\\.)",
+        "expected": "90'720",
+        "legalBasis": "Art. 8 BVG",
+        "displayName": "Bundesamt fuer Sozialversicherungen"
+      }
+    },
+    "umwandlungssatz": {
+      "value": 0.068,
+      "source": {
+        "url": "https://www.bsv.admin.ch/de/finanzierung-der-beruflichen-vorsorge",
+        "retrieved": "2026-04-13",
+        "regex": "Umwandlungssatz[\\s\\S]*?(\\d[,.]\\d+)\\s*%",
+        "expected": "6.8",
+        "legalBasis": "Art. 14 BVG",
+        "displayName": "Bundesamt fuer Sozialversicherungen"
+      }
+    },
     "beitragssaetze": {
-      "25_34": 0.07,
-      "35_44": 0.10,
-      "45_54": 0.15,
-      "55_65": 0.18
+      "25_34": {
+        "value": 0.07,
+        "source": {
+          "url": "https://www.bsv.admin.ch/de/finanzierung-der-beruflichen-vorsorge",
+          "retrieved": "2026-04-13",
+          "regex": "25[\\s\\S]*?34[\\s\\S]*?(\\d+)\\s*%",
+          "expected": "7",
+          "legalBasis": "Art. 16 BVG",
+          "displayName": "Bundesamt fuer Sozialversicherungen"
+        }
+      },
+      "35_44": {
+        "value": 0.10,
+        "source": {
+          "url": "https://www.bsv.admin.ch/de/finanzierung-der-beruflichen-vorsorge",
+          "retrieved": "2026-04-13",
+          "regex": "35[\\s\\S]*?44[\\s\\S]*?(\\d+)\\s*%",
+          "expected": "10",
+          "legalBasis": "Art. 16 BVG",
+          "displayName": "Bundesamt fuer Sozialversicherungen"
+        }
+      },
+      "45_54": {
+        "value": 0.15,
+        "source": {
+          "url": "https://www.bsv.admin.ch/de/finanzierung-der-beruflichen-vorsorge",
+          "retrieved": "2026-04-13",
+          "regex": "45[\\s\\S]*?54[\\s\\S]*?(\\d+)\\s*%",
+          "expected": "15",
+          "legalBasis": "Art. 16 BVG",
+          "displayName": "Bundesamt fuer Sozialversicherungen"
+        }
+      },
+      "55_65": {
+        "value": 0.18,
+        "source": {
+          "url": "https://www.bsv.admin.ch/de/finanzierung-der-beruflichen-vorsorge",
+          "retrieved": "2026-04-13",
+          "regex": "55[\\s\\S]*?65[\\s\\S]*?(\\d+)\\s*%",
+          "expected": "18",
+          "legalBasis": "Art. 16 BVG",
+          "displayName": "Bundesamt fuer Sozialversicherungen"
+        }
+      }
     }
   },
   "ahvRenten": {
-    "maxEinzelMonat": 2450,
-    "minEinzelMonat": 1225,
-    "maxEhepaarMonat": 3675
+    "maxEinzelMonat": {
+      "value": 2520,
+      "source": {
+        "url": "https://www.bsv.admin.ch/de/leistungen-ahv-detail",
+        "retrieved": "2026-04-13",
+        "regex": "(?:Maximalrente|Hoechstrente|maximum)[\\s\\S]*?(\\d[\\d']*)\\s*(?:Franken|Fr\\.)",
+        "expected": "2'520",
+        "legalBasis": "Art. 34 AHVG",
+        "displayName": "Bundesamt fuer Sozialversicherungen"
+      }
+    },
+    "minEinzelMonat": {
+      "value": 1260,
+      "source": {
+        "url": "https://www.bsv.admin.ch/de/leistungen-ahv-detail",
+        "retrieved": "2026-04-13",
+        "regex": "(?:Minimalrente|Mindestrente|minimum)[\\s\\S]*?(\\d[\\d']*)\\s*(?:Franken|Fr\\.)",
+        "expected": "1'260",
+        "legalBasis": "Art. 34 AHVG",
+        "displayName": "Bundesamt fuer Sozialversicherungen"
+      }
+    },
+    "maxEhepaarMonat": {
+      "value": 3780,
+      "source": {
+        "url": "https://www.bsv.admin.ch/de/leistungen-ahv-detail",
+        "retrieved": "2026-04-13",
+        "regex": "(?:Ehepaar|Plafonierung|150)[\\s\\S]*?(\\d[\\d']*)\\s*(?:Franken|Fr\\.)",
+        "expected": "3'780",
+        "legalBasis": "Art. 35 AHVG",
+        "displayName": "Bundesamt fuer Sozialversicherungen"
+      }
+    }
   },
   "hypothek": {
-    "kalkZins": 0.05,
-    "tragbarkeitMax": 0.33,
-    "eigenkapitalMin": 0.20,
-    "eigenkapitalHartMin": 0.10,
-    "amortisationJahre": 15
+    "kalkZins": {
+      "value": 0.05,
+      "source": {
+        "url": "https://www.finma.ch/en/documentation/dossier/dossier-hypothekarmarkt/",
+        "retrieved": "2026-04-13",
+        "regex": "(?:kalkulatorisch|Tragbarkeit)[\\s\\S]*?(\\d[,.]\\d+)\\s*%",
+        "expected": "5",
+        "legalBasis": "SBVg Richtlinien Mindestanforderungen Hypothekarfinanzierung",
+        "displayName": "FINMA / Schweizerische Bankiervereinigung"
+      }
+    },
+    "tragbarkeitMax": {
+      "value": 0.33,
+      "source": {
+        "url": "https://www.finma.ch/en/documentation/dossier/dossier-hypothekarmarkt/",
+        "retrieved": "2026-04-13",
+        "regex": "(?:Tragbarkeit|Belastung)[\\s\\S]*?(\\d+)[\\s/]*3",
+        "expected": "33",
+        "legalBasis": "SBVg Richtlinien Mindestanforderungen Hypothekarfinanzierung",
+        "displayName": "FINMA / Schweizerische Bankiervereinigung"
+      }
+    },
+    "eigenkapitalMin": {
+      "value": 0.20,
+      "source": {
+        "url": "https://www.finma.ch/en/documentation/dossier/dossier-hypothekarmarkt/",
+        "retrieved": "2026-04-13",
+        "regex": "(?:Eigenkapital|Eigenmittel)[\\s\\S]*?(\\d+)\\s*%",
+        "expected": "20",
+        "legalBasis": "SBVg Richtlinien Mindestanforderungen Hypothekarfinanzierung",
+        "displayName": "FINMA / Schweizerische Bankiervereinigung"
+      }
+    },
+    "eigenkapitalHartMin": {
+      "value": 0.10,
+      "source": {
+        "url": "https://www.finma.ch/en/documentation/dossier/dossier-hypothekarmarkt/",
+        "retrieved": "2026-04-13",
+        "regex": "(?:harte Eigenmittel|Ersparnisse)[\\s\\S]*?(\\d+)\\s*%",
+        "expected": "10",
+        "legalBasis": "SBVg Richtlinien Mindestanforderungen Hypothekarfinanzierung",
+        "displayName": "FINMA / Schweizerische Bankiervereinigung"
+      }
+    },
+    "amortisationJahre": {
+      "value": 15,
+      "source": {
+        "url": "https://www.finma.ch/en/documentation/dossier/dossier-hypothekarmarkt/",
+        "retrieved": "2026-04-13",
+        "regex": "(?:Amortisation|amortisiert)[\\s\\S]*?(\\d+)\\s*Jahr",
+        "expected": "15",
+        "legalBasis": "SBVg Richtlinien Mindestanforderungen Hypothekarfinanzierung",
+        "displayName": "FINMA / Schweizerische Bankiervereinigung"
+      }
+    }
   },
   "mwst": {
-    "normal": 0.081,
-    "reduziert": 0.026,
-    "beherbergung": 0.038
+    "normal": {
+      "value": 0.081,
+      "source": {
+        "url": "https://www.estv.admin.ch/de/mwst-steuersaetze-schweiz",
+        "retrieved": "2026-04-13",
+        "regex": "(?:Normalsatz|Normal)[\\s\\S]*?(\\d[,.]\\d+)\\s*%",
+        "expected": "8.1",
+        "legalBasis": "Art. 25 MWSTG",
+        "displayName": "Eidgenoessische Steuerverwaltung ESTV"
+      }
+    },
+    "reduziert": {
+      "value": 0.026,
+      "source": {
+        "url": "https://www.estv.admin.ch/de/mwst-steuersaetze-schweiz",
+        "retrieved": "2026-04-13",
+        "regex": "(?:reduziert|Reduzierter Satz)[\\s\\S]*?(\\d[,.]\\d+)\\s*%",
+        "expected": "2.6",
+        "legalBasis": "Art. 25 MWSTG",
+        "displayName": "Eidgenoessische Steuerverwaltung ESTV"
+      }
+    },
+    "beherbergung": {
+      "value": 0.038,
+      "source": {
+        "url": "https://www.estv.admin.ch/de/mwst-steuersaetze-schweiz",
+        "retrieved": "2026-04-13",
+        "regex": "(?:Beherbergung|Sondersatz)[\\s\\S]*?(\\d[,.]\\d+)\\s*%",
+        "expected": "3.8",
+        "legalBasis": "Art. 25 MWSTG",
+        "displayName": "Eidgenoessische Steuerverwaltung ESTV"
+      }
+    }
   }
 }
