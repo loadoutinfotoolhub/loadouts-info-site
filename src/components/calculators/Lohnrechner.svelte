@@ -1,5 +1,6 @@
 <script lang="ts">
   import { calcLohnrechner, KANTONE, type LohnrechnerOutput } from '../../lib/calculators/lohnrechner';
+  import TermTooltip from '../ui/TermTooltip.svelte';
 
   interface Props {
     lang?: 'de' | 'en';
@@ -33,6 +34,7 @@
     jahresNetto: 'Jahresnetto',
     monatsNetto: 'Monatsnetto',
     grenzsteuersatz: 'Grenzsteuersatz',
+    grenzsteuersatzDef: 'Der Grenzsteuersatz ist der Prozentsatz, den du auf deinen naechsten zusaetzlich verdienten Franken an Steuern zahlen wuerdest. Er bestimmt, wie viel du durch Abzuege (z.B. Saeule 3a) sparen kannst.',
     abzuege: 'Abzüge im Detail',
     ahv: 'AHV (5.3%)',
     iv: 'IV (0.7%)',
@@ -59,6 +61,7 @@
     jahresNetto: 'Annual net',
     monatsNetto: 'Monthly net',
     grenzsteuersatz: 'Marginal tax rate',
+    grenzsteuersatzDef: 'The marginal tax rate is the percentage of tax you would pay on your next additional franc earned. It determines how much you can save through deductions (e.g. pillar 3a).',
     abzuege: 'Deductions breakdown',
     ahv: 'AHV (5.3%)',
     iv: 'IV (0.7%)',
@@ -180,7 +183,7 @@
 
     <!-- Grenzsteuersatz -->
     <div class="bg-white rounded-lg border border-gray-200 p-4 mb-4">
-      <div class="text-xs text-[#4B5563]">{labels.grenzsteuersatz}</div>
+      <div class="text-xs text-[#4B5563]"><TermTooltip term={labels.grenzsteuersatz} definition={labels.grenzsteuersatzDef} id="term-grenzsteuersatz-lohn" /></div>
       <div class="text-2xl font-semibold text-[#1E3A8A] mt-1">{result.grenzSteuersatz}%</div>
     </div>
 

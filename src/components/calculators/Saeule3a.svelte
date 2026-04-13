@@ -1,5 +1,6 @@
 <script lang="ts">
   import { calcSaeule3a, type Saeule3aOutput } from '../../lib/calculators/saeule-3a-rechner';
+  import TermTooltip from '../ui/TermTooltip.svelte';
 
   interface Props {
     lang?: 'de' | 'en';
@@ -20,7 +21,9 @@
     no: 'Nein',
     nettoeinkommen: 'Netto-Erwerbseinkommen (CHF)',
     einzahlung: 'Geplante Einzahlung (CHF)',
-    steuersatz: 'Grenzsteuersatz (%)',
+    steuersatz: 'Grenzsteuersatz',
+    steuersatzUnit: '(%)',
+    steuersatzDef: 'Der Grenzsteuersatz ist der Prozentsatz, den du auf deinen naechsten zusaetzlich verdienten Franken an Steuern zahlen wuerdest. Er bestimmt, wie viel du durch Abzuege (z.B. Saeule 3a) sparen kannst.',
     maxErlaubt: 'Maximal erlaubt',
     effektiv: 'Effektive Einzahlung',
     ueber: 'Überzahlung',
@@ -33,7 +36,9 @@
     no: 'No',
     nettoeinkommen: 'Net earned income (CHF)',
     einzahlung: 'Planned contribution (CHF)',
-    steuersatz: 'Marginal tax rate (%)',
+    steuersatz: 'Marginal tax rate',
+    steuersatzUnit: '(%)',
+    steuersatzDef: 'The marginal tax rate is the percentage of tax you would pay on your next additional franc earned. It determines how much you can save through deductions (e.g. pillar 3a).',
     maxErlaubt: 'Maximum allowed',
     effektiv: 'Effective contribution',
     ueber: 'Overpayment',
@@ -114,7 +119,9 @@
 
     <!-- Grenzsteuersatz -->
     <div>
-      <label for="steuersatz" class="block text-sm font-medium text-[#4B5563] mb-1">{labels.steuersatz}</label>
+      <div class="text-sm font-medium text-[#4B5563] mb-1">
+        <TermTooltip term={labels.steuersatz} definition={labels.steuersatzDef} id="term-grenzsteuersatz-3a" /> {labels.steuersatzUnit}
+      </div>
       <input
         id="steuersatz"
         type="number"
