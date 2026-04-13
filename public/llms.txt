@@ -1,21 +1,38 @@
 # loadouts.info
-> Schweizer Finanz-Rechner-Hub. Kostenlose Tools für Lohn, Steuern, Vorsorge, Hypothek. Alle Kantone, DE/EN, mit Quellen und YMYL-konform.
+> Schweizer Finanz-Rechner-Hub. 10 kostenlose Tools fuer Lohn, Steuern, Vorsorge, Hypothek, Investieren. Alle Kantone, DE/EN, mit Quellen und YMYL-konform.
 
 ## Vorsorge
-- [Säule 3a Rechner](https://loadouts.info/de/saeule-3a-rechner): Maximalbetrag und Steuerersparnis berechnen (CHF 7'258 max mit PK, 2026).
+- [Saeule 3a Rechner](https://loadouts.info/de/saeule-3a-rechner): Maximalbetrag und Steuerersparnis berechnen (CHF 7'258 max mit PK, 2026).
+- [AHV-Rentenrechner](https://loadouts.info/de/ahv-rentenrechner): Geschaetzte AHV-Monatsrente nach Beitragsjahren und Einkommen.
+- [Kapitalbezugssteuer-Rechner](https://loadouts.info/de/kapitalbezugssteuer-rechner): Steuer beim Bezug von Saeule 3a oder Pensionskassen-Kapital. 7 Kantone.
 
 ## Lohn und Steuern
-- [Lohnrechner Netto/Brutto](https://loadouts.info/de/lohnrechner): Alle Abzüge berechnen (AHV, IV, EO, ALV, BVG, Steuern). 7 Kantone.
+- [Lohnrechner Netto/Brutto](https://loadouts.info/de/lohnrechner): Alle Abzuege berechnen (AHV, IV, EO, ALV, BVG, Steuern). 7 Kantone.
+- [Quellensteuer-Rechner](https://loadouts.info/de/quellensteuer-rechner): Quellensteuer nach Tarif A/B/C/H, Kanton und Einkommen. 7 Kantone, NOV-Info.
+- [MwSt-Rechner](https://loadouts.info/de/mwst-rechner): Schweizer Mehrwertsteuer: Normalsatz 8.1%, Reduziert 2.6%, Beherbergung 3.8%.
 
 ## Hypothek
-- [Hypothek-Tragbarkeit](https://loadouts.info/de/hypothek-tragbarkeit): Prüfe ob dein Einkommen für die Hypothek reicht. Kalkulatorischer Zins 5%.
+- [Hypothek-Tragbarkeit](https://loadouts.info/de/hypothek-tragbarkeit): Pruefe ob dein Einkommen fuer die Hypothek reicht. Kalkulatorischer Zins 5%.
 - [SARON-Hypothek Rechner](https://loadouts.info/de/saron-hypothek-rechner): Monatsrate, Vergleich mit Festhypothek, Stress-Test.
 
+## Investieren
+- [Zinseszinsrechner](https://loadouts.info/de/zinseszins-rechner): Endkapital berechnen mit Startkapital, monatlicher Einzahlung und Zinssatz.
+
+## Universal
+- [Prozentrechner](https://loadouts.info/de/prozentrechner): Prozent berechnen: X% von Y, Anteil in Prozent, prozentuale Aenderung.
+
 ## Pillar Pages
-- [Vorsorge Schweiz](https://loadouts.info/de/vorsorge-schweiz): Umfassender Leitfaden zum 3-Säulen-System.
+- [Vorsorge Schweiz](https://loadouts.info/de/vorsorge-schweiz): Umfassender Leitfaden zum 3-Saeulen-System.
 
 ## English Versions
 - [Pillar 3a Calculator](https://loadouts.info/en/pillar-3a-calculator)
 - [Salary Calculator](https://loadouts.info/en/salary-calculator)
+- [Withholding Tax Calculator](https://loadouts.info/en/withholding-tax-calculator)
 - [Mortgage Affordability](https://loadouts.info/en/mortgage-affordability)
 - [SARON Mortgage Calculator](https://loadouts.info/en/saron-mortgage-calculator)
+- [Compound Interest Calculator](https://loadouts.info/en/compound-interest-calculator)
+- [VAT Calculator](https://loadouts.info/en/vat-calculator)
+- [AHV Pension Calculator](https://loadouts.info/en/ahv-pension-calculator)
+- [Capital Withdrawal Tax Calculator](https://loadouts.info/en/capital-withdrawal-tax-calculator)
+- [Percentage Calculator](https://loadouts.info/en/percentage-calculator)
+- [Pension Switzerland Guide](https://loadouts.info/en/pension-switzerland)
