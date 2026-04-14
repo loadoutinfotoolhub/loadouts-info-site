@@ -3,10 +3,15 @@ import svelte from '@astrojs/svelte';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
+import cloudflare from '@astrojs/cloudflare';
+
 export default defineConfig({
   site: 'https://loadouts.info',
   integrations: [svelte(), sitemap()],
+
   vite: {
     plugins: [tailwindcss()],
   },
+
+  adapter: cloudflare(),
 });

@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "pnpm run build && wrangler dev",
     "astro": "astro",
-    "test": "vitest run"
+    "test": "vitest run",
+    "generate-types": "wrangler types",
+    "deploy": "pnpm run build && wrangler deploy"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +23,7 @@
     ]
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^13.1.9",
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/svelte": "^8.0.5",
     "@tailwindcss/vite": "^4.2.2",
@@ -29,6 +32,10 @@
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
-    "vitest": "^4.1.4"
+    "vitest": "^4.1.4",
+    "wrangler": "^4.82.2"
+  },
+  "overrides": {
+    "vite": "^7"
   }
 }
