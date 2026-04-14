@@ -59,14 +59,14 @@
     <div class="inv-slot area-oberteil">
       <SlotCard label={slotLabels.oberteil[lang]} item={asCardItem(itemFor('oberteil'))} {emptyText} onSelect={open} />
     </div>
+    <div class="inv-slot area-hose">
+      <SlotCard label={slotLabels.hose[lang]} item={asCardItem(itemFor('hose'))} {emptyText} onSelect={open} />
+    </div>
     <div class="inv-slot area-acc">
       <SlotCard label={slotLabels.accessoire[lang]} item={asCardItem(itemFor('accessoire'))} {emptyText} onSelect={open} />
     </div>
     <div class="inv-slot area-guertel">
       <SlotCard label={slotLabels['gürtel_tasche'][lang]} item={asCardItem(itemFor('gürtel_tasche'))} {emptyText} onSelect={open} />
-    </div>
-    <div class="inv-slot area-hose">
-      <SlotCard label={slotLabels.hose[lang]} item={asCardItem(itemFor('hose'))} {emptyText} onSelect={open} />
     </div>
     <div class="inv-slot area-schuhe">
       <SlotCard label={slotLabels.schuhe[lang]} item={asCardItem(itemFor('schuhe'))} {emptyText} onSelect={open} />
@@ -112,10 +112,10 @@
     grid-template-columns: 160px 200px 160px;
     grid-template-rows: auto auto auto auto;
     grid-template-areas:
-      ". kopf ."
-      "acc body oberteil"
-      "guertel body hose"
-      ". body schuhe";
+      ".        kopf   ."
+      "oberteil body   acc"
+      "hose     body   guertel"
+      ".        schuhe .";
     gap: var(--space-3);
     justify-content: center;
     align-items: start;

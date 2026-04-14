@@ -177,6 +177,11 @@ const breadcrumbSchema = {
   .view-container { margin-top: var(--space-4); }
   .view-container[data-view="grid"] .view-equipment { display: none; }
   .view-container[data-view="equipment"] .view-grid { display: none; }
+  @media (max-width: 768px) {
+    .view-controls { display: none; }
+    .view-container[data-view="equipment"] .view-grid { display: block; }
+    .view-container[data-view="equipment"] .view-equipment { display: none; }
+  }
   .total-bar {
     margin-top: var(--space-6);
     padding: var(--space-4);
