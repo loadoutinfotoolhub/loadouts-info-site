@@ -1,10 +1,12 @@
 <script>
   /**
-   * CharacterInventory.svelte — Diablo-artiges Equipment-Layout.
-   * Silhouette zentral, SlotCards flankierend, Overlay bei Klick.
+   * CharacterInventory.svelte — Inventory-Layout v2.
+   * 3-Spalten-Grid: links 3 Slots | Mitte (kopf + SEO + overflow-leer) | rechts 3 Slots.
    */
   import SlotCard from './SlotCard.svelte';
   import SlotDetail from './SlotDetail.svelte';
+  import LoadoutExplainer from '@/components/ui/LoadoutExplainer.svelte';
+  import { slotIcons, slotLabels } from '@/data/slotIcons';
 
   /** @type {any[]} */
   export let items = [];
@@ -13,16 +15,14 @@
   export let lang = 'de';
   export let emptyText = 'Im nächsten Level';
   export let closeLabel = 'Schliessen';
+  export let shopLabel = 'Shop';
+  export let adLabel = 'Werbung';
 
-  const slotOrder = ['kopf', 'oberteil', 'accessoire', 'gürtel_tasche', 'hose', 'schuhe'];
-  const slotLabels = {
-    kopf:            { de: 'Kopf',       en: 'Head' },
-    oberteil:        { de: 'Oberteil',   en: 'Top' },
-    hose:            { de: 'Hose',       en: 'Pants' },
-    schuhe:          { de: 'Schuhe',     en: 'Shoes' },
-    accessoire:      { de: 'Accessoire', en: 'Accessory' },
-    'gürtel_tasche': { de: 'Gürtel',     en: 'Belt' },
-  };
+  export let description = '';
+  export let itemCount = 0;
+  export let totalPrice = 0;
+  export let categoryLabel = '';
+  export let categoryHref = '';
 
   function itemFor(slot) {
     const id = equipmentSlots?.[slot];
@@ -38,6 +38,8 @@
       price_chf: item.price_chf,
       rarity: item.rarity,
       brand: item.brand,
+      desc: lang === 'de' ? item.begruendung_de : item.begruendung_en,
+      werbung: item.werbung,
     };
   }
 
@@ -49,46 +51,69 @@
   function close() {
     selected = null;
   }
+
+  // Linke Spalte: schuhe, guertel_tasche, extra_1
+  // Rechte Spalte: oberteil, hose, accessoire
+  const leftSlots = ['schuhe', 'gürtel_tasche', 'extra_1'];
+  const rightSlots = ['oberteil', 'hose', 'accessoire'];
 </script>
 
 <div class="inv">
   <div class="inv-grid">
-    <div class="inv-slot area-kopf">
-      <SlotCard label={slotLabels.kopf[lang]} item={asCardItem(itemFor('kopf'))} {emptyText} onSelect={open} />
-    </div>
-    <div class="inv-slot area-oberteil">
-      <SlotCard label={slotLabels.oberteil[lang]} item={asCardItem(itemFor('oberteil'))} {emptyText} onSelect={open} />
-    </div>
-    <div class="inv-slot area-hose">
-      <SlotCard label={slotLabels.hose[lang]} item={asCardItem(itemFor('hose'))} {emptyText} onSelect={open} />
-    </div>
-    <div class="inv-slot area-acc">
-      <SlotCard label={slotLabels.accessoire[lang]} item={asCardItem(itemFor('accessoire'))} {emptyText} onSelect={open} />
-    </div>
-    <div class="inv-slot area-guertel">
-      <SlotCard label={slotLabels['gürtel_tasche'][lang]} item={asCardItem(itemFor('gürtel_tasche'))} {emptyText} onSelect={open} />
-    </div>
-    <div class="inv-slot area-schuhe">
-      <SlotCard label={slotLabels.schuhe[lang]} item={asCardItem(itemFor('schuhe'))} {emptyText} onSelect={open} />
+    <div class="inv-col inv-left">
+      {#each leftSlots as slot}
+        <SlotCard
+          label={slotLabels[slot]?.[lang] ?? slot}
+          slot={slot}
+          iconClass={slotIcons[slot] ?? 'ph-package'}
+          item={asCardItem(itemFor(slot))}
+          {emptyText}
+          {shopLabel}
+          {adLabel}
+          onSelect={open}
+        />
+      {/each}
     </div>
 
-    <div class="inv-body" aria-hidden="true">
-      <svg viewBox="0 0 120 260" width="160" height="340" xmlns="http://www.w3.org/2000/svg"
-           fill="none"
-           stroke="var(--silhouette-stroke, var(--border-default))"
-           stroke-width="1.4"
-           stroke-linecap="round"
-           stroke-linejoin="round">
-        <circle cx="60" cy="30" r="18"/>
-        <path d="M52 48 L54 58 M68 48 L66 58"/>
-        <path d="M40 62 Q38 62 36 66 L28 112 Q27 118 32 118 L44 118 L44 140 L76 140 L76 118 L88 118 Q93 118 92 112 L84 66 Q82 62 80 62 Z"/>
-        <path d="M36 66 L24 108 Q22 118 24 126"/>
-        <path d="M84 66 L96 108 Q98 118 96 126"/>
-        <path d="M48 140 L46 210 Q46 216 52 216 L58 216 L58 140"/>
-        <path d="M72 140 L74 210 Q74 216 68 216 L62 216 L62 140"/>
-        <path d="M44 216 Q40 224 50 228 L58 228 L58 216"/>
-        <path d="M76 216 Q80 224 70 228 L62 228 L62 216"/>
-      </svg>
+    <div class="inv-col inv-center">
+      <div class="inv-head">
+        <SlotCard
+          label={slotLabels.kopf[lang]}
+          slot="kopf"
+          iconClass={slotIcons.kopf}
+          item={asCardItem(itemFor('kopf'))}
+          {emptyText}
+          {shopLabel}
+          {adLabel}
+          onSelect={open}
+        />
+      </div>
+
+      <div class="inv-middle">
+        <LoadoutExplainer
+          description={description}
+          itemCount={itemCount}
+          totalPrice={totalPrice}
+          categoryLabel={categoryLabel}
+          categoryHref={categoryHref}
+          {lang}
+        />
+      </div>
+    </div>
+
+    <div class="inv-col inv-right">
+      {#each rightSlots as slot}
+        <SlotCard
+          label={slotLabels[slot]?.[lang] ?? slot}
+          slot={slot}
+          iconClass={slotIcons[slot] ?? 'ph-package'}
+          item={asCardItem(itemFor(slot))}
+          {emptyText}
+          {shopLabel}
+          {adLabel}
+          onSelect={open}
+        />
+      {/each}
     </div>
   </div>
 </div>
@@ -97,65 +122,49 @@
 
 <style>
   .inv {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-card);
-    box-shadow: var(--card-shadow);
-    padding: var(--space-6);
-  }
-  :global([data-theme="dark"]) .inv {
-    --silhouette-stroke: var(--border-strong);
+    padding: var(--space-6) 0;
   }
   .inv-grid {
-    position: relative;
     display: grid;
-    grid-template-columns: 160px 200px 160px;
-    grid-template-rows: auto auto auto auto;
-    grid-template-areas:
-      ".        kopf   ."
-      "oberteil body   acc"
-      "hose     body   guertel"
-      ".        schuhe .";
-    gap: var(--space-3);
+    grid-template-columns: auto 1fr auto;
+    gap: var(--space-8);
     justify-content: center;
     align-items: start;
   }
-  .inv-body {
-    grid-area: body;
+  .inv-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .inv-left  { align-items: flex-end; }
+  .inv-right { align-items: flex-start; }
+  .inv-center {
+    align-items: center;
+    min-width: 260px;
+  }
+  .inv-head {
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    padding-top: var(--space-3);
-    color: var(--border-default);
   }
-  .area-kopf    { grid-area: kopf; }
-  .area-oberteil{ grid-area: oberteil; }
-  .area-acc     { grid-area: acc; }
-  .area-guertel { grid-area: guertel; }
-  .area-hose    { grid-area: hose; }
-  .area-schuhe  { grid-area: schuhe; }
+  .inv-middle {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: var(--space-2) 0;
+  }
 
-  @media (max-width: 860px) {
+  @media (max-width: 1080px) {
     .inv-grid {
       grid-template-columns: 1fr 1fr;
-      grid-template-areas:
-        "kopf oberteil"
-        "acc guertel"
-        "hose schuhe";
+      gap: var(--space-6);
     }
-    .inv-body { display: none; }
-  }
-  @media (max-width: 480px) {
-    .inv { padding: var(--space-4); }
-    .inv-grid {
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        "kopf"
-        "oberteil"
-        "acc"
-        "guertel"
-        "hose"
-        "schuhe";
+    .inv-left, .inv-right {
+      align-items: center;
+    }
+    .inv-center {
+      grid-column: 1 / -1;
+      order: -1;
     }
   }
 </style>

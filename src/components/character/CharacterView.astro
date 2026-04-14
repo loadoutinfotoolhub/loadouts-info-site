@@ -1,7 +1,7 @@
 ---
 /**
- * CharacterView.astro — Shell, rendert die interaktive Svelte-Inventory-Ansicht.
- * Layout + State (Slot-Overlay) stecken in CharacterInventory.svelte.
+ * CharacterView.astro — Shell fuer die interaktive Inventory-Ansicht.
+ * Interaktion + Layout in CharacterInventory.svelte.
  */
 import CharacterInventory from './CharacterInventory.svelte';
 import type { LoadoutItem } from '@/content.config';
@@ -11,10 +11,16 @@ interface Props {
   items: LoadoutItem[];
   equipmentSlots: Record<string, string>;
   lang: 'de' | 'en';
+  description: string;
+  totalPrice: number;
+  categoryLabel: string;
+  categoryHref: string;
 }
-const { items, equipmentSlots, lang } = Astro.props;
+const { items, equipmentSlots, lang, description, totalPrice, categoryLabel, categoryHref } = Astro.props;
 const t = ui[lang];
 const closeLabel = lang === 'de' ? 'Schliessen' : 'Close';
+const shopLabel  = lang === 'de' ? 'Shop'       : 'Shop';
+const adLabel    = t.werbung;
 ---
 <CharacterInventory
   client:load
@@ -23,4 +29,11 @@ const closeLabel = lang === 'de' ? 'Schliessen' : 'Close';
   lang={lang}
   emptyText={t.upgrade_hint}
   closeLabel={closeLabel}
+  shopLabel={shopLabel}
+  adLabel={adLabel}
+  description={description}
+  itemCount={items.length}
+  totalPrice={totalPrice}
+  categoryLabel={categoryLabel}
+  categoryHref={categoryHref}
 />

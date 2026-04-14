@@ -23,6 +23,7 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/svelte": "^8.0.5",
+    "@phosphor-icons/web": "^2.1.2",
     "@tailwindcss/vite": "^4.2.2",
     "astro": "^6.1.6",
     "lucide-svelte": "^1.0.1",

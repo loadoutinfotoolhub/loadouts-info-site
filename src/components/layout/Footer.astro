@@ -6,8 +6,9 @@ const { lang } = Astro.props;
 const t = ui[lang];
 const aboutPath = lang === 'de' ? '/de/ueber-uns' : '/en/about';
 const tagline = lang === 'de'
-  ? 'Kein Spam. Keine Tricks. Ehrliche Empfehlungen.'
-  : 'No spam. No tricks. Honest recommendations.';
+  ? 'Ehrliche Empfehlungen. Kein Spam.'
+  : 'Honest recommendations. No spam.';
+const affiliateLabel = lang === 'de' ? 'Affiliate-Disclosure' : 'Affiliate Disclosure';
 const descLine = lang === 'de'
   ? 'Die richtige Ausrüstung — für jedes Hobby, jeden Sport, jeden Lebensabschnitt.'
   : 'The right gear — for every hobby, every sport, every chapter of life.';
@@ -25,6 +26,7 @@ const descLine = lang === 'de'
       <a href={aboutPath}>{t.footer_about}</a>
       <a href="/impressum">{t.footer_impressum}</a>
       <a href="/datenschutz">{t.footer_datenschutz}</a>
+      <a href="/affiliate-disclosure">{affiliateLabel}</a>
     </nav>
 
     <p class="footer-col footer-affiliate">{t.footer_affiliate}</p>

@@ -3,6 +3,8 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '@/components/layout/BaseLayout.astro';
 import ItemGrid from '@/components/sections/ItemGrid.astro';
 import CharacterView from '@/components/character/CharacterView.astro';
+import MobileInventoryList from '@/components/ui/MobileInventoryList.astro';
+import SummaryBar from '@/components/ui/SummaryBar.astro';
 import TierBadge from '@/components/ui/TierBadge.astro';
 import TierLadder from '@/components/ui/TierLadder.astro';
 import RelatedLoadouts from '@/components/sections/RelatedLoadouts.astro';
@@ -11,23 +13,39 @@ import ViewToggle from '@/components/ui/ViewToggle.svelte';
 import Icon from '@/components/ui/Icon.astro';
 import { ui } from '@/data/i18n';
 import { findKategorie } from '@/data/kategorien';
+import { tiers, tierOrder } from '@/data/tiers';
 
 export async function getStaticPaths() {
   const all = await getCollection('loadouts');
   return all.map((l) => ({
     params: { slug: l.data.slug },
-    props: { loadout: l },
+    props: { loadout: l, all },
   }));
 }
 
-const { loadout } = Astro.props;
+const { loadout, all } = Astro.props;
 const data = loadout.data;
 const t = ui.de;
 const kategorie = findKategorie(data.kategorie_slug);
 const canonical = `https://loadouts.info/de/loadouts/${data.slug}`;
 const total = data.items.reduce((s, i) => s + i.price_chf, 0);
 
-// Schema.org ItemList
+// Next tier in gleicher Kategorie finden
+const currentTierIdx = tierOrder.indexOf(data.tier);
+const nextTierKey = currentTierIdx >= 0 && currentTierIdx < tierOrder.length - 1
+  ? tierOrder[currentTierIdx + 1]
+  : null;
+const nextLoadout = nextTierKey
+  ? all.find((l) => l.data.kategorie_slug === data.kategorie_slug && l.data.tier === nextTierKey)
+  : null;
+const nextTierLabel = nextLoadout ? tiers[nextTierKey!].label_de : null;
+const nextTierHref  = nextLoadout ? `/de/loadouts/${nextLoadout.data.slug}` : null;
+const nextTierTotal = nextLoadout ? nextLoadout.data.items.reduce((s, i) => s + i.price_chf, 0) : null;
+const nextTierDiff  = nextTierTotal != null ? Math.max(0, Math.round(nextTierTotal - total)) : null;
+
+const categoryLabel = kategorie?.name_de ?? '';
+const categoryHref  = kategorie ? `/de/kategorie/${kategorie.slug}` : '';
+
 const itemListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
@@ -107,13 +125,21 @@ const breadcrumbSchema = {
       </div>
     )}
 
-    <div id={`view-${data.slug}`} class="view-container" data-view="grid">
+    <div id={`view-${data.slug}`} class:list={['view-container', data.hat_character_view && 'has-character']} data-view={data.hat_character_view && data.equipment_slots ? 'equipment' : 'grid'}>
       <div class="view-grid">
         <ItemGrid items={data.items} tier={data.tier} lang="de" />
       </div>
       {data.hat_character_view && data.equipment_slots && (
         <div class="view-equipment">
-          <CharacterView items={data.items} equipmentSlots={data.equipment_slots} lang="de" />
+          <CharacterView
+            items={data.items}
+            equipmentSlots={data.equipment_slots}
+            lang="de"
+            description={data.description_de}
+            totalPrice={total}
+            categoryLabel={categoryLabel}
+            categoryHref={categoryHref}
+          />
           {(() => {
             const slotted = new Set(Object.values(data.equipment_slots));
             const overflow = data.items.filter((i) => !slotted.has(i.id));
@@ -128,17 +154,20 @@ const breadcrumbSchema = {
       )}
     </div>
 
-    <section class="total-bar">
-      <span>{t.total_price}</span>
-      <strong>CHF {total}</strong>
-    </section>
-
-    {data.tier !== 'celebrity' && (
-      <section class="completionism">
-        <h2>{t.completionism_title}</h2>
-        <p>Mehr Items, bessere Qualität und zusätzliche Stats-Kategorien warten im nächsten Tier.</p>
-      </section>
+    {data.hat_character_view && (
+      <div class="mobile-inventory">
+        <MobileInventoryList items={data.items} lang="de" />
+      </div>
     )}
+
+    <SummaryBar
+      total={total}
+      itemCount={data.items.length}
+      lang="de"
+      nextTierHref={nextTierHref}
+      nextTierLabel={nextTierLabel}
+      nextTierDiff={nextTierDiff}
+    />
 
     <RelatedLoadouts slugs={data.related_slugs} lang="de" />
 
@@ -149,7 +178,7 @@ const breadcrumbSchema = {
 </BaseLayout>
 
 <style>
-  .wrap { max-width: 1100px; margin: 0 auto; padding: var(--space-8) var(--space-4); }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: var(--space-8) var(--space-4); }
   .crumbs { font-size: 0.85rem; color: var(--text-muted); margin-bottom: var(--space-4); display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   .crumbs a { color: var(--text-secondary); }
   .crumbs a:hover { color: var(--text-primary); }
@@ -177,32 +206,12 @@ const breadcrumbSchema = {
   .view-container { margin-top: var(--space-4); }
   .view-container[data-view="grid"] .view-equipment { display: none; }
   .view-container[data-view="equipment"] .view-grid { display: none; }
+  .mobile-inventory { display: none; margin-top: var(--space-4); }
   @media (max-width: 768px) {
     .view-controls { display: none; }
-    .view-container[data-view="equipment"] .view-grid { display: block; }
-    .view-container[data-view="equipment"] .view-equipment { display: none; }
+    .view-container.has-character { display: none; }
+    .mobile-inventory { display: block; }
   }
-  .total-bar {
-    margin-top: var(--space-6);
-    padding: var(--space-4);
-    background: var(--bg-surface);
-    border: 1px solid var(--border-default);
-    border-radius: var(--radius-card);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: var(--font-mono);
-  }
-  .total-bar strong { font-size: 1.25rem; color: var(--text-primary); }
-  .completionism {
-    margin-top: var(--space-8);
-    padding: var(--space-6);
-    background: linear-gradient(180deg, var(--bg-surface), var(--bg-elevated));
-    border-left: 3px solid var(--accent);
-    border-radius: var(--radius-card);
-  }
-  .completionism h2 { margin: 0 0 8px; font-size: 1.25rem; }
-  .completionism p { color: var(--text-secondary); margin: 0; line-height: 1.6; }
   .share-row { margin-top: var(--space-8); display: flex; justify-content: center; }
   .overflow { margin-top: var(--space-6); }
   .overflow h2 {

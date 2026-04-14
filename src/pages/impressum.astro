@@ -1,0 +1,20 @@
+---
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+---
+<BaseLayout
+  lang="de"
+  title="Impressum — loadouts.info"
+  description="Impressum und Kontaktdaten von loadouts.info."
+  canonical="https://loadouts.info/impressum"
+>
+  <div class="legal">
+    <h1>Impressum</h1>
+    <p>Angaben gemäss gesetzlichen Anforderungen folgen in Kürze. Für Anfragen: kontakt@loadouts.info.</p>
+  </div>
+</BaseLayout>
+
+<style>
+  .legal { max-width: 720px; margin: 0 auto; padding: var(--space-8) var(--space-4); }
+  .legal h1 { font-size: var(--text-2xl); margin-bottom: var(--space-4); }
+  .legal p { color: var(--text-secondary); line-height: 1.6; }
+</style>

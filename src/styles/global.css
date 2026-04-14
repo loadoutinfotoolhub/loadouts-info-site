@@ -58,3 +58,16 @@ a {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+
+/* Item-Card — feste Dimensionen (Inventory-Layout v2).
+   Wird von SlotCard.svelte und normalen ItemCards verwendet.
+   Overrides kommen aus SlotCard-Styles. */
+.item-card {
+  width: 220px;
+  min-width: 220px;
+  height: 160px;
+  min-height: 160px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}

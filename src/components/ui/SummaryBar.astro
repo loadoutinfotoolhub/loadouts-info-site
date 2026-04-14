@@ -1,0 +1,137 @@
+---
+/**
+ * SummaryBar.astro — Ersetzt die alte "Gesamt"-Zeile.
+ * Zeigt Gesamt-Investition, Item-Anzahl und Next-Tier-CTA.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  total: number;
+  itemCount: number;
+  lang: 'de' | 'en';
+  nextTierHref?: string | null;
+  nextTierLabel?: string | null;
+  nextTierDiff?: number | null;
+}
+
+const { total, itemCount, lang, nextTierHref, nextTierLabel, nextTierDiff } = Astro.props;
+
+const strings = lang === 'de'
+  ? {
+      totalLabel: 'GESAMT-INVESTITION',
+      itemsLabel: 'ARTIKEL IM SETUP',
+      itemsSuffix: 'Slots belegt',
+      nextQ:      'Bereit für das nächste Level?',
+      upgradeTo:  'Upgrade auf',
+    }
+  : {
+      totalLabel: 'TOTAL INVESTMENT',
+      itemsLabel: 'ITEMS IN SETUP',
+      itemsSuffix: 'slots filled',
+      nextQ:      'Ready for the next level?',
+      upgradeTo:  'Upgrade to',
+    };
+---
+<section class="summary">
+  <div class="summary-grid">
+    <div class="summary-col">
+      <span class="lbl">{strings.totalLabel}</span>
+      <span class="val">CHF {total.toFixed(2)}</span>
+    </div>
+    <div class="summary-col">
+      <span class="lbl">{strings.itemsLabel}</span>
+      <span class="val">{itemCount} <span class="suffix">{strings.itemsSuffix}</span></span>
+    </div>
+  </div>
+
+  {nextTierHref && nextTierLabel && (
+    <a class="next" href={nextTierHref}>
+      <span class="next-q">{strings.nextQ}</span>
+      <span class="next-cta">
+        <span>{strings.upgradeTo} {nextTierLabel}{nextTierDiff != null ? ` (+CHF ${nextTierDiff})` : ''}</span>
+        <Icon name="arrow-right" size={14} />
+      </span>
+    </a>
+  )}
+</section>
+
+<style>
+  .summary {
+    margin-top: var(--space-6);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-card);
+    padding: var(--space-5, 20px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+  .summary-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-right: var(--space-4);
+  }
+  .summary-col:first-child { border-right: 1px solid var(--border-subtle); }
+  .lbl {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .val {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+  }
+  .val .suffix {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-left: 6px;
+  }
+  .next {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-btn);
+    flex-wrap: wrap;
+    transition: border-color .15s;
+  }
+  .next:hover { border-color: var(--accent); }
+  .next-q {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+  .next-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  @media (max-width: 560px) {
+    .summary-grid { grid-template-columns: 1fr; }
+    .summary-col:first-child {
+      border-right: none;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-right: 0;
+      padding-bottom: var(--space-3);
+    }
+  }
+</style>

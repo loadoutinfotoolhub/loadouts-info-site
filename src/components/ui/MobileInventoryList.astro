@@ -1,0 +1,77 @@
+---
+/**
+ * MobileInventoryList — kompakte Listen-Ansicht fuer <768px.
+ * Border-LEFT statt border-top. Zeigt alle Items (auch ohne Slot).
+ */
+import type { LoadoutItem } from '@/content.config';
+import { slotIconFor, slotLabelFor } from '@/data/slotIcons';
+
+interface Props {
+  items: LoadoutItem[];
+  lang: 'de' | 'en';
+}
+const { items, lang } = Astro.props;
+---
+<ul class="mlist">
+  {items.map((it) => {
+    const name = lang === 'de' ? it.name_de : it.name_en;
+    const slotLabel = slotLabelFor(it.equipment_slot, lang);
+    const icon = slotIconFor(it.equipment_slot);
+    return (
+      <li class="mitem" style={`border-left-color: var(--rarity-${it.rarity})`}>
+        <i class={`ph ${icon}`} style={`color: var(--rarity-${it.rarity})`} aria-hidden="true"></i>
+        <div class="minfo">
+          <span class="mname">{name}</span>
+          <span class="mslot">{slotLabel}</span>
+        </div>
+        <span class="mprice">CHF {it.price_chf}</span>
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  .mlist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .mitem {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-left: 3px solid var(--border-strong);
+    border-radius: var(--radius-btn);
+  }
+  .mitem i.ph { font-size: 20px; line-height: 1; }
+  .minfo { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .mname {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .mslot {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--text-muted);
+  }
+  .mprice {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+</style>

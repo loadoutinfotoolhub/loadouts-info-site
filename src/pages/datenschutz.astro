@@ -1,0 +1,20 @@
+---
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+---
+<BaseLayout
+  lang="de"
+  title="Datenschutz — loadouts.info"
+  description="Datenschutz­erklärung von loadouts.info."
+  canonical="https://loadouts.info/datenschutz"
+>
+  <div class="legal">
+    <h1>Datenschutz</h1>
+    <p>Wir verwenden keine Tracking-Cookies und keine personalisierten Ads. Technische Logs werden anonymisiert. Details folgen in einer ausführlichen Fassung.</p>
+  </div>
+</BaseLayout>
+
+<style>
+  .legal { max-width: 720px; margin: 0 auto; padding: var(--space-8) var(--space-4); }
+  .legal h1 { font-size: var(--text-2xl); margin-bottom: var(--space-4); }
+  .legal p { color: var(--text-secondary); line-height: 1.6; }
+</style>

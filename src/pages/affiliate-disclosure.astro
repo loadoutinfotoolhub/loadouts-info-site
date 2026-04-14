@@ -1,0 +1,20 @@
+---
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+---
+<BaseLayout
+  lang="de"
+  title="Affiliate-Disclosure — loadouts.info"
+  description="Transparenz über Affiliate-Links auf loadouts.info."
+  canonical="https://loadouts.info/affiliate-disclosure"
+>
+  <div class="legal">
+    <h1>Affiliate-Disclosure</h1>
+    <p>Einige Links auf dieser Seite sind Werbe-Links (Affiliate-Links). Klickst du auf einen solchen Link und kaufst ein Produkt, erhalten wir eine kleine Provision vom Händler — für dich entstehen keine Mehrkosten. Wir empfehlen ausschliesslich Produkte, die wir selbst als sinnvoll einstufen; Provisionen beeinflussen unsere Empfehlungen nicht.</p>
+  </div>
+</BaseLayout>
+
+<style>
+  .legal { max-width: 720px; margin: 0 auto; padding: var(--space-8) var(--space-4); }
+  .legal h1 { font-size: var(--text-2xl); margin-bottom: var(--space-4); }
+  .legal p { color: var(--text-secondary); line-height: 1.6; }
+</style>
