@@ -1,7 +1,7 @@
 {
   "name": "loadouts-info",
-  "version": "1.0.0",
-  "description": "Schweizer Finanz-Rechner-Hub",
+  "version": "2.0.0",
+  "description": "Gaming-UI fuer Real-Life-Loadouts",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
@@ -23,12 +23,10 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/svelte": "^8.0.5",
-    "@fontsource/inter": "^5.2.8",
     "@tailwindcss/vite": "^4.2.2",
     "astro": "^6.1.6",
     "svelte": "^5.55.3",
-    "tailwindcss": "^4.2.2",
-    "zod": "^4.3.6"
+    "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
     "vitest": "^4.1.4"
