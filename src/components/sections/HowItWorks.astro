@@ -1,0 +1,50 @@
+---
+import { ui } from '@/data/i18n';
+interface Props { lang: 'de' | 'en'; }
+const { lang } = Astro.props;
+const t = ui[lang];
+const steps = [
+  { n: '01', t: t.how_step1_t, d: t.how_step1_d },
+  { n: '02', t: t.how_step2_t, d: t.how_step2_d },
+  { n: '03', t: t.how_step3_t, d: t.how_step3_d },
+];
+---
+<section class="how" id="how-it-works">
+  <div class="how-inner">
+    <h2>{t.how_title}</h2>
+    <div class="how-steps">
+      {steps.map((s) => (
+        <div class="how-step">
+          <span class="how-num">{s.n}</span>
+          <h3>{s.t}</h3>
+          <p>{s.d}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .how { padding: var(--space-12) var(--space-4); }
+  .how-inner { max-width: 1180px; margin: 0 auto; }
+  h2 { text-align: center; font-size: 1.75rem; margin: 0 0 var(--space-8); }
+  .how-steps {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .how-step {
+    padding: var(--space-6);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-card);
+  }
+  .how-num {
+    font-family: var(--font-mono);
+    color: var(--accent-bright);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+  }
+  .how-step h3 { margin: 6px 0 10px; font-size: 1.15rem; }
+  .how-step p { color: var(--text-secondary); line-height: 1.6; margin: 0; font-size: 0.9rem; }
+</style>

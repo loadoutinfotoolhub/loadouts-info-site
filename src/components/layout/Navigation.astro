@@ -1,0 +1,138 @@
+---
+import { kategorien } from '@/data/kategorien';
+import { ui } from '@/data/i18n';
+
+interface Props { lang: 'de' | 'en'; }
+const { lang } = Astro.props;
+const t = ui[lang];
+const catPrefix = lang === 'de' ? '/de/kategorie/' : '/en/category/';
+---
+<header class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href={`/${lang}/`}>
+      loadouts<span class="dot">.</span>info
+    </a>
+
+    <nav class="nav-links">
+      {kategorien.map((k) => (
+        <a href={`${catPrefix}${k.slug}`} class="nav-link">
+          <span class="nav-emoji">{k.emoji}</span>
+          <span>{lang === 'de' ? k.name_de : k.name_en}</span>
+        </a>
+      ))}
+    </nav>
+
+    <div class="nav-right">
+      <a class="nav-lang" href={t.lang_switch_to_path}>{t.lang_switch}</a>
+      <button class="nav-burger" aria-label="Menu" id="nav-burger">☰</button>
+    </div>
+  </div>
+
+  <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    {kategorien.map((k) => (
+      <a href={`${catPrefix}${k.slug}`} class="nav-drawer-link">
+        <span class="nav-emoji">{k.emoji}</span>
+        <span>{lang === 'de' ? k.name_de : k.name_en}</span>
+      </a>
+    ))}
+    <a href={t.lang_switch_to_path} class="nav-drawer-link">🌐 {t.lang_switch}</a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg-base) 80%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--space-3) var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  .nav-brand {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+  }
+  .nav-brand .dot { color: var(--accent-bright); }
+  .nav-links {
+    display: none;
+    flex: 1;
+    gap: var(--space-2);
+    justify-content: center;
+  }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    border-radius: var(--radius-btn);
+    transition: color .15s, background .15s;
+  }
+  .nav-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-elevated);
+  }
+  .nav-emoji { font-size: 1rem; }
+  .nav-right { display: flex; align-items: center; gap: var(--space-2); margin-left: auto; }
+  .nav-lang {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 4px 8px;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-badge);
+  }
+  .nav-lang:hover { color: var(--text-primary); border-color: var(--border-strong); }
+  .nav-burger {
+    background: none;
+    border: 1px solid var(--border-default);
+    color: var(--text-primary);
+    border-radius: var(--radius-btn);
+    padding: 4px 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+  .nav-drawer {
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-2) var(--space-4) var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+  }
+  .nav-drawer.open { display: flex; }
+  .nav-drawer-link {
+    padding: 10px 8px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    display: inline-flex;
+    gap: 10px;
+    border-radius: var(--radius-btn);
+  }
+  .nav-drawer-link:hover { background: var(--bg-elevated); color: var(--text-primary); }
+
+  @media (min-width: 900px) {
+    .nav-links { display: flex; }
+    .nav-burger, .nav-drawer { display: none !important; }
+  }
+</style>
+
+<script>
+  const burger = document.getElementById('nav-burger');
+  const drawer = document.getElementById('nav-drawer');
+  burger?.addEventListener('click', () => {
+    drawer?.classList.toggle('open');
+  });
+</script>

@@ -1,0 +1,27 @@
+---
+import { tiers, type TierKey } from '@/data/tiers';
+
+interface Props { tier: TierKey; lang: 'de' | 'en'; }
+const { tier, lang } = Astro.props;
+const cfg = tiers[tier];
+const label = lang === 'de' ? cfg.label_de : cfg.label_en;
+---
+<span class={`tier-badge tier-${tier}`}>{label}</span>
+
+<style>
+  .tier-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: var(--radius-badge);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: var(--font-mono);
+    border: 1px solid currentColor;
+  }
+  .tier-beginner     { color: var(--success); }
+  .tier-intermediate { color: var(--rarity-uncommon); }
+  .tier-expert       { color: var(--rarity-epic); }
+  .tier-celebrity    { color: var(--rarity-artifact); }
+</style>

@@ -1,0 +1,65 @@
+---
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import FaqSection from '@/components/sections/FaqSection.astro';
+
+const faqs = [
+  {
+    q: 'What is loadouts.info?',
+    a: "loadouts.info is a platform that shows you what gear you actually need for your hobby, sport or life situation — structured in levels from beginner to pro, with clear recommendations and honest reasoning.",
+  },
+  {
+    q: 'Why is it called loadout?',
+    a: "The term 'loadout' comes from the gaming world and refers to the gear you put together for your character in a game. We adopted the term because it perfectly describes what we do: we assemble the optimal gear for your situation. Your running setup. Your kitchen gear. Your first camping kit. All a loadout.",
+  },
+  {
+    q: 'How do you choose products?',
+    a: 'We research per loadout which products actually make sense for the given situation. We prefer brands and products that have proven themselves in tests, reviews and real user experience. We show pros and cons transparently — no product is perfect.',
+  },
+  {
+    q: 'Do you make money from the links?',
+    a: 'Yes. Some links are affiliate links — if you buy through them we earn a small commission from the retailer. There is no extra cost to you. These commissions fund the site. All affiliate links are clearly marked as advertising.',
+  },
+  {
+    q: 'Who is behind it?',
+    a: 'loadouts.info was founded by Sinthu Kandiah. The idea: give everyone starting a new hobby or upgrading their setup a clear, honest orientation — without marketing speak and without a hundred product lists.',
+  },
+];
+---
+<BaseLayout
+  lang="en"
+  title="About loadouts.info — Who we are and how we work"
+  description="loadouts.info shows you what gear you actually need — for hobby, sport and life. Honest, structured, clear."
+  canonical="https://loadouts.info/en/about"
+  dePath="/de/ueber-uns"
+  enPath="/en/about"
+>
+  <div class="wrap">
+    <header>
+      <h1>About loadouts.info</h1>
+      <p>We show people what gear they actually need for their hobbies, sports or life situations — structured in levels, with clear recommendations.</p>
+    </header>
+
+    <section class="intro">
+      <h2>Our approach</h2>
+      <p>Most product lists online are cluttered, too long, and hide what actually matters. We do it differently: one complete setup per situation, structured by your experience level, with clear reasoning per product. We tell you what you really need — and what you can skip.</p>
+      <p>Our audience is everyone: parents, athletes, home cooks, newcomers, pros and gift hunters. Anyone who wants to start something new or upgrade belongs here.</p>
+    </section>
+
+    <FaqSection lang="en" items={faqs} />
+
+    <section class="author">
+      <h2>Who is behind it?</h2>
+      <p><strong>Sinthu Kandiah</strong> — founder, responsible for content and product selection. Reach out at hallo@loadouts.info.</p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .wrap { max-width: 860px; margin: 0 auto; padding: var(--space-8) var(--space-4); }
+  header h1 { font-size: 2.5rem; margin: 0 0 var(--space-3); }
+  header p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.6; }
+  .intro, .author { margin-top: var(--space-8); }
+  .intro h2, .author h2 { font-size: 1.5rem; margin: 0 0 var(--space-3); }
+  .intro p { color: var(--text-secondary); line-height: 1.7; margin: 0 0 var(--space-3); }
+  .author p { color: var(--text-secondary); line-height: 1.6; }
+</style>

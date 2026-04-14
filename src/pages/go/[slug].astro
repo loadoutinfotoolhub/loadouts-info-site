@@ -1,20 +1,33 @@
 ---
-// Redirect-Handler Grundstruktur fuer /go/<slug>. Logik kommt spaeter.
-// Aktuell: statischer Platzhalter-Pfad, der per Meta-Refresh auf / zeigt.
-export function getStaticPaths() {
-  return [{ params: { slug: 'placeholder' } }];
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const all = await getCollection('loadouts');
+  const paths: { params: { slug: string }; props: { target: string } }[] = [];
+  const seen = new Set<string>();
+  for (const l of all) {
+    for (const it of l.data.items) {
+      if (seen.has(it.go_slug)) continue;
+      seen.add(it.go_slug);
+      paths.push({ params: { slug: it.go_slug }, props: { target: it.target_url } });
+    }
+  }
+  return paths;
 }
+
+const { target } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Redirecting</title>
-    <meta http-equiv="refresh" content="0; url=/" />
+    <title>Redirecting…</title>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
     <meta name="robots" content="noindex, nofollow" />
-    <link rel="canonical" href="https://loadouts.info/" />
+    <link rel="canonical" href={target} />
+    <script is:inline set:html={`window.location.replace(${JSON.stringify(target)});`}></script>
   </head>
   <body>
-    <p>Redirecting to <a href="/">loadouts.info</a>.</p>
+    <p>Redirecting to <a href={target} rel="nofollow sponsored noopener">{target}</a>…</p>
   </body>
 </html>

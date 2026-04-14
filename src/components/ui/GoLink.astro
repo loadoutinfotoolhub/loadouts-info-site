@@ -1,0 +1,33 @@
+---
+import WerbungBadge from './WerbungBadge.astro';
+import { ui } from '@/data/i18n';
+
+interface Props {
+  slug: string;
+  lang: 'de' | 'en';
+  label?: string;
+}
+const { slug, lang, label } = Astro.props;
+const href = `/go/${slug}`;
+const text = label ?? ui[lang].view_details;
+---
+<a class="golink" href={href} rel="nofollow sponsored noopener" target="_blank">
+  <span>{text}</span>
+  <WerbungBadge lang={lang} />
+</a>
+
+<style>
+  .golink {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: var(--radius-btn);
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: background .15s, transform .15s;
+  }
+  .golink:hover { background: var(--accent-bright); transform: translateY(-1px); }
+</style>

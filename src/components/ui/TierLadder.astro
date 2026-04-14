@@ -1,0 +1,79 @@
+---
+import { tiers, tierOrder, type TierKey } from '@/data/tiers';
+
+interface Props {
+  currentTier: TierKey;
+  lang: 'de' | 'en';
+  // Map von Tier-Key auf Slug im gleichen Kategorie-Kontext (optional).
+  tierSlugs?: Partial<Record<TierKey, string>>;
+}
+
+const { currentTier, lang, tierSlugs = {} } = Astro.props;
+const loadoutPrefix = lang === 'de' ? '/de/loadouts/' : '/en/loadouts/';
+---
+<ol class="tier-ladder">
+  {tierOrder.map((tKey) => {
+    const cfg = tiers[tKey];
+    const slug = tierSlugs[tKey];
+    const label = lang === 'de' ? cfg.label_de : cfg.label_en;
+    const isCurrent = tKey === currentTier;
+    const content = (
+      <span class={`step ${isCurrent ? 'current' : ''} step-${tKey}`}>
+        <span class="step-dot" aria-hidden="true"></span>
+        <span class="step-label">{label}</span>
+      </span>
+    );
+    return (
+      <li class="tier-step">
+        {slug && !isCurrent ? (
+          <a href={`${loadoutPrefix}${slug}`}>{content}</a>
+        ) : (
+          content
+        )}
+      </li>
+    );
+  })}
+</ol>
+
+<style>
+  .tier-ladder {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .tier-step { flex: 1 1 120px; min-width: 120px; }
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 8px;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-btn);
+    background: var(--bg-surface);
+    font-size: 0.8rem;
+    transition: border-color .15s;
+  }
+  a:hover .step { border-color: var(--border-strong); }
+  .step.current {
+    border-color: var(--accent);
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+  }
+  .step-dot {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-strong);
+    margin-bottom: 6px;
+  }
+  .step.current .step-dot { background: var(--accent-bright); box-shadow: 0 0 10px var(--accent-glow); }
+  .step-beginner.current .step-dot     { background: var(--success); }
+  .step-intermediate.current .step-dot { background: var(--rarity-uncommon); }
+  .step-expert.current .step-dot       { background: var(--rarity-epic); }
+  .step-celebrity.current .step-dot    { background: var(--rarity-artifact); }
+  .step-label { font-weight: 600; }
+</style>

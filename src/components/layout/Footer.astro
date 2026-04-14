@@ -1,0 +1,57 @@
+---
+import { ui } from '@/data/i18n';
+
+interface Props { lang: 'de' | 'en'; }
+const { lang } = Astro.props;
+const t = ui[lang];
+const aboutPath = lang === 'de' ? '/de/ueber-uns' : '/en/about';
+---
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-affiliate">{t.footer_affiliate}</p>
+    <nav class="footer-links">
+      <a href="/impressum">{t.footer_impressum}</a>
+      <span class="sep">·</span>
+      <a href="/datenschutz">{t.footer_datenschutz}</a>
+      <span class="sep">·</span>
+      <a href={aboutPath}>{t.footer_about}</a>
+    </nav>
+    <p class="footer-copy">© 2026 loadouts.info</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: var(--space-16);
+    border-top: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    text-align: center;
+  }
+  .footer-affiliate {
+    max-width: 720px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+  .footer-links {
+    display: flex;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  .footer-links a:hover { color: var(--text-primary); }
+  .sep { color: var(--text-muted); }
+  .footer-copy {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+</style>

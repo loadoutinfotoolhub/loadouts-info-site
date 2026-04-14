@@ -26,7 +26,8 @@
     "@tailwindcss/vite": "^4.2.2",
     "astro": "^6.1.6",
     "svelte": "^5.55.3",
-    "tailwindcss": "^4.2.2"
+    "tailwindcss": "^4.2.2",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "vitest": "^4.1.4"

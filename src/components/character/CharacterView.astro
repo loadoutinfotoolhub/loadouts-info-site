@@ -1,0 +1,102 @@
+---
+import PriceTag from '@/components/ui/PriceTag.astro';
+import type { LoadoutItem } from '@/content.config';
+import { ui } from '@/data/i18n';
+
+interface Props {
+  items: LoadoutItem[];
+  equipmentSlots: Record<string, string>;
+  lang: 'de' | 'en';
+}
+const { items, equipmentSlots, lang } = Astro.props;
+
+// Standard-Slots mit festen Grid-Positionen
+const slotOrder = ['kopf', 'oberteil', 'hose', 'schuhe', 'accessoire', 'gürtel_tasche'];
+const slotLabels: Record<string, { de: string; en: string }> = {
+  kopf:          { de: 'Kopf',      en: 'Head' },
+  oberteil:      { de: 'Oberteil',  en: 'Top' },
+  hose:          { de: 'Hose',      en: 'Pants' },
+  schuhe:        { de: 'Schuhe',    en: 'Shoes' },
+  accessoire:    { de: 'Accessoire',en: 'Accessory' },
+  'gürtel_tasche': { de: 'Gürtel',  en: 'Belt' },
+};
+function itemFor(slot: string): LoadoutItem | undefined {
+  const id = equipmentSlots[slot];
+  return id ? items.find((i) => i.id === id) : undefined;
+}
+---
+<div class="char-view" aria-label="Equipment view">
+  <div class="char-silhouette" aria-hidden="true">
+    <svg viewBox="0 0 120 240" width="120" height="240" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="30" r="18" fill="var(--bg-elevated)" stroke="var(--border-strong)" stroke-width="2"/>
+      <rect x="35" y="52" width="50" height="70" rx="10" fill="var(--bg-elevated)" stroke="var(--border-strong)" stroke-width="2"/>
+      <rect x="38" y="122" width="20" height="80" rx="8" fill="var(--bg-elevated)" stroke="var(--border-strong)" stroke-width="2"/>
+      <rect x="62" y="122" width="20" height="80" rx="8" fill="var(--bg-elevated)" stroke="var(--border-strong)" stroke-width="2"/>
+      <rect x="34" y="200" width="28" height="16" rx="4" fill="var(--bg-elevated)" stroke="var(--border-strong)" stroke-width="2"/>
+      <rect x="58" y="200" width="28" height="16" rx="4" fill="var(--bg-elevated)" stroke="var(--border-strong)" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <div class="char-slots">
+    {slotOrder.map((slot) => {
+      const it = itemFor(slot);
+      const label = slotLabels[slot][lang];
+      return (
+        <div class={`char-slot slot-${slot.replace('ü','ue')} ${it ? `rarity-${it.rarity}` : 'empty'}`}>
+          <span class="char-slot-label">{label}</span>
+          {it ? (
+            <>
+              <span class="char-slot-name">{lang === 'de' ? it.name_de : it.name_en}</span>
+              <PriceTag price={it.price_chf} rarity={it.rarity} lang={lang} />
+            </>
+          ) : (
+            <span class="char-slot-empty">🔒 {ui[lang].upgrade_hint}</span>
+          )}
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+<style>
+  .char-view {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: var(--space-6);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-card);
+    padding: var(--space-6);
+    align-items: center;
+  }
+  .char-silhouette { display: flex; justify-content: center; }
+  .char-slots {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+  }
+  .char-slot {
+    border: 2px solid var(--border-default);
+    border-radius: var(--radius-card);
+    padding: var(--space-3);
+    background: var(--bg-elevated);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-height: 84px;
+  }
+  .char-slot.empty { opacity: 0.5; border-style: dashed; }
+  .char-slot-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+  .char-slot-name { font-size: 0.9rem; color: var(--text-primary); font-weight: 600; }
+  .char-slot-empty { font-size: 0.8rem; color: var(--text-muted); }
+
+  @media (max-width: 640px) {
+    .char-view { grid-template-columns: 1fr; }
+    .char-slots { grid-template-columns: 1fr; }
+  }
+</style>

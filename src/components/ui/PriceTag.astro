@@ -1,0 +1,35 @@
+---
+import { rarityLabels, type Rarity } from '@/data/rarityLabels';
+
+interface Props {
+  price: number;
+  rarity: Rarity;
+  lang: 'de' | 'en';
+}
+const { price, rarity, lang } = Astro.props;
+const label = rarityLabels[lang][rarity];
+---
+<div class={`price-tag rarity-text-${rarity}`}>
+  <span class="price">CHF {price}</span>
+  <span class="label">{label}</span>
+</div>
+
+<style>
+  .price-tag {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+  }
+  .price {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+  }
+</style>

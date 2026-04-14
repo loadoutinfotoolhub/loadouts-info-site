@@ -1,10 +1,11 @@
-/* Rarity-Farbsystem — WoW-Standard, gemappt auf CHF-Preistiers
+/* Rarity-Farbsystem SSOT.
+   Mapping Preis-Tier → Farbe (intern, nie als UI-Label verwenden).
    Common    < CHF 30
    Uncommon  CHF 30–79
    Rare      CHF 80–199
    Epic      CHF 200–499
    Legendary CHF 500+
-   Artifact  Celebrity S-Tier
+   Artifact  Pro-Setup (Experten-Tier)
 */
 :root {
   --rarity-common:    #9d9d9d;
@@ -14,3 +15,17 @@
   --rarity-legendary: #ff8000;
   --rarity-artifact:  #e6cc80;
 }
+
+.rarity-common    { box-shadow: var(--glow-common);    border-color: var(--rarity-common); }
+.rarity-uncommon  { box-shadow: var(--glow-uncommon);  border-color: var(--rarity-uncommon); }
+.rarity-rare      { box-shadow: var(--glow-rare);      border-color: var(--rarity-rare); }
+.rarity-epic      { box-shadow: var(--glow-epic);      border-color: var(--rarity-epic); }
+.rarity-legendary { box-shadow: var(--glow-legendary); border-color: var(--rarity-legendary); }
+.rarity-artifact  { box-shadow: var(--glow-artifact);  border-color: var(--rarity-artifact); }
+
+.rarity-text-common    { color: var(--rarity-common); }
+.rarity-text-uncommon  { color: var(--rarity-uncommon); }
+.rarity-text-rare      { color: var(--rarity-rare); }
+.rarity-text-epic      { color: var(--rarity-epic); }
+.rarity-text-legendary { color: var(--rarity-legendary); }
+.rarity-text-artifact  { color: var(--rarity-artifact); }

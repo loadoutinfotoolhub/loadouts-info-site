@@ -1,0 +1,28 @@
+---
+import { ui } from '@/data/i18n';
+interface Props { lang: 'de' | 'en'; }
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+<section class="what-is">
+  <div class="what-inner">
+    <h2>{t.what_is_title}</h2>
+    <p>{t.what_is_text}</p>
+  </div>
+</section>
+
+<style>
+  .what-is {
+    padding: var(--space-12) var(--space-4);
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .what-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  h2 { font-size: 1.75rem; margin: 0 0 var(--space-4); }
+  p { color: var(--text-secondary); line-height: 1.7; font-size: 1rem; }
+</style>

@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import TierBadge from '@/components/ui/TierBadge.astro';
+import { ui } from '@/data/i18n';
+
+interface Props {
+  slugs: readonly string[] | string[];
+  lang: 'de' | 'en';
+}
+const { slugs, lang } = Astro.props;
+const t = ui[lang];
+const all = await getCollection('loadouts');
+const related = slugs
+  .map((s) => all.find((l) => l.data.slug === s))
+  .filter((x): x is NonNullable<typeof x> => !!x);
+const prefix = lang === 'de' ? '/de/loadouts/' : '/en/loadouts/';
+---
+{related.length > 0 && (
+  <section class="related">
+    <h2>{t.related_title}</h2>
+    <div class="related-grid">
+      {related.map((l) => (
+        <a class="related-card" href={`${prefix}${l.data.slug}`}>
+          <div class="rl-emoji">{l.data.hero_emoji}</div>
+          <div>
+            <TierBadge tier={l.data.tier} lang={lang} />
+            <h3>{lang === 'de' ? l.data.name_de : l.data.name_en}</h3>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .related { padding: var(--space-8) 0; }
+  h2 { font-size: 1.5rem; margin: 0 0 var(--space-4); }
+  .related-grid {
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .related-card {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-4);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-card);
+    transition: border-color .15s, background .15s;
+  }
+  .related-card:hover { border-color: var(--accent); background: var(--bg-elevated); }
+  .rl-emoji { font-size: 2rem; }
+  .related-card h3 { margin: 6px 0 0; font-size: 1rem; }
+</style>

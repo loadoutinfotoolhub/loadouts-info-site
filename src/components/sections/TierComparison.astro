@@ -1,0 +1,77 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import TierBadge from '@/components/ui/TierBadge.astro';
+import { tierOrder, tiers, type TierKey } from '@/data/tiers';
+import { ui } from '@/data/i18n';
+
+interface Props {
+  loadouts: CollectionEntry<'loadouts'>[];
+  lang: 'de' | 'en';
+}
+const { loadouts, lang } = Astro.props;
+const t = ui[lang];
+const prefix = lang === 'de' ? '/de/loadouts/' : '/en/loadouts/';
+
+// Sortiere Profi zuerst (Anchoring), dann absteigend.
+const sortedTiers: TierKey[] = ['celebrity', 'expert', 'intermediate', 'beginner'];
+const byTier = new Map<TierKey, CollectionEntry<'loadouts'>[]>();
+for (const tk of tierOrder) byTier.set(tk, []);
+for (const l of loadouts) byTier.get(l.data.tier as TierKey)?.push(l);
+---
+<section class="tc">
+  <h2>Tier-Vergleich</h2>
+  <div class="tc-grid">
+    {sortedTiers.map((tk) => {
+      const cfg = tiers[tk];
+      const list = byTier.get(tk) ?? [];
+      const blur = tk === 'celebrity' && list.length === 0;
+      return (
+        <div class={`tc-col tier-${tk}`}>
+          <TierBadge tier={tk} lang={lang} />
+          <div class="tc-count">{list.length} {lang === 'de' ? 'Setups' : 'Setups'}</div>
+          <ul class={blur ? 'tc-list blurred' : 'tc-list'}>
+            {list.slice(0, 5).map((l) => (
+              <li>
+                <a href={`${prefix}${l.data.slug}`}>
+                  {l.data.hero_emoji} {lang === 'de' ? l.data.name_de : l.data.name_en}
+                </a>
+                <span class="tc-sum">CHF {l.data.items.reduce((s, i) => s + i.price_chf, 0)}</span>
+              </li>
+            ))}
+            {list.length === 0 && (
+              <li class="tc-empty">
+                <span>{tk === 'celebrity' ? t.curiosity_gap : (lang === 'de' ? 'Bald verfügbar' : 'Coming soon')}</span>
+              </li>
+            )}
+          </ul>
+        </div>
+      );
+    })}
+  </div>
+</section>
+
+<style>
+  .tc { padding: var(--space-8) 0; }
+  h2 { font-size: 1.5rem; margin: 0 0 var(--space-4); }
+  .tc-grid {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  .tc-col {
+    padding: var(--space-4);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-card);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .tc-count { font-family: var(--font-mono); color: var(--text-muted); font-size: 0.75rem; }
+  .tc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; }
+  .tc-list li { display: flex; justify-content: space-between; gap: 8px; padding: 4px 0; border-bottom: 1px dashed var(--border-subtle); }
+  .tc-list li:last-child { border-bottom: none; }
+  .tc-list.blurred { filter: blur(4px); pointer-events: none; }
+  .tc-sum { font-family: var(--font-mono); color: var(--text-muted); }
+  .tc-empty { color: var(--text-muted); font-style: italic; }
+</style>

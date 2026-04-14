@@ -1,0 +1,87 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import TierBadge from '@/components/ui/TierBadge.astro';
+import { ui } from '@/data/i18n';
+
+interface Props {
+  loadout: CollectionEntry<'loadouts'>;
+  lang: 'de' | 'en';
+}
+const { loadout, lang } = Astro.props;
+const t = ui[lang];
+const data = loadout.data;
+const name = lang === 'de' ? data.name_de : data.name_en;
+const desc = lang === 'de' ? data.description_de : data.description_en;
+const href = `${lang === 'de' ? '/de/loadouts/' : '/en/loadouts/'}${data.slug}`;
+const total = data.items.reduce((s, i) => s + i.price_chf, 0);
+---
+<section class="featured">
+  <div class="featured-inner">
+    <span class="eyebrow">{t.featured_title}</span>
+    <div class="featured-card">
+      <div class="featured-emoji">{data.hero_emoji}</div>
+      <div class="featured-body">
+        <div class="featured-meta">
+          <TierBadge tier={data.tier} lang={lang} />
+          <span class="proof">{data.social_proof} {t.social_proof_suffix}</span>
+        </div>
+        <h2>{name}</h2>
+        <p>{desc}</p>
+        <div class="featured-foot">
+          <span class="total">{t.total_price}: <strong>CHF {total}</strong></span>
+          <a class="featured-cta" href={href}>{t.hero_cta_primary}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .featured { padding: var(--space-12) var(--space-4); }
+  .featured-inner { max-width: 1180px; margin: 0 auto; }
+  .eyebrow {
+    font-family: var(--font-mono);
+    color: var(--accent-bright);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+  .featured-card {
+    margin-top: var(--space-3);
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--space-6);
+    align-items: center;
+    padding: var(--space-8);
+    background: linear-gradient(180deg, var(--bg-elevated), var(--bg-surface));
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-card);
+    box-shadow: var(--glow-epic);
+  }
+  .featured-emoji { font-size: 4rem; text-align: center; }
+  .featured-meta { display: flex; gap: var(--space-3); align-items: center; color: var(--text-muted); font-size: 0.8rem; }
+  h2 { margin: 10px 0 8px; font-size: 1.75rem; }
+  p { color: var(--text-secondary); line-height: 1.6; margin: 0; }
+  .featured-foot {
+    margin-top: var(--space-4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .total { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.95rem; }
+  .total strong { color: var(--text-primary); }
+  .featured-cta {
+    padding: 10px 18px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: var(--radius-btn);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .featured-cta:hover { background: var(--accent-bright); }
+  @media (max-width: 640px) {
+    .featured-card { grid-template-columns: 1fr; padding: var(--space-6); text-align: center; }
+  }
+</style>

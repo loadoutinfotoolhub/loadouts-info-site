@@ -1,0 +1,58 @@
+---
+import '@/styles/global.css';
+import Navigation from './Navigation.astro';
+import Footer from './Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  lang: 'de' | 'en';
+  ogImage?: string;
+  dePath?: string;
+  enPath?: string;
+}
+
+const { title, description, canonical, lang, ogImage, dePath, enPath } = Astro.props;
+
+const hreflangDe = dePath ?? '/de/';
+const hreflangEn = enPath ?? '/en/';
+const og = ogImage ?? '/og-default.png';
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="alternate" hreflang="de" href={`https://loadouts.info${hreflangDe}`} />
+    <link rel="alternate" hreflang="en" href={`https://loadouts.info${hreflangEn}`} />
+    <link rel="alternate" hreflang="x-default" href={`https://loadouts.info${hreflangDe}`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`https://loadouts.info${og}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+    />
+
+    <slot name="head" />
+  </head>
+  <body>
+    <Navigation lang={lang} />
+    <main>
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>

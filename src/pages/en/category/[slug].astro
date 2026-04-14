@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import TierComparison from '@/components/sections/TierComparison.astro';
+import TierBadge from '@/components/ui/TierBadge.astro';
+import { kategorien } from '@/data/kategorien';
+import { ui } from '@/data/i18n';
+
+export async function getStaticPaths() {
+  const all = await getCollection('loadouts');
+  return kategorien.map((k) => ({
+    params: { slug: k.slug },
+    props: {
+      kategorie: k,
+      loadouts: all.filter((l) => l.data.kategorie_slug === k.slug),
+    },
+  }));
+}
+
+const { kategorie, loadouts } = Astro.props;
+const t = ui.en;
+const canonical = `https://loadouts.info/en/category/${kategorie.slug}`;
+const loadoutPrefix = '/en/loadouts/';
+---
+<BaseLayout
+  lang="en"
+  title={`${kategorie.name_en} — The right setups | loadouts.info`}
+  description={kategorie.desc_en}
+  canonical={canonical}
+  dePath={`/de/kategorie/${kategorie.slug}`}
+  enPath={`/en/category/${kategorie.slug}`}
+>
+  <div class="wrap">
+    <nav class="crumbs" aria-label="breadcrumb">
+      <a href="/en/">{t.breadcrumb_home}</a> <span>›</span> <span>{kategorie.name_en}</span>
+    </nav>
+
+    <header class="cat-head">
+      <span class="cat-emoji" aria-hidden="true">{kategorie.emoji}</span>
+      <h1>{kategorie.name_en}</h1>
+      <p>{kategorie.desc_en}</p>
+    </header>
+
+    <TierComparison loadouts={loadouts} lang="en" />
+
+    <section class="list">
+      <h2>All setups in {kategorie.name_en}</h2>
+      <div class="grid">
+        {loadouts.map((l) => (
+          <a class="card" href={`${loadoutPrefix}${l.data.slug}`}>
+            <div class="card-emoji">{l.data.hero_emoji}</div>
+            <TierBadge tier={l.data.tier} lang="en" />
+            <h3>{l.data.name_en}</h3>
+            <p>{l.data.description_en}</p>
+            <span class="card-total">CHF {l.data.items.reduce((s, i) => s + i.price_chf, 0)}</span>
+          </a>
+        ))}
+        {loadouts.length === 0 && <p class="empty">Coming soon.</p>}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .wrap { max-width: 1180px; margin: 0 auto; padding: var(--space-8) var(--space-4); }
+  .crumbs { font-size: 0.85rem; color: var(--text-muted); margin-bottom: var(--space-4); }
+  .crumbs a { color: var(--text-secondary); }
+  .cat-head { text-align: center; padding: var(--space-8) 0; }
+  .cat-emoji { font-size: 3rem; display: inline-block; }
+  .cat-head h1 { font-size: 2.5rem; margin: 10px 0 8px; }
+  .cat-head p { color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+  .list { margin-top: var(--space-8); }
+  h2 { font-size: 1.5rem; margin: 0 0 var(--space-4); }
+  .grid { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-card);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: border-color .15s, transform .15s;
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .card-emoji { font-size: 2rem; }
+  .card h3 { margin: 0; font-size: 1.1rem; }
+  .card p { color: var(--text-secondary); font-size: 0.85rem; margin: 0; line-height: 1.5; }
+  .card-total { font-family: var(--font-mono); color: var(--text-muted); margin-top: auto; font-size: 0.85rem; }
+  .empty { color: var(--text-muted); }
+</style>

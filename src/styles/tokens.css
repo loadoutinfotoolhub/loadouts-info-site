@@ -1,0 +1,51 @@
+/* Design-Tokens SSOT — alle Werte nur hier. */
+:root {
+  /* Backgrounds */
+  --bg-base:        #0a0a0f;
+  --bg-surface:     #13131a;
+  --bg-elevated:    #1c1c26;
+  --bg-overlay:     #252535;
+
+  /* Borders */
+  --border-subtle:  #1e1e2e;
+  --border-default: #2a2a3d;
+  --border-strong:  #3d3d5c;
+
+  /* Text */
+  --text-primary:   #f0f0f8;
+  --text-secondary: #9898b8;
+  --text-muted:     #5a5a7a;
+
+  /* Accent */
+  --accent:         #7c3aed;
+  --accent-bright:  #a855f7;
+  --accent-glow:    rgba(168, 85, 247, 0.3);
+
+  /* Semantic */
+  --success:        #22c55e;
+  --warning:        #f59e0b;
+  --danger:         #ef4444;
+
+  /* Rarity Glows */
+  --glow-common:    0 0 8px  rgba(157,157,157,0.2);
+  --glow-uncommon:  0 0 12px rgba(30,255,0,0.25);
+  --glow-rare:      0 0 16px rgba(0,112,221,0.35);
+  --glow-epic:      0 0 20px rgba(163,53,238,0.4);
+  --glow-legendary: 0 0 24px rgba(255,128,0,0.45);
+  --glow-artifact:  0 0 28px rgba(230,204,128,0.5);
+
+  /* Spacing (4px base) */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Radius */
+  --radius-card:  8px;
+  --radius-btn:   6px;
+  --radius-badge: 4px;
+}

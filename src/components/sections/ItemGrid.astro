@@ -1,0 +1,70 @@
+---
+import ItemCard from '@/components/ui/ItemCard.astro';
+import { tiers, type TierKey } from '@/data/tiers';
+import type { LoadoutItem } from '@/content.config';
+
+interface Props {
+  items: LoadoutItem[];
+  tier: TierKey;
+  lang: 'de' | 'en';
+}
+
+const { items, tier, lang } = Astro.props;
+const cfg = tiers[tier];
+
+// Overflow-Slots: extra_1 .. extra_4
+const overflowKeys = Array.from({ length: cfg.overflow_slots }, (_, i) => `extra_${i + 1}`);
+const mainItems = items.filter((it) => !it.equipment_slot || !overflowKeys.includes(it.equipment_slot));
+const overflowItems = items.filter((it) => it.equipment_slot && overflowKeys.includes(it.equipment_slot));
+---
+<div class="item-grid" data-tier={tier}>
+  {mainItems.map((item, idx) => (
+    <ItemCard
+      item={item}
+      lang={lang}
+      showStats={cfg.show_stats}
+      showProsCons={cfg.show_pros_cons}
+      showBegruendung={cfg.show_begruendung}
+      hero={cfg.hero_item && idx === 0}
+    />
+  ))}
+</div>
+
+{overflowItems.length > 0 && (
+  <div class="item-grid overflow" data-tier={tier}>
+    {overflowItems.map((item) => (
+      <ItemCard
+        item={item}
+        lang={lang}
+        showStats={cfg.show_stats}
+        showProsCons={cfg.show_pros_cons}
+        showBegruendung={cfg.show_begruendung}
+      />
+    ))}
+  </div>
+)}
+
+<style>
+  .item-grid {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: 1fr;
+  }
+  .item-grid.overflow {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px dashed var(--border-default);
+  }
+  @media (min-width: 640px) {
+    .item-grid[data-tier="beginner"],
+    .item-grid[data-tier="intermediate"] {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 900px) {
+    .item-grid[data-tier="expert"],
+    .item-grid[data-tier="celebrity"] {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,170 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/components/layout/BaseLayout.astro';
+import ItemGrid from '@/components/sections/ItemGrid.astro';
+import CharacterView from '@/components/character/CharacterView.astro';
+import TierBadge from '@/components/ui/TierBadge.astro';
+import TierLadder from '@/components/ui/TierLadder.astro';
+import RelatedLoadouts from '@/components/sections/RelatedLoadouts.astro';
+import ShareButton from '@/components/ui/ShareButton.svelte';
+import ViewToggle from '@/components/ui/ViewToggle.svelte';
+import { ui } from '@/data/i18n';
+import { findKategorie } from '@/data/kategorien';
+
+export async function getStaticPaths() {
+  const all = await getCollection('loadouts');
+  return all.map((l) => ({
+    params: { slug: l.data.slug },
+    props: { loadout: l },
+  }));
+}
+
+const { loadout } = Astro.props;
+const data = loadout.data;
+const t = ui.en;
+const kategorie = findKategorie(data.kategorie_slug);
+const canonical = `https://loadouts.info/en/loadouts/${data.slug}`;
+const total = data.items.reduce((s, i) => s + i.price_chf, 0);
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: data.name_en,
+  description: data.description_en,
+  numberOfItems: data.items.length,
+  itemListElement: data.items.map((it, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    name: it.name_en,
+    url: `https://loadouts.info/go/${it.go_slug}`,
+  })),
+};
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t.breadcrumb_home, item: 'https://loadouts.info/en/' },
+    kategorie && {
+      '@type': 'ListItem',
+      position: 2,
+      name: kategorie.name_en,
+      item: `https://loadouts.info/en/category/${kategorie.slug}`,
+    },
+    { '@type': 'ListItem', position: 3, name: data.name_en, item: canonical },
+  ].filter(Boolean),
+};
+---
+<BaseLayout
+  lang="en"
+  title={data.seo.title_en}
+  description={data.seo.desc_en}
+  canonical={canonical}
+  dePath={`/de/loadouts/${data.slug}`}
+  enPath={`/en/loadouts/${data.slug}`}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} slot="head" />
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="breadcrumb">
+      <a href="/en/">{t.breadcrumb_home}</a>
+      {kategorie && (
+        <>
+          <span>›</span>
+          <a href={`/en/category/${kategorie.slug}`}>{kategorie.name_en}</a>
+        </>
+      )}
+      <span>›</span>
+      <span>{data.name_en}</span>
+    </nav>
+
+    <header class="lh">
+      <span class="lh-emoji" aria-hidden="true">{data.hero_emoji}</span>
+      <div class="lh-meta">
+        <TierBadge tier={data.tier} lang="en" />
+        <span class="lh-proof">{data.social_proof} {t.social_proof_suffix}</span>
+      </div>
+      <h1>{data.name_en}</h1>
+      <p class="lh-desc">{data.description_en}</p>
+    </header>
+
+    <TierLadder currentTier={data.tier} lang="en" />
+
+    {data.hat_character_view && data.equipment_slots && (
+      <div class="view-controls">
+        <ViewToggle
+          client:load
+          gridLabel={t.view_grid}
+          equipmentLabel={t.view_equipment}
+          targetId={`view-${data.slug}`}
+        />
+      </div>
+    )}
+
+    <div id={`view-${data.slug}`} class="view-container" data-view="grid">
+      <div class="view-grid">
+        <ItemGrid items={data.items} tier={data.tier} lang="en" />
+      </div>
+      {data.hat_character_view && data.equipment_slots && (
+        <div class="view-equipment">
+          <CharacterView items={data.items} equipmentSlots={data.equipment_slots} lang="en" />
+        </div>
+      )}
+    </div>
+
+    <section class="total-bar">
+      <span>{t.total_price}</span>
+      <strong>CHF {total}</strong>
+    </section>
+
+    {data.tier !== 'celebrity' && (
+      <section class="completionism">
+        <h2>{t.completionism_title}</h2>
+        <p>More items, better quality and additional stat categories await in the next tier.</p>
+      </section>
+    )}
+
+    <RelatedLoadouts slugs={data.related_slugs} lang="en" />
+
+    <div class="share-row">
+      <ShareButton client:visible url={canonical} title={data.name_en} shareLabel={t.share} copiedLabel={t.share_copied} />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .wrap { max-width: 1100px; margin: 0 auto; padding: var(--space-8) var(--space-4); }
+  .crumbs { font-size: 0.85rem; color: var(--text-muted); margin-bottom: var(--space-4); display: flex; gap: 6px; flex-wrap: wrap; }
+  .crumbs a { color: var(--text-secondary); }
+  .lh { text-align: center; padding: var(--space-6) 0 var(--space-8); }
+  .lh-emoji { font-size: 3.5rem; display: inline-block; }
+  .lh-meta { display: inline-flex; gap: 10px; align-items: center; margin: 12px 0 10px; color: var(--text-muted); font-size: 0.85rem; }
+  .lh h1 { font-size: 2.25rem; margin: 10px 0; }
+  .lh-desc { color: var(--text-secondary); max-width: 640px; margin: 0 auto; line-height: 1.6; }
+  .view-controls { margin: var(--space-6) 0 var(--space-4); display: flex; justify-content: flex-end; }
+  .view-container { margin-top: var(--space-4); }
+  .view-container[data-view="grid"] .view-equipment { display: none; }
+  .view-container[data-view="equipment"] .view-grid { display: none; }
+  .total-bar {
+    margin-top: var(--space-6);
+    padding: var(--space-4);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-card);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+  }
+  .total-bar strong { font-size: 1.25rem; color: var(--text-primary); }
+  .completionism {
+    margin-top: var(--space-8);
+    padding: var(--space-6);
+    background: linear-gradient(180deg, var(--bg-surface), var(--bg-elevated));
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-card);
+  }
+  .completionism h2 { margin: 0 0 8px; font-size: 1.25rem; }
+  .completionism p { color: var(--text-secondary); margin: 0; line-height: 1.6; }
+  .share-row { margin-top: var(--space-8); display: flex; justify-content: center; }
+</style>
