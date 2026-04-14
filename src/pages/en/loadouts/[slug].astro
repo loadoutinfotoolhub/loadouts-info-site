@@ -113,6 +113,16 @@ const breadcrumbSchema = {
       {data.hat_character_view && data.equipment_slots && (
         <div class="view-equipment">
           <CharacterView items={data.items} equipmentSlots={data.equipment_slots} lang="en" />
+          {(() => {
+            const slotted = new Set(Object.values(data.equipment_slots));
+            const overflow = data.items.filter((i) => !slotted.has(i.id));
+            return overflow.length > 0 ? (
+              <section class="overflow">
+                <h2>More Equipment</h2>
+                <ItemGrid items={overflow} tier={data.tier} lang="en" />
+              </section>
+            ) : null;
+          })()}
         </div>
       )}
     </div>
@@ -188,4 +198,13 @@ const breadcrumbSchema = {
   .completionism h2 { margin: 0 0 8px; font-size: 1.25rem; }
   .completionism p { color: var(--text-secondary); margin: 0; line-height: 1.6; }
   .share-row { margin-top: var(--space-8); display: flex; justify-content: center; }
+  .overflow { margin-top: var(--space-6); }
+  .overflow h2 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 var(--space-3);
+    color: var(--text-primary);
+  }
 </style>

@@ -1,6 +1,9 @@
 ---
-import PriceTag from '@/components/ui/PriceTag.astro';
-import Icon from '@/components/ui/Icon.astro';
+/**
+ * CharacterView.astro — Shell, rendert die interaktive Svelte-Inventory-Ansicht.
+ * Layout + State (Slot-Overlay) stecken in CharacterInventory.svelte.
+ */
+import CharacterInventory from './CharacterInventory.svelte';
 import type { LoadoutItem } from '@/content.config';
 import { ui } from '@/data/i18n';
 
@@ -10,151 +13,14 @@ interface Props {
   lang: 'de' | 'en';
 }
 const { items, equipmentSlots, lang } = Astro.props;
-
-const slotOrder = ['kopf', 'oberteil', 'hose', 'schuhe', 'accessoire', 'gürtel_tasche'];
-const slotLabels: Record<string, { de: string; en: string }> = {
-  kopf:            { de: 'Kopf',       en: 'Head' },
-  oberteil:        { de: 'Oberteil',   en: 'Top' },
-  hose:            { de: 'Hose',       en: 'Pants' },
-  schuhe:          { de: 'Schuhe',     en: 'Shoes' },
-  accessoire:      { de: 'Accessoire', en: 'Accessory' },
-  'gürtel_tasche': { de: 'Gürtel',     en: 'Belt' },
-};
-function itemFor(slot: string): LoadoutItem | undefined {
-  const id = equipmentSlots[slot];
-  return id ? items.find((i) => i.id === id) : undefined;
-}
+const t = ui[lang];
+const closeLabel = lang === 'de' ? 'Schliessen' : 'Close';
 ---
-<div class="char-view" aria-label="Equipment view">
-  <div class="char-silhouette" aria-hidden="true">
-    <svg viewBox="0 0 120 260" width="140" height="280" xmlns="http://www.w3.org/2000/svg"
-         fill="none"
-         stroke="var(--silhouette-stroke, var(--border-default))"
-         stroke-width="1.5"
-         stroke-linecap="round"
-         stroke-linejoin="round">
-      <!-- Head -->
-      <circle cx="60" cy="30" r="18"/>
-      <!-- Neck -->
-      <path d="M52 48 L54 58 M68 48 L66 58"/>
-      <!-- Torso -->
-      <path d="M40 62 Q38 62 36 66 L28 112 Q27 118 32 118 L44 118 L44 140 L76 140 L76 118 L88 118 Q93 118 92 112 L84 66 Q82 62 80 62 Z"/>
-      <!-- Arms -->
-      <path d="M36 66 L24 108 Q22 118 24 126"/>
-      <path d="M84 66 L96 108 Q98 118 96 126"/>
-      <!-- Legs -->
-      <path d="M48 140 L46 210 Q46 216 52 216 L58 216 L58 140"/>
-      <path d="M72 140 L74 210 Q74 216 68 216 L62 216 L62 140"/>
-      <!-- Feet -->
-      <path d="M44 216 Q40 224 50 228 L58 228 L58 216"/>
-      <path d="M76 216 Q80 224 70 228 L62 228 L62 216"/>
-    </svg>
-  </div>
-
-  <div class="char-slots">
-    {slotOrder.map((slot) => {
-      const it = itemFor(slot);
-      const label = slotLabels[slot][lang];
-      const slotClass = `slot-${slot.replace('ü','ue').replace(' ','-')}`;
-      if (!it) {
-        return (
-          <div class={`char-slot empty ${slotClass}`}>
-            <span class="char-slot-label">{label}</span>
-            <span class="char-slot-empty">
-              <Icon name="lock" size={14} />
-              <span>{ui[lang].upgrade_hint}</span>
-            </span>
-          </div>
-        );
-      }
-      return (
-        <div class={`char-slot ${slotClass} rarity-line-${it.rarity}`}>
-          <span class="char-slot-line" aria-hidden="true"></span>
-          <span class="char-slot-label">{label}</span>
-          <span class="char-slot-name">{lang === 'de' ? it.name_de : it.name_en}</span>
-          <PriceTag price={it.price_chf} rarity={it.rarity} lang={lang} />
-        </div>
-      );
-    })}
-  </div>
-</div>
-
-<style>
-  .char-view {
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    gap: var(--space-6);
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-card);
-    box-shadow: var(--card-shadow);
-    padding: var(--space-6);
-    align-items: center;
-  }
-  :global([data-theme="dark"]) .char-view {
-    --silhouette-stroke: var(--border-strong);
-  }
-  .char-silhouette {
-    display: flex;
-    justify-content: center;
-    color: var(--border-default);
-  }
-  .char-slots {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3);
-  }
-  .char-slot {
-    position: relative;
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-btn);
-    padding: var(--space-3);
-    padding-left: calc(var(--space-3) + 4px);
-    background: var(--bg-elevated);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    min-height: 86px;
-    overflow: hidden;
-  }
-  .char-slot.empty {
-    opacity: 0.65;
-    border-style: dashed;
-    padding-left: var(--space-3);
-  }
-  .char-slot-line {
-    position: absolute;
-    left: 0;
-    top: 10px;
-    bottom: 10px;
-    width: 3px;
-    border-radius: 2px;
-    background: var(--rarity-line-color, var(--border-strong));
-  }
-  .char-slot-label {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-  }
-  .char-slot-name {
-    font-family: var(--font-display);
-    font-size: 0.9rem;
-    color: var(--text-primary);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .char-slot-empty {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-  }
-
-  @media (max-width: 640px) {
-    .char-view { grid-template-columns: 1fr; }
-    .char-silhouette { display: none; }
-  }
-</style>
+<CharacterInventory
+  client:load
+  items={items}
+  equipmentSlots={equipmentSlots}
+  lang={lang}
+  emptyText={t.upgrade_hint}
+  closeLabel={closeLabel}
+/>
