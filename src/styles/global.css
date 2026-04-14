@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+@import './rarity.css';
+
+html, body {
+  overflow-x: hidden;
+}

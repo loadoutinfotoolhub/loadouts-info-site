@@ -1,0 +1,20 @@
+---
+// Redirect-Handler Grundstruktur fuer /go/<slug>. Logik kommt spaeter.
+// Aktuell: statischer Platzhalter-Pfad, der per Meta-Refresh auf / zeigt.
+export function getStaticPaths() {
+  return [{ params: { slug: 'placeholder' } }];
+}
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting</title>
+    <meta http-equiv="refresh" content="0; url=/" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href="https://loadouts.info/" />
+  </head>
+  <body>
+    <p>Redirecting to <a href="/">loadouts.info</a>.</p>
+  </body>
+</html>
