@@ -149,3 +149,8 @@ vite.config.ts.timestamp-*
 
 # Claude Code worktrees (transient, not committed)
 .claude/worktrees/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
