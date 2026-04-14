@@ -1,5 +1,6 @@
 ---
 import WerbungBadge from './WerbungBadge.astro';
+import Icon from './Icon.astro';
 import { ui } from '@/data/i18n';
 
 interface Props {
@@ -11,23 +12,36 @@ const { slug, lang, label } = Astro.props;
 const href = `/go/${slug}`;
 const text = label ?? ui[lang].view_details;
 ---
-<a class="golink" href={href} rel="nofollow sponsored noopener" target="_blank">
-  <span>{text}</span>
+<div class="golink-row">
+  <a class="golink" href={href} rel="nofollow sponsored noopener" target="_blank">
+    <span>{text}</span>
+    <Icon name="external-link" size={14} />
+  </a>
   <WerbungBadge lang={lang} />
-</a>
+</div>
 
 <style>
-  .golink {
+  .golink-row {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+  }
+  .golink {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     padding: 8px 14px;
     border-radius: var(--radius-btn);
     background: var(--accent);
     color: #fff;
+    font-family: var(--font-display);
     font-weight: 600;
     font-size: 0.85rem;
-    transition: background .15s, transform .15s;
+    transition: background .15s, transform .15s, box-shadow .15s;
   }
-  .golink:hover { background: var(--accent-bright); transform: translateY(-1px); }
+  .golink:hover {
+    background: var(--accent-bright);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--accent-glow);
+  }
 </style>

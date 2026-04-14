@@ -8,6 +8,7 @@ import TierLadder from '@/components/ui/TierLadder.astro';
 import RelatedLoadouts from '@/components/sections/RelatedLoadouts.astro';
 import ShareButton from '@/components/ui/ShareButton.svelte';
 import ViewToggle from '@/components/ui/ViewToggle.svelte';
+import Icon from '@/components/ui/Icon.astro';
 import { ui } from '@/data/i18n';
 import { findKategorie } from '@/data/kategorien';
 
@@ -71,16 +72,20 @@ const breadcrumbSchema = {
       <a href="/de/">{t.breadcrumb_home}</a>
       {kategorie && (
         <>
-          <span>›</span>
+          <Icon name="chevron-right" size={12} />
           <a href={`/de/kategorie/${kategorie.slug}`}>{kategorie.name_de}</a>
         </>
       )}
-      <span>›</span>
+      <Icon name="chevron-right" size={12} />
       <span>{data.name_de}</span>
     </nav>
 
     <header class="lh">
-      <span class="lh-emoji" aria-hidden="true">{data.hero_emoji}</span>
+      {kategorie && (
+        <span class="lh-icon" aria-hidden="true">
+          <Icon name={kategorie.icon} size={28} />
+        </span>
+      )}
       <div class="lh-meta">
         <TierBadge tier={data.tier} lang="de" />
         <span class="lh-proof">{data.social_proof} {t.social_proof_suffix}</span>
@@ -135,12 +140,28 @@ const breadcrumbSchema = {
 
 <style>
   .wrap { max-width: 1100px; margin: 0 auto; padding: var(--space-8) var(--space-4); }
-  .crumbs { font-size: 0.85rem; color: var(--text-muted); margin-bottom: var(--space-4); display: flex; gap: 6px; flex-wrap: wrap; }
+  .crumbs { font-size: 0.85rem; color: var(--text-muted); margin-bottom: var(--space-4); display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   .crumbs a { color: var(--text-secondary); }
+  .crumbs a:hover { color: var(--text-primary); }
   .lh { text-align: center; padding: var(--space-6) 0 var(--space-8); }
-  .lh-emoji { font-size: 3.5rem; display: inline-block; }
+  .lh-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: var(--bg-elevated);
+    border-radius: 50%;
+    color: var(--accent);
+  }
   .lh-meta { display: inline-flex; gap: 10px; align-items: center; margin: 12px 0 10px; color: var(--text-muted); font-size: 0.85rem; }
-  .lh h1 { font-size: 2.25rem; margin: 10px 0; }
+  .lh h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--text-3xl);
+    letter-spacing: -0.03em;
+    margin: 10px 0;
+  }
   .lh-desc { color: var(--text-secondary); max-width: 640px; margin: 0 auto; line-height: 1.6; }
   .view-controls { margin: var(--space-6) 0 var(--space-4); display: flex; justify-content: flex-end; }
   .view-container { margin-top: var(--space-4); }

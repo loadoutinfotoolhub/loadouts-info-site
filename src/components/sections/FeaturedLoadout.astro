@@ -1,7 +1,9 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import TierBadge from '@/components/ui/TierBadge.astro';
+import Icon from '@/components/ui/Icon.astro';
 import { ui } from '@/data/i18n';
+import { findKategorie } from '@/data/kategorien';
 
 interface Props {
   loadout: CollectionEntry<'loadouts'>;
@@ -10,78 +12,212 @@ interface Props {
 const { loadout, lang } = Astro.props;
 const t = ui[lang];
 const data = loadout.data;
+const kat = findKategorie(data.kategorie_slug);
 const name = lang === 'de' ? data.name_de : data.name_en;
 const desc = lang === 'de' ? data.description_de : data.description_en;
 const href = `${lang === 'de' ? '/de/loadouts/' : '/en/loadouts/'}${data.slug}`;
 const total = data.items.reduce((s, i) => s + i.price_chf, 0);
+const preview = data.items.slice(0, 3);
+const extra = Math.max(0, data.items.length - preview.length);
+const itemsWord = lang === 'de' ? 'Items' : 'items';
+const socialSuffix = t.social_proof_suffix;
 ---
 <section class="featured">
   <div class="featured-inner">
     <span class="eyebrow">{t.featured_title}</span>
-    <div class="featured-card">
-      <div class="featured-emoji">{data.hero_emoji}</div>
-      <div class="featured-body">
-        <div class="featured-meta">
-          <TierBadge tier={data.tier} lang={lang} />
-          <span class="proof">{data.social_proof} {t.social_proof_suffix}</span>
+
+    <article class="featured-card">
+      <header class="fc-head">
+        <div class="fc-head-left">
+          {kat && (
+            <span class="fc-cat" aria-hidden="true">
+              <Icon name={kat.icon} size={16} />
+              <span>{lang === 'de' ? kat.name_de : kat.name_en}</span>
+            </span>
+          )}
+          <h3 class="fc-title">{name}</h3>
         </div>
-        <h2>{name}</h2>
-        <p>{desc}</p>
-        <div class="featured-foot">
-          <span class="total">{t.total_price}: <strong>CHF {total}</strong></span>
-          <a class="featured-cta" href={href}>{t.hero_cta_primary}</a>
-        </div>
+        <TierBadge tier={data.tier} lang={lang} />
+      </header>
+
+      <p class="fc-desc">{desc}</p>
+
+      <div class="fc-items" aria-hidden="true">
+        {preview.map((it) => (
+          <div class={`fc-item rarity-line-${it.rarity}`}>
+            <span class="fc-item-line"></span>
+            <span class="fc-item-name">{lang === 'de' ? it.name_de : it.name_en}</span>
+            <span class="fc-item-price">CHF {it.price_chf}</span>
+          </div>
+        ))}
+        {extra > 0 && (
+          <div class="fc-item fc-item-more">
+            <Icon name="plus" size={16} />
+            <span class="fc-item-name">{extra} {itemsWord}</span>
+          </div>
+        )}
       </div>
-    </div>
+
+      <footer class="fc-foot">
+        <div class="fc-foot-meta">
+          <span class="fc-total">CHF {total} <span class="fc-total-sub">total</span></span>
+          <span class="fc-sep" aria-hidden="true">·</span>
+          <span class="fc-proof">{data.social_proof} {socialSuffix}</span>
+        </div>
+        <a class="fc-cta" href={href}>
+          <span>{lang === 'de' ? 'Setup ansehen' : 'View setup'}</span>
+          <Icon name="arrow-right" size={14} />
+        </a>
+      </footer>
+    </article>
   </div>
 </section>
 
 <style>
-  .featured { padding: var(--space-12) var(--space-4); }
+  .featured { padding: var(--space-8) var(--space-4); }
   .featured-inner { max-width: 1180px; margin: 0 auto; }
   .eyebrow {
     font-family: var(--font-mono);
-    color: var(--accent-bright);
-    letter-spacing: 0.12em;
+    color: var(--accent);
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 600;
   }
+
   .featured-card {
-    margin-top: var(--space-3);
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: var(--space-6);
-    align-items: center;
-    padding: var(--space-8);
-    background: linear-gradient(180deg, var(--bg-elevated), var(--bg-surface));
-    border: 1px solid var(--border-default);
-    border-radius: var(--radius-card);
-    box-shadow: var(--glow-epic);
-  }
-  .featured-emoji { font-size: 4rem; text-align: center; }
-  .featured-meta { display: flex; gap: var(--space-3); align-items: center; color: var(--text-muted); font-size: 0.8rem; }
-  h2 { margin: 10px 0 8px; font-size: 1.75rem; }
-  p { color: var(--text-secondary); line-height: 1.6; margin: 0; }
-  .featured-foot {
     margin-top: var(--space-4);
+    padding: var(--space-8);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .fc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .fc-head-left { display: flex; flex-direction: column; gap: 6px; }
+  .fc-cat {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+  .fc-title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin: 0;
+  }
+
+  .fc-desc {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 720px;
+  }
+
+  .fc-items {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: 1fr;
+  }
+  .fc-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    padding-left: calc(var(--space-4) + 4px);
+    background: var(--bg-elevated);
+    border-radius: var(--radius-btn);
+    font-size: 0.9rem;
+  }
+  .fc-item-line {
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--rarity-line-color, var(--border-strong));
+  }
+  .fc-item-name {
+    flex: 1;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+  .fc-item-price {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  .fc-item-more {
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px dashed var(--border-default);
+    padding-left: var(--space-4);
+  }
+  .fc-item-more .fc-item-line { display: none; }
+
+  .fc-foot {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: var(--space-4);
     flex-wrap: wrap;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-subtle);
   }
-  .total { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.95rem; }
-  .total strong { color: var(--text-primary); }
-  .featured-cta {
+  .fc-foot-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+  .fc-total {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .fc-total-sub { color: var(--text-muted); font-weight: 400; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .fc-sep { color: var(--border-strong); }
+
+  .fc-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     padding: 10px 18px;
     background: var(--accent);
     color: #fff;
     border-radius: var(--radius-btn);
+    font-family: var(--font-display);
     font-weight: 600;
     font-size: 0.9rem;
+    transition: background .15s, transform .15s, box-shadow .15s;
   }
-  .featured-cta:hover { background: var(--accent-bright); }
-  @media (max-width: 640px) {
-    .featured-card { grid-template-columns: 1fr; padding: var(--space-6); text-align: center; }
+  .fc-cta:hover {
+    background: var(--accent-bright);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px var(--accent-glow);
+  }
+
+  @media (min-width: 640px) {
+    .fc-items { grid-template-columns: repeat(3, 1fr); }
+    .fc-item-more { grid-column: auto; }
   }
 </style>

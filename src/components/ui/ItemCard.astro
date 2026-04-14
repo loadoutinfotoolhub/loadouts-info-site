@@ -2,6 +2,7 @@
 import PriceTag from './PriceTag.astro';
 import StatBar from './StatBar.astro';
 import GoLink from './GoLink.astro';
+import Icon from './Icon.astro';
 import type { LoadoutItem } from '@/content.config';
 import { ui } from '@/data/i18n';
 
@@ -35,10 +36,13 @@ const statLabels: Record<string, { de: string; en: string }> = {
   preis_leistung: { de: 'Preis-Leistung', en: 'Value' },
 };
 ---
-<article class={`item-card rarity-${item.rarity} ${hero ? 'hero' : ''}`}>
+<article class={`item-card rarity-line-${item.rarity} ${hero ? 'hero' : ''} ${item.rarity === 'legendary' || item.rarity === 'artifact' ? 'has-glow rarity-' + item.rarity : ''}`}>
+  <div class="ic-rarity-line" aria-hidden="true"></div>
+
   <header class="ic-head">
     <div class="ic-title">
       <h3>{name}</h3>
+      {item.brand && item.brand !== 'TBD' && <span class="ic-brand">{item.brand}</span>}
       {item.ist_neu_in_tier && <span class="ic-new">{ui[lang].new_in_tier}</span>}
     </div>
     <PriceTag price={item.price_chf} rarity={item.rarity} lang={lang} />
@@ -60,12 +64,16 @@ const statLabels: Record<string, { de: string; en: string }> = {
     <div class="ic-pros-cons">
       {pros.length > 0 && (
         <ul class="ic-pros">
-          {pros.map((p) => <li>+ {p}</li>)}
+          {pros.map((p) => (
+            <li><Icon name="check" size={14} /><span>{p}</span></li>
+          ))}
         </ul>
       )}
       {cons.length > 0 && (
         <ul class="ic-cons">
-          {cons.map((c) => <li>− {c}</li>)}
+          {cons.map((c) => (
+            <li><Icon name="x" size={14} /><span>{c}</span></li>
+          ))}
         </ul>
       )}
     </div>
@@ -78,61 +86,113 @@ const statLabels: Record<string, { de: string; en: string }> = {
 
 <style>
   .item-card {
+    position: relative;
     background: var(--bg-surface);
-    border: 2px solid var(--border-default);
+    border: 1px solid var(--border-subtle);
     border-radius: var(--radius-card);
-    padding: var(--space-4);
+    padding: var(--space-4) var(--space-4) var(--space-4);
+    padding-top: calc(var(--space-4) + 4px);
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    transition: transform .15s, box-shadow .2s;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform .15s, box-shadow .2s, border-color .15s;
   }
-  .item-card:hover { transform: translateY(-2px); }
+  .item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--border-default);
+  }
   .item-card.hero {
     grid-column: 1 / -1;
-    padding: var(--space-6);
+    padding-top: calc(var(--space-6) + 4px);
+    padding-inline: var(--space-6);
+    padding-bottom: var(--space-6);
   }
+
+  .ic-rarity-line {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--rarity-line-color, var(--border-strong));
+  }
+
   .ic-head {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: var(--space-3);
   }
+  .ic-title { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .ic-title h3 {
     margin: 0;
+    font-family: var(--font-display);
     font-size: 1rem;
-    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+  .ic-brand {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
   .ic-new {
     display: inline-block;
     margin-top: 4px;
+    align-self: flex-start;
+    font-family: var(--font-mono);
     font-size: 0.65rem;
     background: var(--accent);
     color: #fff;
-    padding: 1px 6px;
+    padding: 2px 7px;
     border-radius: var(--radius-badge);
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }
+
   .ic-reason {
     margin: 0;
     color: var(--text-secondary);
     font-size: 0.85rem;
-    line-height: 1.5;
+    line-height: 1.55;
   }
+
   .ic-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .ic-pros-cons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    font-size: 0.8rem;
+  }
+  .ic-pros-cons ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 4px;
   }
-  .ic-pros-cons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3);
-    font-size: 0.75rem;
+  .ic-pros-cons li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.4;
   }
-  .ic-pros-cons ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 3px; }
   .ic-pros li { color: var(--success); }
   .ic-cons li { color: var(--danger); }
+  .ic-pros li span, .ic-cons li span { color: var(--text-secondary); }
+
   .ic-foot { margin-top: auto; }
+
+  @media (min-width: 520px) {
+    .ic-pros-cons { grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+  }
 </style>

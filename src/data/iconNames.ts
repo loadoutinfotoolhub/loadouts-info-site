@@ -1,0 +1,22 @@
+// SSOT für Icon-Namen (Lucide). Siehe src/components/ui/Icon.astro.
+export type IconName =
+  | 'dumbbell'
+  | 'tent'
+  | 'chef-hat'
+  | 'mic'
+  | 'home'
+  | 'music'
+  | 'menu'
+  | 'sun'
+  | 'moon'
+  | 'globe'
+  | 'share'
+  | 'external-link'
+  | 'tag'
+  | 'star'
+  | 'arrow-right'
+  | 'check'
+  | 'x'
+  | 'lock'
+  | 'plus'
+  | 'chevron-right';

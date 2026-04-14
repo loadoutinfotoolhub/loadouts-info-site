@@ -40,7 +40,6 @@ const loadoutSchema = z.object({
   name_en:            z.string(),
   description_de:     z.string().max(500),
   description_en:     z.string().max(500),
-  hero_emoji:         z.string(),
   social_proof:       z.number(),
   equipment_slots:    z.record(z.string(), z.string()).optional(),
   hat_character_view: z.boolean().default(false),

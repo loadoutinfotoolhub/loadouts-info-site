@@ -1,7 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import TierBadge from '@/components/ui/TierBadge.astro';
+import Icon from '@/components/ui/Icon.astro';
 import { ui } from '@/data/i18n';
+import { findKategorie } from '@/data/kategorien';
 
 interface Props {
   slugs: readonly string[] | string[];
@@ -19,22 +21,35 @@ const prefix = lang === 'de' ? '/de/loadouts/' : '/en/loadouts/';
   <section class="related">
     <h2>{t.related_title}</h2>
     <div class="related-grid">
-      {related.map((l) => (
-        <a class="related-card" href={`${prefix}${l.data.slug}`}>
-          <div class="rl-emoji">{l.data.hero_emoji}</div>
-          <div>
-            <TierBadge tier={l.data.tier} lang={lang} />
-            <h3>{lang === 'de' ? l.data.name_de : l.data.name_en}</h3>
-          </div>
-        </a>
-      ))}
+      {related.map((l) => {
+        const kat = findKategorie(l.data.kategorie_slug);
+        return (
+          <a class="related-card" href={`${prefix}${l.data.slug}`}>
+            <span class="rl-icon" aria-hidden="true">
+              {kat && <Icon name={kat.icon} size={20} />}
+            </span>
+            <div class="rl-body">
+              <TierBadge tier={l.data.tier} lang={lang} />
+              <h3>{lang === 'de' ? l.data.name_de : l.data.name_en}</h3>
+            </div>
+            <span class="rl-arrow" aria-hidden="true">
+              <Icon name="chevron-right" size={16} />
+            </span>
+          </a>
+        );
+      })}
     </div>
   </section>
 )}
 
 <style>
   .related { padding: var(--space-8) 0; }
-  h2 { font-size: 1.5rem; margin: 0 0 var(--space-4); }
+  h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    margin: 0 0 var(--space-4);
+    letter-spacing: -0.02em;
+  }
   .related-grid {
     display: grid;
     gap: var(--space-3);
@@ -46,11 +61,35 @@ const prefix = lang === 'de' ? '/de/loadouts/' : '/en/loadouts/';
     align-items: center;
     padding: var(--space-4);
     background: var(--bg-surface);
-    border: 1px solid var(--border-default);
+    border: 1px solid var(--border-subtle);
     border-radius: var(--radius-card);
-    transition: border-color .15s, background .15s;
+    box-shadow: var(--card-shadow);
+    transition: border-color .15s, transform .15s, box-shadow .2s;
   }
-  .related-card:hover { border-color: var(--accent); background: var(--bg-elevated); }
-  .rl-emoji { font-size: 2rem; }
-  .related-card h3 { margin: 6px 0 0; font-size: 1rem; }
+  .related-card:hover {
+    border-color: var(--border-default);
+    transform: translateY(-1px);
+    box-shadow: var(--card-shadow-hover);
+  }
+  .rl-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-btn);
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .rl-body { flex: 1; min-width: 0; }
+  .rl-body h3 {
+    margin: 6px 0 0;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .rl-arrow { color: var(--text-muted); flex-shrink: 0; }
+  .related-card:hover .rl-arrow { color: var(--accent); }
 </style>

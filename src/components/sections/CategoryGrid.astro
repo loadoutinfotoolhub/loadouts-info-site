@@ -1,11 +1,18 @@
 ---
+import { getCollection } from 'astro:content';
 import { kategorien } from '@/data/kategorien';
 import { ui } from '@/data/i18n';
+import Icon from '@/components/ui/Icon.astro';
 
 interface Props { lang: 'de' | 'en'; }
 const { lang } = Astro.props;
 const t = ui[lang];
 const prefix = lang === 'de' ? '/de/kategorie/' : '/en/category/';
+
+const all = await getCollection('loadouts');
+const countBySlug = (slug: string) => all.filter((l) => l.data.kategorie_slug === slug).length;
+const countsLabelDe = (n: number) => n === 1 ? '1 Setup' : `${n} Setups`;
+const countsLabelEn = (n: number) => n === 1 ? '1 setup' : `${n} setups`;
 ---
 <section class="cat-grid-section" id="kategorien">
   <div class="cat-inner">
@@ -13,14 +20,28 @@ const prefix = lang === 'de' ? '/de/kategorie/' : '/en/category/';
       <h2>{t.categories_title}</h2>
       <p>{t.categories_sub}</p>
     </header>
+
     <div class="cat-grid">
-      {kategorien.map((k) => (
-        <a class="cat-card" href={`${prefix}${k.slug}`}>
-          <span class="cat-emoji">{k.emoji}</span>
-          <span class="cat-name">{lang === 'de' ? k.name_de : k.name_en}</span>
-          <span class="cat-desc">{lang === 'de' ? k.desc_de : k.desc_en}</span>
-        </a>
-      ))}
+      {kategorien.map((k) => {
+        const n = countBySlug(k.slug);
+        const countLabel = lang === 'de' ? countsLabelDe(n) : countsLabelEn(n);
+        return (
+          <a class="cat-card" href={`${prefix}${k.slug}`}>
+            <div class="cat-card-head">
+              <span class="cat-icon-wrap" aria-hidden="true">
+                <Icon name={k.icon} size={22} />
+              </span>
+              <span class="cat-count">{countLabel}</span>
+            </div>
+            <h3 class="cat-name">{lang === 'de' ? k.name_de : k.name_en}</h3>
+            <p class="cat-desc">{lang === 'de' ? k.desc_de : k.desc_en}</p>
+            <span class="cat-more">
+              <span>{lang === 'de' ? 'Setups ansehen' : 'View setups'}</span>
+              <Icon name="arrow-right" size={14} />
+            </span>
+          </a>
+        );
+      })}
     </div>
   </div>
 </section>
@@ -29,8 +50,17 @@ const prefix = lang === 'de' ? '/de/kategorie/' : '/en/category/';
   .cat-grid-section { padding: var(--space-12) var(--space-4); }
   .cat-inner { max-width: 1180px; margin: 0 auto; }
   .cat-head { text-align: center; margin-bottom: var(--space-8); }
-  .cat-head h2 { font-size: 2rem; margin: 0; }
-  .cat-head p { color: var(--text-secondary); margin-top: 8px; }
+  .cat-head h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    margin: 0;
+    letter-spacing: -0.03em;
+  }
+  .cat-head p {
+    color: var(--text-secondary);
+    margin-top: 8px;
+    font-size: var(--text-base);
+  }
   .cat-grid {
     display: grid;
     gap: var(--space-4);
@@ -38,20 +68,65 @@ const prefix = lang === 'de' ? '/de/kategorie/' : '/en/category/';
   }
   .cat-card {
     background: var(--bg-surface);
-    border: 1px solid var(--border-default);
+    border: 1px solid var(--border-subtle);
     border-radius: var(--radius-card);
     padding: var(--space-6);
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
-    transition: transform .15s, border-color .15s, background .15s;
+    gap: var(--space-3);
+    box-shadow: var(--card-shadow);
+    transition: transform .15s, border-color .15s, box-shadow .2s;
   }
   .cat-card:hover {
-    transform: translateY(-3px);
-    border-color: var(--accent);
-    background: var(--bg-elevated);
+    transform: translateY(-2px);
+    border-color: var(--border-default);
+    box-shadow: var(--card-shadow-hover);
   }
-  .cat-emoji { font-size: 2rem; }
-  .cat-name { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; }
-  .cat-desc { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
+  .cat-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .cat-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-btn);
+    color: var(--accent);
+  }
+  .cat-count {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+  }
+  .cat-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-lg);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+  .cat-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .cat-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: var(--space-2);
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .cat-card:hover .cat-more { gap: 10px; transition: gap .15s; }
 </style>

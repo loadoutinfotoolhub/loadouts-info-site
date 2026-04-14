@@ -24,7 +24,7 @@ const pct = Math.max(0, Math.min(100, (value / 5) * 100));
   }
   .statbar-label { color: var(--text-muted); text-transform: capitalize; }
   .statbar-track {
-    background: var(--bg-elevated);
+    background: var(--bg-overlay);
     height: 6px;
     border-radius: 3px;
     overflow: hidden;
@@ -32,6 +32,7 @@ const pct = Math.max(0, Math.min(100, (value / 5) * 100));
   .statbar-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+    border-radius: 3px;
   }
   .statbar-value {
     font-family: var(--font-mono);

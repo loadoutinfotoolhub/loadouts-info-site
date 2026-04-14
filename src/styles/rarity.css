@@ -1,21 +1,28 @@
 /* Rarity-Farbsystem SSOT.
-   Mapping Preis-Tier → Farbe (intern, nie als UI-Label verwenden).
+   Mapping Preis-Tier -> Farbe (intern, nie als UI-Label verwenden).
    Common    < CHF 30
-   Uncommon  CHF 30–79
-   Rare      CHF 80–199
-   Epic      CHF 200–499
+   Uncommon  CHF 30-79
+   Rare      CHF 80-199
+   Epic      CHF 200-499
    Legendary CHF 500+
    Artifact  Pro-Setup (Experten-Tier)
 */
 :root {
   --rarity-common:    #9d9d9d;
-  --rarity-uncommon:  #1eff00;
+  --rarity-uncommon:  #15803d;
   --rarity-rare:      #0070dd;
   --rarity-epic:      #a335ee;
   --rarity-legendary: #ff8000;
   --rarity-artifact:  #e6cc80;
 }
 
+/* Im Dark-Mode fuer bessere Lesbarkeit leicht aufgehellt. */
+[data-theme="dark"] {
+  --rarity-uncommon:  #1eff00;
+}
+
+/* Klassische Glow-Kombi: Box-Shadow + Border-Color.
+   Glow ist nur im Dark-Mode aktiv (siehe tokens.css). */
 .rarity-common    { box-shadow: var(--glow-common);    border-color: var(--rarity-common); }
 .rarity-uncommon  { box-shadow: var(--glow-uncommon);  border-color: var(--rarity-uncommon); }
 .rarity-rare      { box-shadow: var(--glow-rare);      border-color: var(--rarity-rare); }
@@ -29,3 +36,19 @@
 .rarity-text-epic      { color: var(--rarity-epic); }
 .rarity-text-legendary { color: var(--rarity-legendary); }
 .rarity-text-artifact  { color: var(--rarity-artifact); }
+
+/* Rarity-Linie (3px oben) — verwendet fuer ItemCards statt Full-Border. */
+.rarity-line-common    { --rarity-line-color: var(--rarity-common); }
+.rarity-line-uncommon  { --rarity-line-color: var(--rarity-uncommon); }
+.rarity-line-rare      { --rarity-line-color: var(--rarity-rare); }
+.rarity-line-epic      { --rarity-line-color: var(--rarity-epic); }
+.rarity-line-legendary { --rarity-line-color: var(--rarity-legendary); }
+.rarity-line-artifact  { --rarity-line-color: var(--rarity-artifact); }
+
+/* Rarity-Dot (kleiner farbiger Punkt fuer Cards) */
+.rarity-dot-common    { background: var(--rarity-common); }
+.rarity-dot-uncommon  { background: var(--rarity-uncommon); }
+.rarity-dot-rare      { background: var(--rarity-rare); }
+.rarity-dot-epic      { background: var(--rarity-epic); }
+.rarity-dot-legendary { background: var(--rarity-legendary); }
+.rarity-dot-artifact  { background: var(--rarity-artifact); }
