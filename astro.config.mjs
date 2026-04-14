@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://loadouts.info',
+  output: 'static',
   integrations: [svelte(), sitemap()],
   i18n: {
     defaultLocale: 'de',
